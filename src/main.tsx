@@ -5,6 +5,7 @@ import "./index.css";
 
 import NotFoundPage from "./pages/NotFound.js";
 import Home from "./pages/Home.js";
+import { ThemeProvider } from "./components/theme-provider.js";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,8 @@ if (!rootElement) {
 }
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>
 );

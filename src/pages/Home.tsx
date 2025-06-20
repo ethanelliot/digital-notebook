@@ -1,7 +1,9 @@
+import { ModeToggle } from "@/components/mode-toggle";
+
 function Home() {
   return (
     <>
-      <p className="bg-red-50">Hello word</p>
+      <ModeToggle />
     </>
   );
 }
