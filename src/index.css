@@ -1,9 +1,30 @@
+@font-face {
+  font-family: "DM Sans";
+  src: url("./assets/fonts/DMSans-VariableFont_opsz,wght.ttf")
+    format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  font-optical-sizing: auto; /* or none */
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("./assets/fonts/DMSans-Italic-VariableFont_opsz,wght.ttf")
+    format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+  font-optical-sizing: auto;
+}
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --font-sans: "DM Sans", sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -117,4 +138,97 @@
   body {
     @apply bg-background text-foreground;
   }
+  ul,
+  ol {
+    list-style: initial;
+    margin-left: 1rem;
+    padding-left: 1rem;
+  }
+}
+
+.tiptap {
+  @apply min-h-full border-none outline-none text-[var(--foreground)] bg-[var(--background)] font-sans text-base leading-normal;
+}
+
+/* Basic editor styles */
+.tiptap > :first-child {
+  @apply mt-2;
+}
+
+/* List styles */
+.tiptap ul,
+.tiptap ol {
+  /* Note: 0.4rem is not a standard Tailwind spacing value, so it's added as an arbitrary value. */
+  @apply px-4 py-0 my-5 mr-4 ml-[0.4rem];
+}
+
+.tiptap ul li p,
+.tiptap ol li p {
+  /* Note: 'em' units are not standard in Tailwind's spacing scale. */
+  @apply mt-[0.25em] mb-[0.25em];
+}
+
+.tiptap li ol,
+.tiptap li ul {
+  @apply my-1;
+}
+
+.tiptap ol {
+  @apply list-decimal;
+}
+
+.tiptap ul[data-type="taskList"] {
+  @apply list-none ml-0 p-0;
+}
+
+/* Heading styles */
+.tiptap h1,
+.tiptap h2,
+.tiptap h3 {
+  @apply leading-tight mt-2 text-pretty font-bold;
+}
+
+.tiptap h1,
+.tiptap h2 {
+  @apply mt-2 mb-1;
+}
+
+.tiptap h1 {
+  @apply text-[1.4rem];
+}
+
+.tiptap h2 {
+  @apply text-xl; /* 1.25rem, which is very close to 1.2rem */
+}
+
+.tiptap h3 {
+  @apply text-lg; /* 1.125rem, which is very close to 1.1rem */
+}
+
+.tiptap h4,
+.tiptap h5,
+.tiptap h6 {
+  @apply text-base;
+}
+
+/* Code and preformatted text styles */
+.tiptap code {
+  @apply bg-zinc-100  dark:bg-zinc-800  text-[var(--primary)] rounded-[0.4rem] text-[0.85rem] px-[0.3em] py-[0.25em];
+}
+
+.tiptap pre {
+  /* Assuming 'JetBrainsMono' is configured as the mono font in tailwind.config.js */
+  @apply bg-zinc-100  dark:bg-zinc-800 font-mono rounded-lg my-6 py-3 px-4 border border-solid border-[var(--border)] overflow-x-auto;
+}
+
+.tiptap pre code {
+  @apply bg-transparent p-0 text-inherit text-[0.8rem];
+}
+
+.tiptap blockquote {
+  @apply border-l-[3px] border-solid border-[var(--gray-3)] my-6 pl-4;
+}
+
+.tiptap hr {
+  @apply border-0 border-t border-solid border-[var(--border)] my-8;
 }

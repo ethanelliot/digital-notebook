@@ -4,13 +4,13 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 
 import NotFoundPage from "./pages/NotFound.js";
-import Home from "./pages/Home.js";
+import EditorPage from "./pages/editor-page.js";
 import { ThemeProvider } from "./components/theme-provider.js";
 
 const router = createBrowserRouter([
   {
-    path: "/", // Root path
-    element: <Home />,
+    path: "/notebook/:id", // Root path
+    element: <EditorPage />,
   },
   {
     path: "*",
