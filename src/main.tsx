@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 
-import NotFoundPage from "./pages/NotFound.js";
+import NotFoundPage from "./pages/not-found.js";
 import EditorPage from "./pages/editor-page.js";
 import { ThemeProvider } from "./components/theme-provider.js";
 

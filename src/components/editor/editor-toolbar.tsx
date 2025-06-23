@@ -28,14 +28,17 @@ import {
 } from "../ui/dropdown-menu";
 import { Input } from "../ui/input";
 
-const EditorToolbar = () => {
+interface EditorToolbarProps {
+  title: string;
+  setTitle: (title: string) => void;
+}
+
+const EditorToolbar = ({ title, setTitle }: EditorToolbarProps) => {
   const { editor } = useCurrentEditor();
 
   if (!editor) {
     return null;
   }
-
-  // When dropdown closes, refocus editor
 
   return (
     <div className="w-full relative flex items-center justify-between gap-2 p-2 border-border bg-background border-b py-4 md:py-6">
@@ -45,10 +48,10 @@ const EditorToolbar = () => {
         </Button>
         <Input
           type="text"
-          placeholder="Document Title"
+          placeholder="Notebook Name"
           className="w-64"
-          // value={editor.getAttributes("title")?.text || ""}
-          // onChange={(e) => editor.chain().setTitle(e.target.value).run()}
+          onChange={(e) => setTitle(e.target.value)}
+          value={title}
         />
       </div>
       <div className="flex items-center gap-2 absolute left-1/2 -translate-x-1/2">

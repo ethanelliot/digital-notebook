@@ -1,6 +1,7 @@
 // src/hooks/useNotebook.ts
 
 import { db } from "@/firebase";
+import { NotFoundError, ServerError } from "@/lib/errors";
 import type { NotebookData } from "@/types/notebook";
 import { doc, getDoc, updateDoc, Timestamp } from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
@@ -38,12 +39,12 @@ export function useNotebook(id: string | undefined): UseNotebookResult {
           setNotebook(docSnap.data() as NotebookData);
           console.log("Notebook data loaded:", docSnap.data());
         } else {
-          setError(new Error(`Notebook with ID "${id}" not found.`));
+          setError(new NotFoundError("Notebook not found"));
           setNotebook(null);
         }
       } catch (error) {
         console.error("Error fetching notebook:", error);
-        setError(error as Error);
+        setError(error as ServerError);
         setNotebook(null);
       } finally {
         setLoading(false);
@@ -56,14 +57,11 @@ export function useNotebook(id: string | undefined): UseNotebookResult {
   const saveNotebook = useCallback(
     async (newData: Partial<NotebookData>) => {
       if (!id) {
-        console.error(
-          "Cannot save: No notebook ID provided. Use createNotebook for new ones."
-        );
+        console.error("Cannot save: No notebook ID provided");
         setError(new Error("Cannot save: No notebook ID provided."));
         return;
       }
 
-      setLoading(true);
       setError(null);
 
       try {
@@ -86,8 +84,6 @@ export function useNotebook(id: string | undefined): UseNotebookResult {
       } catch (error) {
         console.error("Error saving notebook:", error);
         setError(error as Error);
-      } finally {
-        setLoading(false);
       }
     },
     [id]

@@ -10,7 +10,7 @@ import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskItemNodeView from "./task-item-node-view";
 import type { NotebookData } from "@/types/notebook";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Skeleton } from "../ui/skeleton";
 
 const extensions = [
@@ -32,6 +32,7 @@ interface EditorProps {
 export const Editor = ({ notebook, saveNotebook }: EditorProps) => {
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
   const editor = useEditor({ extensions, content: notebook.content });
+  const [title, setTitle] = useState(notebook.title || "");
 
   editor?.on("update", ({ editor }) => {
     if (debounceTimeout.current) {
@@ -44,11 +45,22 @@ export const Editor = ({ notebook, saveNotebook }: EditorProps) => {
     }, 1000);
   });
 
+  useEffect(() => {
+    if (title) {
+      if (debounceTimeout.current) {
+        clearTimeout(debounceTimeout.current);
+      }
+      debounceTimeout.current = setTimeout(() => {
+        saveNotebook({ title });
+      }, 1000);
+    }
+  }, [title]);
+
   return (
     <div className="flex flex-col h-screen">
       <EditorContext.Provider value={{ editor }}>
         <div className="sticky top-0 z-50 bg-white">
-          <EditorToolbar />
+          <EditorToolbar title={title} setTitle={setTitle} />
         </div>
 
         <div className="w-1/3 mx-auto flex-grow">
