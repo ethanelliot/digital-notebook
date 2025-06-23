@@ -11,6 +11,9 @@
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
+  <script>
+    firebase.firestore().settings({ experimentalForceLongPolling: true })
+  </script>
 </body>
 
 </html>
