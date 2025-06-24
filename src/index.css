@@ -152,7 +152,7 @@
 
 /* Basic editor styles */
 .tiptap > :first-child {
-  @apply mt-2;
+  @apply mt-4;
 }
 
 /* List styles */

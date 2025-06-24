@@ -63,7 +63,7 @@ export const Editor = ({ notebook, saveNotebook }: EditorProps) => {
           <EditorToolbar title={title} setTitle={setTitle} />
         </div>
 
-        <div className="w-1/3 mx-auto flex-grow">
+        <div className="lg:w-1/3 md:w-2/3 md:mx-auto flex-grow sm:w-auto mx-10 ">
           <EditorContent editor={editor} className="h-full" />
         </div>
       </EditorContext.Provider>
@@ -75,20 +75,24 @@ export function EditorSkeleton() {
   return (
     <div className="flex flex-col h-screen">
       <div className="sticky top-0 z-50 bg-white">
-        <div className="w-full relative flex items-center justify-between gap-2 p-2 border-border bg-background border-b py-4 md:py-6">
-          <div className="flex items-center gap-2">
+        <div className="w-full relative flex flex-wrap items-center justify-between gap-2 p-2 border-border bg-background border-b py-4 md:py-6">
+          <div className="flex items-center gap-2 flex-shrink-0">
             <Skeleton className="rounded-md h-9 px-2 min-w-9" />
             <Skeleton className="rounded-md h-9 px-2 w-64" />
           </div>
-          <div className="flex items-center gap-2 absolute left-1/2 -translate-x-1/2">
+          <div className="flex-grow flex justify-center w-full order-last md:w-auto  md:justify-start  md:static  md:order-none lg:order-none lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:w-auto">
             <Skeleton className="rounded-md  h-9 px-2 min-w-128" />
           </div>
-          <Skeleton className="rounded-md  h-9 px-2 min-w-9" />
+          <div className="flex-shrink-0">
+            <Skeleton className="rounded-md  h-9 px-2 min-w-9" />
+          </div>
         </div>
       </div>
 
-      <div className="w-1/3 mx-auto flex-grow my-5">
-        <Skeleton className="h-full w-full" />
+      <div className="lg:w-1/3 md:w-2/3 md:mx-auto flex-grow sm:w-auto mx-10 ">
+        <div className="md:w-1/3 md:mx-auto flex-grow sm:w-full sm:mx-10">
+          <Skeleton className="h-full w-full" />
+        </div>
       </div>
     </div>
   );

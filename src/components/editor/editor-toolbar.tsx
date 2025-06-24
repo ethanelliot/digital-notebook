@@ -41,8 +41,8 @@ const EditorToolbar = ({ title, setTitle }: EditorToolbarProps) => {
   }
 
   return (
-    <div className="w-full relative flex items-center justify-between gap-2 p-2 border-border bg-background border-b py-4 md:py-6">
-      <div className="flex items-center gap-2">
+    <div className="w-full relative flex flex-wrap items-center justify-between gap-2 p-2 border-border bg-background border-b py-4 md:py-6">
+      <div className="flex items-center gap-2 flex-shrink-0">
         <Button variant={"outline"} size="icon">
           <ArrowLeft />
         </Button>
@@ -54,7 +54,7 @@ const EditorToolbar = ({ title, setTitle }: EditorToolbarProps) => {
           value={title}
         />
       </div>
-      <div className="flex items-center gap-2 absolute left-1/2 -translate-x-1/2">
+      <div className="flex-grow flex justify-center w-full order-last overflow-x-auto md:overflow-x-clip gap-2 md:w-auto  md:justify-start  md:static  md:order-none lg:order-none lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:w-auto ">
         <div className="flex items-center gap-1">
           <Button
             variant="outline"
@@ -196,7 +196,9 @@ const EditorToolbar = ({ title, setTitle }: EditorToolbarProps) => {
           </Toggle>
         </div>
       </div>
-      <ModeToggle />
+      <div className="flex-shrink-0">
+        <ModeToggle />
+      </div>
     </div>
   );
 };
