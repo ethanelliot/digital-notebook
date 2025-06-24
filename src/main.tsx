@@ -6,8 +6,20 @@ import "./index.css";
 import NotFoundPage from "./pages/not-found.js";
 import EditorPage from "./pages/editor-page.js";
 import { ThemeProvider } from "./components/theme-provider.js";
+import DashboardLayout from "./components/dashboard/dashboard-layout.js";
+import Home from "./pages/Home.js";
 
 const router = createBrowserRouter([
+  {
+    path: "dash",
+    element: <DashboardLayout />,
+    children: [
+      {
+        path: "*",
+        element: <Home />,
+      },
+    ],
+  },
   {
     path: "/notebook/:id", // Root path
     element: <EditorPage />,
