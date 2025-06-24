@@ -11,11 +11,11 @@ import Home from "./pages/Home.js";
 
 const router = createBrowserRouter([
   {
-    path: "dash",
+    path: "/",
     element: <DashboardLayout />,
     children: [
       {
-        path: "*",
+        path: "",
         element: <Home />,
       },
     ],

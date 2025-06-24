@@ -2,7 +2,6 @@ import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
-  SidebarGroupContent,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -10,7 +9,32 @@ import {
 } from "@/components/ui/sidebar";
 import { BookA, Calendar, Home, Plus, Settings } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
-import { Button } from "../ui/button";
+import { SidebarItemGroup } from "./sidebar-group";
+
+const data = {
+  navHead: {
+    version: ["1.0.0"],
+  },
+  navMain: [
+    {
+      title: "Home",
+      url: "/",
+      icon: Home,
+    },
+    {
+      title: "Calendar",
+      url: "/calendar",
+      icon: Calendar,
+    },
+  ],
+  navSecondary: [
+    {
+      title: "Settings",
+      url: "/settings",
+      icon: Settings,
+    },
+  ],
+};
 
 export function DashboardSidebar() {
   return (
@@ -25,7 +49,7 @@ export function DashboardSidebar() {
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
                   <span className="font-medium">Notes</span>
-                  <span className="">v1.0.0</span>
+                  <span className="">{data.navHead.version}</span>
                 </div>
               </span>
             </SidebarMenuButton>
@@ -44,40 +68,11 @@ export function DashboardSidebar() {
             </Dialog>
           </SidebarMenu>
         </SidebarGroup>
-        {/* HOME AND CALLENDER LINKS */}
         <SidebarGroup>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <a href="/" className="flex items-center gap-1">
-                  <Home className="size-4" />
-                  <span className="text-sm">Home</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild>
-                <a href="/cal" className="flex items-center gap-1">
-                  <Calendar className="size-4" />
-                  <span className="text-sm">Calendar</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
+          <SidebarItemGroup items={data.navMain} />
         </SidebarGroup>
         <SidebarGroup className="mt-auto">
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild size="sm">
-                  <a href="/settings" className="flex items-center gap-1">
-                    <Settings className="size-4" />
-                    <span className="text-sm">settings</span>
-                  </a>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
+          <SidebarItemGroup items={data.navSecondary} />
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
