@@ -4,12 +4,13 @@ import type { Note } from "@/types/Note";
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   onSnapshot,
   query,
   updateDoc,
 } from "firebase/firestore";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 type AddNoteInput = Omit<Note, "id" | "createdAt" | "updatedAt">;
 type UpdateNoteInput = {
@@ -27,10 +28,11 @@ interface UseNotesResult {
 }
 
 export function useNotes(): UseNotesResult {
-  const notesRef = collection(db, "notes");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
   const [notes, setNotes] = useState<Note[] | null>(null);
+
+  const notesRef = useMemo(() => collection(db, "notes"), []);
 
   useEffect(() => {
     const q = query(notesRef);
@@ -97,7 +99,24 @@ export function useNotes(): UseNotesResult {
     [notesRef]
   );
 
-  const deleteNote = useCallback(async () => {}, []);
+  const deleteNote = useCallback(
+    async (id: string) => {
+      if (!id) {
+        console.error("Cannot save: No note ID provided");
+        setError(new Error("Cannot save: No notebook ID provided."));
+        return;
+      }
+      setError(null);
+
+      try {
+        const noteDocRef = doc(notesRef, id);
+        await deleteDoc(noteDocRef);
+      } catch (error) {
+        setError(error as ServerError);
+      }
+    },
+    [notesRef]
+  );
 
   return { notes, loading, error, addNote, updateNote, deleteNote };
 }

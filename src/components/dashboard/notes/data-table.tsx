@@ -31,7 +31,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Settings2 } from "lucide-react";
+import { Plus, Settings2 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { NoteForm } from "../forms/note-form";
+import { useNotesContext } from "@/contexts/notes-context";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -42,9 +52,12 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const { addNote } = useNotesContext();
+  const [openNewNote, setOpenNewNote] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+
   const table = useReactTable({
     onSortingChange: setSorting,
     data,
@@ -62,11 +75,13 @@ export function DataTable<TData, TValue>({
       columnVisibility,
     },
   });
+
   const statusColumn = table.getColumn("status");
   const groupColumn = table.getColumn("group");
+
   return (
     <div>
-      <div className="flex justficy content-between pb-2">
+      <div className="flex justfiy justify-between pb-2">
         <div className="flex gap-2">
           <DataTableTextFilter table={table} />
           {statusColumn && (
@@ -80,32 +95,56 @@ export function DataTable<TData, TValue>({
             />
           )}
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              <Settings2 /> View
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="flex gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="ml-auto">
+                <Settings2 /> View
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {table
+                .getAllColumns()
+                .filter((column) => column.getCanHide())
+                .map((column) => {
+                  return (
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) =>
+                        column.toggleVisibility(!!value)
+                      }
+                    >
+                      {column.id}
+                    </DropdownMenuCheckboxItem>
+                  );
+                })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Dialog open={openNewNote} onOpenChange={setOpenNewNote}>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus />
+                New
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>New note</DialogTitle>
+                <DialogDescription>
+                  Create a new note here. Click save when you're done.
+                </DialogDescription>
+              </DialogHeader>
+              <NoteForm
+                onSubmit={(data) => {
+                  addNote({ ...data });
+                  setOpenNewNote(false);
+                }}
+              />
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
       <div className="rounded-md border">
         <Table>

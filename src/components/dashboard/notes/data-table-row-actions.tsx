@@ -19,7 +19,7 @@ interface DataTableRowActionsProps {
 }
 
 const DataTableRowActions: React.FC<DataTableRowActionsProps> = ({ note }) => {
-  const { updateNote } = useNotesContext();
+  const { updateNote, deleteNote } = useNotesContext();
 
   return (
     <DropdownMenu>
@@ -72,7 +72,14 @@ const DataTableRowActions: React.FC<DataTableRowActionsProps> = ({ note }) => {
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
+        <DropdownMenuItem
+          className="text-red-600"
+          onClick={() => {
+            deleteNote(note.id);
+          }}
+        >
+          Delete
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

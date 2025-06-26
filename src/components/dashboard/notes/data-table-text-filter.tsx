@@ -12,9 +12,9 @@ export function DataTableTextFilter<TData>({
     <Input
       placeholder="Filter Notes"
       className="w-64"
-      value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+      value={(table.getColumn("content")?.getFilterValue() as string) ?? ""}
       onChange={(event) =>
-        table.getColumn("name")?.setFilterValue(event.target.value)
+        table.getColumn("content")?.setFilterValue(event.target.value)
       }
     ></Input>
   );

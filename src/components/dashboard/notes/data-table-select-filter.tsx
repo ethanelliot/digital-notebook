@@ -80,7 +80,6 @@ export function DataTableSelectFilter<TData, TValue>({
         </Button>
       </PopoverTrigger>
 
-      {/* The Command component is the missing piece! */}
       <PopoverContent className="w-[200px] p-0" align="start">
         <Command>
           <CommandInput placeholder={`Filter ${title}...`} />

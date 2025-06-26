@@ -2,8 +2,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import type { Note } from "@/types/Note";
 import type { Timestamp } from "firebase/firestore";
 import { Badge } from "@/components/ui/badge";
-import { CircleCheck, Clock, MoreHorizontal, RefreshCcw } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { CircleCheck, Clock, RefreshCcw } from "lucide-react";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import DataTableRowActions from "./data-table-row-actions";
 
