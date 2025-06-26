@@ -2,12 +2,22 @@ import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
+  SidebarGroupAction,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { BookA, Calendar, Home, Plus, Settings } from "lucide-react";
+import {
+  BookA,
+  Calendar,
+  Home,
+  Pencil,
+  Plus,
+  Settings,
+  StickyNote,
+} from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { SidebarItemGroup } from "./sidebar-group";
 
@@ -25,6 +35,11 @@ const data = {
       title: "Calendar",
       url: "/calendar",
       icon: Calendar,
+    },
+    {
+      title: "Notes",
+      url: "/notes",
+      icon: StickyNote,
     },
   ],
   navSecondary: [
@@ -69,7 +84,15 @@ export function DashboardSidebar() {
           </SidebarMenu>
         </SidebarGroup>
         <SidebarGroup>
+          <SidebarGroupLabel>Main</SidebarGroupLabel>
           <SidebarItemGroup items={data.navMain} />
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Groups</SidebarGroupLabel>
+          <SidebarGroupAction title="Edit Group">
+            <Pencil />
+          </SidebarGroupAction>
         </SidebarGroup>
         <SidebarGroup className="mt-auto">
           <SidebarItemGroup items={data.navSecondary} />
