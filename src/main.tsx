@@ -7,7 +7,7 @@ import NotFoundPage from "./pages/not-found.js";
 import EditorPage from "./pages/editor-page.js";
 import { ThemeProvider } from "./components/theme-provider.js";
 import DashboardLayout from "./components/dashboard/dashboard-layout.js";
-import Home from "./pages/Home.js";
+import Home from "./pages/home.js";
 
 const router = createBrowserRouter([
   {

@@ -3,8 +3,6 @@ import { SidebarProvider, SidebarTrigger } from "../ui/sidebar";
 import DashboardSidebar from "./dashboard-sidebar";
 import { Outlet } from "react-router-dom";
 import { ModeToggle } from "../mode-toggle";
-import { Button } from "../ui/button";
-import { Settings } from "lucide-react";
 
 const DashboardLayout: React.FC = () => {
   return (
