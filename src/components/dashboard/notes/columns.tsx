@@ -18,8 +18,8 @@ import { DataTableColumnHeader } from "./data-table-column-header";
 
 export const columns: ColumnDef<Note>[] = [
   {
-    accessorKey: "name",
-    header: "Name",
+    accessorKey: "content",
+    header: "Content",
   },
   {
     accessorKey: "status",

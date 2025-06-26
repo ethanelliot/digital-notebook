@@ -3,24 +3,27 @@ import { SidebarProvider, SidebarTrigger } from "../ui/sidebar";
 import DashboardSidebar from "./dashboard-sidebar";
 import { Outlet } from "react-router-dom";
 import { ModeToggle } from "../mode-toggle";
+import { NotesProvider } from "@/contexts/notes-context";
 
 const DashboardLayout: React.FC = () => {
   return (
-    <SidebarProvider>
-      <DashboardSidebar />
-      <main className="w-full h-full flex flex-col">
-        <header>
-          <div className="flex items-center justify-between w-auto p-2 h-16">
-            <SidebarTrigger />
-            <ModeToggle />
-          </div>
-        </header>
+    <NotesProvider>
+      <SidebarProvider>
+        <DashboardSidebar />
+        <main className="w-full h-full flex flex-col">
+          <header>
+            <div className="flex items-center justify-between w-auto p-2 h-16">
+              <SidebarTrigger />
+              <ModeToggle />
+            </div>
+          </header>
 
-        <div className=" w-full p-2">
-          <Outlet />
-        </div>
-      </main>
-    </SidebarProvider>
+          <div className=" w-full p-2">
+            <Outlet />
+          </div>
+        </main>
+      </SidebarProvider>
+    </NotesProvider>
   );
 };
 

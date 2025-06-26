@@ -34,7 +34,6 @@ export function DataTableSelectFilter<TData, TValue>({
   const [open, setOpen] = useState(false);
   const columnFilterValue = column.getFilterValue();
   const options = Array.from(column.getFacetedUniqueValues().keys());
-  console.log(options);
   const selectedValues = useMemo(
     () => new Set(Array.isArray(columnFilterValue) ? columnFilterValue : []),
     [columnFilterValue]
