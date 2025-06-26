@@ -3,8 +3,10 @@ import type { Note } from "@/types/Note";
 import { createContext, useContext, type ReactNode } from "react";
 
 type AddNoteInput = Omit<Note, "id" | "createdAt" | "updatedAt">;
-type UpdateNoteInput = Partial<Omit<Note, "id" | "createdAt">> & { id: string };
-
+type UpdateNoteInput = {
+  newData: Partial<Omit<Note, "id" | "createdAt">>;
+  id: string;
+};
 interface NotesContextType {
   notes: Note[] | null;
   loading: boolean;

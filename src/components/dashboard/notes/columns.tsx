@@ -3,18 +3,9 @@ import type { Note } from "@/types/Note";
 import type { Timestamp } from "firebase/firestore";
 import { Badge } from "@/components/ui/badge";
 import { CircleCheck, Clock, MoreHorizontal, RefreshCcw } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubTrigger,
-  DropdownMenuSubContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { DataTableColumnHeader } from "./data-table-column-header";
+import DataTableRowActions from "./data-table-row-actions";
 
 export const columns: ColumnDef<Note>[] = [
   {
@@ -98,43 +89,7 @@ export const columns: ColumnDef<Note>[] = [
     cell: ({ row }) => {
       const note = row.original;
 
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => console.log(note.id)}>
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem>Copy</DropdownMenuItem>
-
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger>Set Status</DropdownMenuSubTrigger>
-              <DropdownMenuSubContent>
-                <DropdownMenuItem>
-                  <CircleCheck />
-                  <span>Completed</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <RefreshCcw />
-                  <span>In progress</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Clock />
-                  <span>Not started</span>
-                </DropdownMenuItem>
-              </DropdownMenuSubContent>
-            </DropdownMenuSub>
-
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+      return <DataTableRowActions note={note} />;
     },
   },
 ];

@@ -1,11 +1,21 @@
 import { db } from "@/firebase";
 import { ServerError } from "@/lib/errors";
 import type { Note } from "@/types/Note";
-import { collection, onSnapshot, query } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  onSnapshot,
+  query,
+  updateDoc,
+} from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
 
 type AddNoteInput = Omit<Note, "id" | "createdAt" | "updatedAt">;
-type UpdateNoteInput = Partial<Omit<Note, "id" | "createdAt">> & { id: string };
+type UpdateNoteInput = {
+  newData: Partial<Omit<Note, "id" | "createdAt">>;
+  id: string;
+};
 
 interface UseNotesResult {
   notes: Note[] | null;
@@ -17,12 +27,13 @@ interface UseNotesResult {
 }
 
 export function useNotes(): UseNotesResult {
+  const notesRef = collection(db, "notes");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
   const [notes, setNotes] = useState<Note[] | null>(null);
 
   useEffect(() => {
-    const q = query(collection(db, "notes"));
+    const q = query(notesRef);
 
     // Set up Firebase listener here
     const unsubscribe = onSnapshot(
@@ -49,10 +60,43 @@ export function useNotes(): UseNotesResult {
 
     // Cleanup function
     return () => unsubscribe();
-  }, []);
+  }, [notesRef]);
 
-  const addNote = useCallback(async () => {}, []);
-  const updateNote = useCallback(async () => {}, []);
+  const addNote = useCallback(
+    async (data: AddNoteInput) => {
+      try {
+        await addDoc(notesRef, {
+          ...data,
+        });
+      } catch (error) {
+        setError(error as ServerError);
+      }
+    },
+    [notesRef]
+  );
+
+  const updateNote = useCallback(
+    async ({ newData, id }: UpdateNoteInput) => {
+      if (!id) {
+        console.error("Cannot save: No note ID provided");
+        setError(new Error("Cannot save: No notebook ID provided."));
+        return;
+      }
+
+      setError(null);
+
+      try {
+        const noteDocRef = doc(notesRef, id);
+        await updateDoc(noteDocRef, {
+          ...newData,
+        });
+      } catch (error) {
+        setError(error as ServerError);
+      }
+    },
+    [notesRef]
+  );
+
   const deleteNote = useCallback(async () => {}, []);
 
   return { notes, loading, error, addNote, updateNote, deleteNote };
