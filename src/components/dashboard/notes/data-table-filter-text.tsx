@@ -1,5 +1,4 @@
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
 import { type Table } from "@tanstack/react-table";
 
 interface DataTableTextFilterProps<TData> {
