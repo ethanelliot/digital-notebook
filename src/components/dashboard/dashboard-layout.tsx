@@ -10,7 +10,7 @@ const DashboardLayout: React.FC = () => {
     <NotesProvider>
       <SidebarProvider>
         <DashboardSidebar />
-        <main className="w-full h-full flex flex-col">
+        <main className="w-full h-full flex flex-col min-h-dvh">
           <header>
             <div className="flex items-center justify-between w-auto p-4 h-16">
               <SidebarTrigger />
