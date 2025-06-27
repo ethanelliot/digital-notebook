@@ -1,9 +1,11 @@
 import type { Timestamp } from "firebase/firestore";
 
+export type statusType = "In-progress" | "Completed" | "Not-started";
+
 export type Note = {
   id: string;
   content: string;
-  status: "In-progress" | "Completed" | "Not-started";
+  status: statusType;
   dueDate: Timestamp;
   group: string;
 };

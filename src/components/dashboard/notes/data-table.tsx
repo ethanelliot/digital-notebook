@@ -21,8 +21,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { DataTablePagination } from "./data-table-pagination";
-import { DataTableTextFilter } from "./data-table-text-filter";
-import { DataTableSelectFilter } from "./data-table-select-filter";
+import { DataTableTextFilter } from "./data-table-filter-text";
+import { DataTableSelectFilter } from "./data-table-filter-select";
 import { useState } from "react";
 import {
   DropdownMenu,
@@ -32,16 +32,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Plus, Settings2 } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { NoteForm } from "../forms/note-form";
-import { useNotesContext } from "@/contexts/notes-context";
+import { NoteFormDialog } from "../dialog/note-form-dialog";
+import { statuses } from "@/lib/constants";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -52,7 +44,6 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const { addNote } = useNotesContext();
   const [openNewNote, setOpenNewNote] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -85,7 +76,11 @@ export function DataTable<TData, TValue>({
         <div className="flex gap-2">
           <DataTableTextFilter table={table} />
           {statusColumn && (
-            <DataTableSelectFilter column={statusColumn} title="Status" />
+            <DataTableSelectFilter
+              column={statusColumn}
+              title="Status"
+              possibleValues={statuses.map((value) => value.value)}
+            />
           )}
           {groupColumn && (
             <DataTableSelectFilter
@@ -122,28 +117,13 @@ export function DataTable<TData, TValue>({
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Dialog open={openNewNote} onOpenChange={setOpenNewNote}>
-            <DialogTrigger asChild>
-              <Button>
-                <Plus />
-                New
-              </Button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>New note</DialogTitle>
-                <DialogDescription>
-                  Create a new note here. Click save when you're done.
-                </DialogDescription>
-              </DialogHeader>
-              <NoteForm
-                onSubmit={(data) => {
-                  addNote({ ...data });
-                  setOpenNewNote(false);
-                }}
-              />
-            </DialogContent>
-          </Dialog>
+
+          <Button onClick={() => setOpenNewNote(true)}>
+            <Plus />
+            New
+          </Button>
+
+          <NoteFormDialog open={openNewNote} onOpenChange={setOpenNewNote} />
         </div>
       </div>
       <div className="rounded-md border">

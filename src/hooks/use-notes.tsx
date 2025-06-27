@@ -18,7 +18,7 @@ type UpdateNoteInput = {
   id: string;
 };
 
-interface UseNotesResult {
+export interface UseNotesResult {
   notes: Note[] | null;
   loading: boolean;
   error: Error | null;
@@ -66,12 +66,14 @@ export function useNotes(): UseNotesResult {
 
   const addNote = useCallback(
     async (data: AddNoteInput) => {
+      console.log(data);
       try {
         await addDoc(notesRef, {
           ...data,
         });
       } catch (error) {
         setError(error as ServerError);
+        console.log(error);
       }
     },
     [notesRef]

@@ -1,22 +1,7 @@
-import { useNotes } from "@/hooks/use-notes";
-import type { Note } from "@/types/Note";
+import { useNotes, type UseNotesResult } from "@/hooks/use-notes";
 import { createContext, useContext, type ReactNode } from "react";
 
-type AddNoteInput = Omit<Note, "id" | "createdAt" | "updatedAt">;
-type UpdateNoteInput = {
-  newData: Partial<Omit<Note, "id" | "createdAt">>;
-  id: string;
-};
-interface NotesContextType {
-  notes: Note[] | null;
-  loading: boolean;
-  error: Error | null;
-  addNote: (note: AddNoteInput) => Promise<void>;
-  updateNote: (note: UpdateNoteInput) => Promise<void>;
-  deleteNote: (id: string) => Promise<void>;
-}
-
-const NotesContext = createContext<NotesContextType | undefined>(undefined);
+const NotesContext = createContext<UseNotesResult | undefined>(undefined);
 
 interface NotesProviderProps {
   children: ReactNode;

@@ -1,15 +1,16 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import type { Note } from "@/types/Note";
+import type { Note, statusType } from "@/types/Note";
 import type { Timestamp } from "firebase/firestore";
 import { Badge } from "@/components/ui/badge";
-import { CircleCheck, Clock, RefreshCcw } from "lucide-react";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import DataTableRowActions from "./data-table-row-actions";
+import { statuses } from "@/lib/constants";
 
 export const columns: ColumnDef<Note>[] = [
   {
     accessorKey: "content",
     header: "Content",
+    enableHiding: false,
   },
   {
     accessorKey: "status",
@@ -18,33 +19,14 @@ export const columns: ColumnDef<Note>[] = [
       <DataTableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => {
-      const status: "In-progress" | "Completed" | "Not-started" =
-        row.getValue("status");
+      const s: statusType = row.getValue("status");
+
+      const status = statuses.find((status) => status.value === s);
 
       return (
         <Badge variant="outline">
-          {
-            {
-              Completed: (
-                <>
-                  <CircleCheck />
-                  <span>Completed</span>
-                </>
-              ),
-              "In-progress": (
-                <>
-                  <RefreshCcw />
-                  <span>In progress</span>
-                </>
-              ),
-              "Not-started": (
-                <>
-                  <Clock />
-                  <span>Not started</span>
-                </>
-              ),
-            }[status]
-          }
+          {status?.icon && <status.icon />}
+          <span>{status?.label}</span>
         </Badge>
       );
     },

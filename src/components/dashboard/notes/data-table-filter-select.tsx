@@ -24,16 +24,22 @@ interface DataTableSelectFilterProps<TData, TValue> {
   column: Column<TData, TValue>;
   title: string;
   multiple?: boolean;
+  possibleValues?: string[];
 }
 
 export function DataTableSelectFilter<TData, TValue>({
   column,
   title,
   multiple = false,
+  possibleValues,
 }: DataTableSelectFilterProps<TData, TValue>) {
   const [open, setOpen] = useState(false);
   const columnFilterValue = column.getFilterValue();
-  const options = Array.from(column.getFacetedUniqueValues().keys());
+
+  const options = possibleValues
+    ? possibleValues
+    : Array.from(column.getFacetedUniqueValues().keys());
+
   const selectedValues = useMemo(
     () => new Set(Array.isArray(columnFilterValue) ? columnFilterValue : []),
     [columnFilterValue]

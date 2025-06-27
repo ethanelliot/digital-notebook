@@ -12,13 +12,13 @@ const DashboardLayout: React.FC = () => {
         <DashboardSidebar />
         <main className="w-full h-full flex flex-col">
           <header>
-            <div className="flex items-center justify-between w-auto p-2 h-16">
+            <div className="flex items-center justify-between w-auto p-4 h-16">
               <SidebarTrigger />
               <ModeToggle />
             </div>
           </header>
 
-          <div className=" w-full p-2">
+          <div className=" w-full px-4 py-2">
             <Outlet />
           </div>
         </main>
