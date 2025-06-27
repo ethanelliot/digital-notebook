@@ -21,19 +21,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { DataTablePagination } from "./data-table-pagination";
-import { DataTableTextFilter } from "./data-table-filter-text";
-import { DataTableSelectFilter } from "./data-table-filter-select";
 import { useState } from "react";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { Plus, Settings2 } from "lucide-react";
-import { NoteFormDialog } from "../dialog/note-form-dialog";
-import { statuses } from "@/lib/constants";
+import { DataTableToolbar } from "./data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -44,7 +33,6 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const [openNewNote, setOpenNewNote] = useState(false);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -66,66 +54,9 @@ export function DataTable<TData, TValue>({
       columnVisibility,
     },
   });
-
-  const statusColumn = table.getColumn("status");
-  const groupColumn = table.getColumn("group");
-
   return (
     <div>
-      <div className="flex justfiy justify-between pb-2">
-        <div className="flex gap-2">
-          <DataTableTextFilter table={table} />
-          {statusColumn && (
-            <DataTableSelectFilter
-              column={statusColumn}
-              title="Status"
-              possibleValues={statuses.map((value) => value.value)}
-            />
-          )}
-          {groupColumn && (
-            <DataTableSelectFilter
-              column={groupColumn}
-              title="Group"
-              multiple={true}
-            />
-          )}
-        </div>
-        <div className="flex gap-2">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto">
-                <Settings2 /> View
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {table
-                .getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => {
-                  return (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) =>
-                        column.toggleVisibility(!!value)
-                      }
-                    >
-                      {column.id}
-                    </DropdownMenuCheckboxItem>
-                  );
-                })}
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          <Button onClick={() => setOpenNewNote(true)}>
-            <Plus />
-            New
-          </Button>
-
-          <NoteFormDialog open={openNewNote} onOpenChange={setOpenNewNote} />
-        </div>
-      </div>
+      <DataTableToolbar table={table} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>
