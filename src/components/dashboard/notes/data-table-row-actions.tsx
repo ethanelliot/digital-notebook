@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
-import { useNotesContext } from "@/contexts/notes-context";
+import { useDashboardContext } from "@/contexts/dashboard-context";
 import { Button } from "@/components/ui/button";
 import type { Note } from "@/types/Note";
 import { NoteFormDialog } from "../dialog/note-form-dialog";
@@ -25,7 +25,7 @@ const DataTableRowActions: React.FC<DataTableRowActionsProps> = ({ note }) => {
   const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
   const [isNoteDialogOpen, setIsNoteDialogOpen] = useState(false);
 
-  const { updateNote, deleteNote } = useNotesContext();
+  const { updateNote, deleteNote } = useDashboardContext();
 
   return (
     <>

@@ -3,11 +3,11 @@ import { SidebarProvider, SidebarTrigger } from "../ui/sidebar";
 import DashboardSidebar from "./dashboard-sidebar";
 import { Outlet } from "react-router-dom";
 import { ModeToggle } from "../mode-toggle";
-import { NotesProvider } from "@/contexts/notes-context";
+import { DashbaordProvider } from "@/contexts/dashboard-context";
 
 const DashboardLayout: React.FC = () => {
   return (
-    <NotesProvider>
+    <DashbaordProvider>
       <SidebarProvider>
         <DashboardSidebar />
         <main className="w-full h-full flex flex-col min-h-dvh">
@@ -23,7 +23,7 @@ const DashboardLayout: React.FC = () => {
           </div>
         </main>
       </SidebarProvider>
-    </NotesProvider>
+    </DashbaordProvider>
   );
 };
 

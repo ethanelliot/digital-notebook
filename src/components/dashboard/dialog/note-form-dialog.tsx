@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { NoteForm } from "../forms/note-form";
 import type { Note } from "@/types/Note";
-import { useNotesContext } from "@/contexts/notes-context";
+import { useDashboardContext } from "@/contexts/dashboard-context";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 
@@ -23,7 +23,7 @@ export const NoteFormDialog: React.FC<NoteFormDialogProps> = ({
   onOpenChange,
   note,
 }) => {
-  const { addNote, updateNote } = useNotesContext();
+  const { addNote, updateNote } = useDashboardContext();
   const formRef = useRef<HTMLFormElement>(null);
 
   const isEditForm = !!note;

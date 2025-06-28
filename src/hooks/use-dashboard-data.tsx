@@ -18,7 +18,7 @@ type UpdateNoteInput = {
   id: string;
 };
 
-export interface UseNotesResult {
+export interface UseDashboardDatasResult {
   notes: Note[] | null;
   loading: boolean;
   error: Error | null;
@@ -27,12 +27,15 @@ export interface UseNotesResult {
   deleteNote: (id: string) => Promise<void>;
 }
 
-export function useNotes(): UseNotesResult {
+export function useDashboardData(): UseDashboardDatasResult {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
+
   const [notes, setNotes] = useState<Note[] | null>(null);
 
   const notesRef = useMemo(() => collection(db, "notes"), []);
+
+  // use effect for groups and this is a dependency of the folling use effect
 
   useEffect(() => {
     const q = query(notesRef);
