@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { DataTable } from "@/components/dashboard/data-table/data-table";
+import { DataTable } from "@/components/ui/data-table/data-table";
 import { columns } from "@/components/dashboard/notes/columns";
 
 import { useDashboardContext } from "@/contexts/dashboard-context";
-import { DataTableSkeleton } from "../data-table/data-table-skeleton";
+import { DataTableSkeleton } from "@/components/ui/data-table/data-table-skeleton";
 import { NoteFormDialog } from "../dialog/note-form-dialog";
 
 const NotesTable: React.FC = () => {

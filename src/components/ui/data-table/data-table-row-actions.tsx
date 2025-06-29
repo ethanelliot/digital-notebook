@@ -13,8 +13,8 @@ import { MoreHorizontal } from "lucide-react";
 import { useDashboardContext } from "@/contexts/dashboard-context";
 import { Button } from "@/components/ui/button";
 import type { Note } from "@/types/note";
-import { NoteFormDialog } from "../dialog/note-form-dialog";
-import { ConfirmDeleteDialog } from "../dialog/confirm-delete-dialog";
+import { NoteFormDialog } from "../../dashboard/dialog/note-form-dialog";
+import { ConfirmDeleteDialog } from "../../dashboard/dialog/confirm-delete-dialog";
 import { statuses } from "@/lib/constants";
 
 interface DataTableRowActionsProps {

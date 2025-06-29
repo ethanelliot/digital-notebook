@@ -3,8 +3,8 @@ import "@/types/table";
 import type { Note, statusType } from "@/types/note";
 import type { Timestamp } from "firebase/firestore";
 import { Badge } from "@/components/ui/badge";
-import { DataTableColumnHeader } from "../data-table/data-table-column-header";
-import DataTableRowActions from "../data-table/data-table-row-actions";
+import { DataTableColumnHeader } from "../../ui/data-table/data-table-column-header";
+import DataTableRowActions from "../../ui/data-table/data-table-row-actions";
 import { statuses } from "@/lib/constants";
 
 export const columns: ColumnDef<Note>[] = [
@@ -46,6 +46,7 @@ export const columns: ColumnDef<Note>[] = [
         value: status.value,
       })),
     },
+    size: 20,
     enableColumnFilter: true,
   },
 
@@ -69,6 +70,7 @@ export const columns: ColumnDef<Note>[] = [
       // Compare the timestamps' toMillis() value for accurate sorting
       return dateA.toMillis() - dateB.toMillis();
     },
+    size: 20,
   },
   {
     accessorKey: "groupName",
@@ -84,6 +86,7 @@ export const columns: ColumnDef<Note>[] = [
       variant: "multiSelect",
     },
     enableColumnFilter: true,
+    size: 20,
   },
   {
     id: "actions",
@@ -94,5 +97,6 @@ export const columns: ColumnDef<Note>[] = [
 
       return <DataTableRowActions note={note} />;
     },
+    size: 10,
   },
 ];
