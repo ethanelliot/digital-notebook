@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { visability, Visibility } from "@/lib/constants";
+import { Visibility } from "@/lib/constants";
 import type { Group } from "@/types/group";
 import { AlertCircleIcon } from "lucide-react";
 import { forwardRef, useState } from "react";
