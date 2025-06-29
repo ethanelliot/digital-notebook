@@ -18,10 +18,14 @@ const router = createBrowserRouter([
         path: "",
         element: <Home />,
       },
+      {
+        path: "notes",
+        element: <Home />,
+      },
     ],
   },
   {
-    path: "/notebook/:id", // Root path
+    path: "/:groupId/notebook/:notebookId", // Root path
     element: <EditorPage />,
   },
   {

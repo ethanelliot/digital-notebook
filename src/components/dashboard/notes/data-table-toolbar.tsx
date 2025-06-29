@@ -23,7 +23,7 @@ export function DataTableToolbar<TData>({
   const [openNewNote, setOpenNewNote] = useState(false);
 
   const statusColumn = table.getColumn("status");
-  const groupColumn = table.getColumn("group");
+  const groupColumn = table.getColumn("groupName");
 
   return (
     <div className="flex justfiy justify-between pb-2 gap-2">

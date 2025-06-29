@@ -6,9 +6,9 @@ import { useDashboardContext } from "@/contexts/dashboard-context";
 import { DataTableSkeleton } from "./data-table-skeleton";
 
 const NotesTable: React.FC = () => {
-  const { notes } = useDashboardContext();
+  const { loading, notes } = useDashboardContext();
 
-  if (!notes) {
+  if (notes.length === 0 && loading) {
     return <DataTableSkeleton columnCount={5} rowCount={10} filterCount={3} />;
   }
   return <DataTable columns={columns} data={notes} />;

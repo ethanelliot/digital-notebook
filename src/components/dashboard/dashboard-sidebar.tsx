@@ -11,15 +11,20 @@ import {
 } from "@/components/ui/sidebar";
 import {
   BookA,
+  BookCopy,
   Calendar,
   Home,
   Pencil,
   Plus,
   Settings,
   StickyNote,
+  type LucideIcon,
 } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { SidebarItemGroup } from "./sidebar-group";
+import { useDashboardContext } from "@/contexts/dashboard-context";
+import { useEffect, useState } from "react";
+import { Skeleton } from "../ui/skeleton";
 
 const data = {
   navHead: {
@@ -52,6 +57,23 @@ const data = {
 };
 
 export function DashboardSidebar() {
+  const { loading, groups } = useDashboardContext();
+  const [groupsData, setGroupsData] = useState<
+    { title: string; url: string; icon: LucideIcon; isActive?: boolean }[]
+  >([]);
+
+  useEffect(() => {
+    setGroupsData(
+      groups
+        .filter((group) => !group.isHidden)
+        .map((group) => ({
+          title: group.name,
+          url: "/" + group.id,
+          icon: BookCopy,
+        }))
+    );
+  }, [groups]);
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -88,13 +110,18 @@ export function DashboardSidebar() {
           <SidebarItemGroup items={data.navMain} />
         </SidebarGroup>
 
-        <SidebarGroup>
+        <SidebarGroup className="flex-1">
           <SidebarGroupLabel>Groups</SidebarGroupLabel>
           <SidebarGroupAction title="Edit Group">
             <Pencil />
           </SidebarGroupAction>
+          {loading ? (
+            <Skeleton className=" w-full h-full" />
+          ) : (
+            <SidebarItemGroup items={groupsData} />
+          )}
         </SidebarGroup>
-        <SidebarGroup className="mt-auto">
+        <SidebarGroup className="">
           <SidebarItemGroup items={data.navSecondary} />
         </SidebarGroup>
       </SidebarContent>

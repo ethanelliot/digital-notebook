@@ -12,7 +12,7 @@ import {
 import { MoreHorizontal } from "lucide-react";
 import { useDashboardContext } from "@/contexts/dashboard-context";
 import { Button } from "@/components/ui/button";
-import type { Note } from "@/types/Note";
+import type { Note } from "@/types/note";
 import { NoteFormDialog } from "../dialog/note-form-dialog";
 import { ConfirmDeleteDialog } from "../dialog/confirm-delete-dialog";
 import { statuses } from "@/lib/constants";
@@ -49,8 +49,8 @@ const DataTableRowActions: React.FC<DataTableRowActionsProps> = ({ note }) => {
                   key={status.value}
                   onClick={() =>
                     updateNote({
+                      note,
                       newData: { status: status.value },
-                      id: note.id,
                     })
                   }
                 >
@@ -91,7 +91,7 @@ const DataTableRowActions: React.FC<DataTableRowActionsProps> = ({ note }) => {
       {/* alert dialog for deletion confirmation */}
       <ConfirmDeleteDialog
         onConfirm={() => {
-          deleteNote(note.id);
+          deleteNote({ noteId: note.id, groupId: note.groupId });
         }}
         open={isDeleteAlertOpen}
         onOpenChange={setIsDeleteAlertOpen}

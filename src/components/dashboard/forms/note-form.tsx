@@ -14,7 +14,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import type { Note, statusType } from "@/types/Note";
+import type { Note, statusType } from "@/types/note";
 import {
   AlertCircleIcon,
   Check,
@@ -35,34 +35,23 @@ import { formatTimeFromTimestamp } from "@/lib/format-time";
 import { Timestamp } from "firebase/firestore";
 import React from "react";
 import { statuses } from "@/lib/constants";
+import { useDashboardContext } from "@/contexts/dashboard-context";
 
-const groups = [
-  {
-    value: "school",
-    label: "School",
-  },
-  {
-    value: "work",
-    label: "Work",
-  },
-  {
-    value: "personal",
-    label: "Personal",
-  },
-];
 interface NoteFormProps {
-  onSubmit: (data: Omit<Note, "id" | "createdAt">) => void;
+  onSubmit: (data: Omit<Note, "id" | "createdAt" | "groupName">) => void;
   initialData?: Omit<Note, "id"> | null;
 }
 
 export const NoteForm = React.forwardRef<HTMLFormElement, NoteFormProps>(
   ({ onSubmit, initialData }, ref) => {
+    const { groups } = useDashboardContext();
+
     const [formData, setFormData] = useState({
       content: initialData?.content || "",
       dueDate: initialData?.dueDate?.toDate() || undefined,
       dueTime: formatTimeFromTimestamp(initialData?.dueDate.toDate()),
       status: initialData?.status || "Not-started",
-      group: initialData?.group || "",
+      groupId: initialData?.groupId || "",
     });
     const [openDate, setOpenDate] = useState(false);
     const [openGroup, setOpenGroup] = useState(false);
@@ -73,7 +62,7 @@ export const NoteForm = React.forwardRef<HTMLFormElement, NoteFormProps>(
         setError("Content cannot be empty");
       } else if (!formData.dueDate) {
         setError("A note must have a due date");
-      } else if (!formData.group) {
+      } else if (!formData.groupId) {
         setError("A note must have a group.");
       } else {
         setError("");
@@ -93,7 +82,7 @@ export const NoteForm = React.forwardRef<HTMLFormElement, NoteFormProps>(
           content: formData.content,
           dueDate: timestamp,
           status: formData.status,
-          group: formData.group,
+          groupId: formData.groupId,
         });
         // The DialogClose will be triggered by the wrapping DialogClose component
       }
@@ -215,44 +204,49 @@ export const NoteForm = React.forwardRef<HTMLFormElement, NoteFormProps>(
                   aria-expanded={openGroup}
                   className=" justify-between"
                 >
-                  {formData.group ? formData.group : "Select Group..."}
+                  {groups.find((group) => group.id === formData.groupId)?.name
+                    ? groups.find((group) => group.id === formData.groupId)
+                        ?.name
+                    : "Select Group..."}
                   <ChevronsUpDown className="opacity-50" />
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-[200px] p-0">
                 <Command
-                  value={formData.group}
+                  value={formData.groupId}
                   onValueChange={(value) =>
-                    setFormData((prev) => ({ ...prev, group: value }))
+                    setFormData((prev) => ({ ...prev, groupId: value }))
                   }
                 >
                   <CommandInput placeholder="Search Group..." className="h-9" />
                   <CommandList>
                     <CommandEmpty>No Group found.</CommandEmpty>
                     <CommandGroup>
-                      {groups.map((framework) => (
-                        <CommandItem
-                          key={framework.value}
-                          value={framework.value}
-                          onSelect={(currentValue) => {
-                            setFormData((prev) => ({
-                              ...prev,
-                              group: currentValue,
-                            }));
-                            setOpenGroup(false);
-                          }}
-                        >
-                          {framework.label}
-                          <Check
-                            className={cn(
-                              "ml-auto",
-                              formData.group === framework.value
-                                ? "opacity-100"
-                                : "opacity-0"
-                            )}
-                          />
-                        </CommandItem>
-                      ))}
+                      {groups
+                        .filter((group) => !group.isHidden)
+                        .map((group) => (
+                          <CommandItem
+                            key={group.name}
+                            value={group.id}
+                            onSelect={(currentValue) => {
+                              setFormData((prev) => ({
+                                ...prev,
+                                groupId: currentValue,
+                              }));
+                              setOpenGroup(false);
+                            }}
+                          >
+                            {group.name}
+                            <Check
+                              className={cn(
+                                "ml-auto",
+                                formData.groupId === group.id
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
                     </CommandGroup>
                   </CommandList>
                 </Command>

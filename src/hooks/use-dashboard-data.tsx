@@ -1,127 +1,195 @@
 import { db } from "@/firebase";
-import { ServerError } from "@/lib/errors";
-import type { Note } from "@/types/Note";
+import { NotFoundError, ServerError } from "@/lib/errors";
+import type { Group } from "@/types/group";
+import type { Note } from "@/types/note";
 import {
   addDoc,
   collection,
   deleteDoc,
   doc,
+  getDoc,
   onSnapshot,
   query,
-  updateDoc,
+  writeBatch,
 } from "firebase/firestore";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-type AddNoteInput = Omit<Note, "id" | "createdAt" | "updatedAt">;
+type AddNoteInput = Omit<Note, "id" | "createdAt" | "updatedAt" | "groupName">;
 type UpdateNoteInput = {
-  newData: Partial<Omit<Note, "id" | "createdAt">>;
-  id: string;
+  note: Note;
+  newData: Partial<Omit<Note, "id" | "createdAt" | "groupName">>;
+};
+
+type deleteNoteInput = {
+  groupId: string;
+  noteId: string;
 };
 
 export interface UseDashboardDatasResult {
-  notes: Note[] | null;
+  groups: Group[];
+  notes: Note[];
   loading: boolean;
   error: Error | null;
   addNote: (note: AddNoteInput) => Promise<void>;
   updateNote: (note: UpdateNoteInput) => Promise<void>;
-  deleteNote: (id: string) => Promise<void>;
+  deleteNote: (note: deleteNoteInput) => Promise<void>;
 }
 
 export function useDashboardData(): UseDashboardDatasResult {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
-  const [notes, setNotes] = useState<Note[] | null>(null);
+  const notesUnsubscribers = useRef<Array<() => void>>([]);
 
-  const notesRef = useMemo(() => collection(db, "notes"), []);
+  const [notes, setNotes] = useState<Note[]>([]);
+  const [groups, setGroups] = useState<Group[]>([]);
+
+  // const notesRef = useMemo(() => collection(db, "notes"), []);
+  const groupsRef = useMemo(() => collection(db, "groups"), []);
 
   // use effect for groups and this is a dependency of the folling use effect
 
   useEffect(() => {
-    const q = query(notesRef);
+    const q = query(groupsRef); // adjust for visability
 
-    // Set up Firebase listener here
     const unsubscribe = onSnapshot(
       q,
       (snapshot) => {
-        // Success callback
-        const newNotes = snapshot.docs.map(
+        const newGroups = snapshot.docs.map(
           (doc) =>
             ({
               id: doc.id,
               ...doc.data(),
-            } as Note)
+            } as Group)
         );
-        setNotes(newNotes);
-        console.log(newNotes);
+        setGroups(newGroups);
         setLoading(false);
       },
       (error) => {
-        // Error callback
         setError(new ServerError(error.message));
         setLoading(false);
       }
     );
 
-    // Cleanup function
     return () => unsubscribe();
-  }, [notesRef]);
+  }, [groupsRef]);
+
+  useEffect(() => {
+    notesUnsubscribers.current.forEach((unsubscribe: () => void) =>
+      unsubscribe()
+    );
+    notesUnsubscribers.current = [];
+
+    const visibleGroups = groups.filter((group) => !group.isHidden);
+
+    visibleGroups.forEach((group) => {
+      const notesRef = collection(db, "groups", group.id, "notes");
+      const unsubscribe = onSnapshot(notesRef, (snapshot) => {
+        const groupNotes = snapshot.docs.map(
+          (doc) =>
+            ({
+              id: doc.id,
+              ...doc.data(),
+              groupId: group.id,
+              groupName: group.name,
+            } as Note)
+        );
+
+        setNotes((prevNotes) => [
+          ...prevNotes.filter((note) => note.groupId !== group.id), // Remove old notes from this group
+          ...groupNotes, // Add new notes from this group
+        ]);
+      });
+
+      notesUnsubscribers.current.push(unsubscribe);
+    });
+
+    return () => {
+      notesUnsubscribers.current.forEach((unsubscribe) => unsubscribe());
+      notesUnsubscribers.current = [];
+    };
+  }, [groups]);
 
   const addNote = useCallback(
     async (data: AddNoteInput) => {
-      console.log(data);
       try {
+        const notesRef = collection(groupsRef, data.groupId, "notes");
         await addDoc(notesRef, {
-          ...data,
+          content: data.content,
+          status: data.status,
+          dueDate: data.dueDate,
         });
       } catch (error) {
         setError(error as ServerError);
         console.log(error);
       }
     },
-    [notesRef]
+    [groupsRef]
   );
 
   const updateNote = useCallback(
-    async ({ newData, id }: UpdateNoteInput) => {
-      if (!id) {
+    async ({ note, newData }: UpdateNoteInput) => {
+      if (!note) {
         console.error("Cannot save: No note ID provided");
         setError(new Error("Cannot save: No notebook ID provided."));
         return;
       }
-
       setError(null);
-
       try {
-        const noteDocRef = doc(notesRef, id);
-        await updateDoc(noteDocRef, {
-          ...newData,
-        });
+        const { groupId: newGroupId, ...noteDataWithoutGroupId } = newData;
+        const batch = writeBatch(db);
+        const noteRef = doc(groupsRef, note.groupId, "notes", note.id);
+
+        // if group id is different then we have to move the note to the new collection
+        if (newGroupId && newGroupId !== note.groupId) {
+          const newNoteRef = doc(groupsRef, newGroupId, "notes", note.id);
+
+          const docSnap = await getDoc(noteRef);
+
+          if (!docSnap.exists) {
+            throw new NotFoundError("Note not found");
+          }
+          batch.set(newNoteRef, {
+            ...docSnap.data(),
+            ...noteDataWithoutGroupId,
+            updatedAt: new Date(),
+          });
+
+          batch.delete(noteRef);
+          await batch.commit();
+        } else {
+          if (Object.keys(noteDataWithoutGroupId).length > 0) {
+            batch.update(noteRef, {
+              ...noteDataWithoutGroupId,
+              updatedAt: new Date(),
+            });
+            await batch.commit();
+          }
+        }
       } catch (error) {
-        setError(error as ServerError);
+        setError(error as Error);
       }
     },
-    [notesRef]
+    [groupsRef]
   );
 
   const deleteNote = useCallback(
-    async (id: string) => {
-      if (!id) {
-        console.error("Cannot save: No note ID provided");
+    async ({ groupId, noteId }: deleteNoteInput) => {
+      if (!noteId || !groupId) {
+        console.error("Cannot delete: No note or group ID provided");
         setError(new Error("Cannot save: No notebook ID provided."));
         return;
       }
       setError(null);
-
       try {
-        const noteDocRef = doc(notesRef, id);
-        await deleteDoc(noteDocRef);
+        const noteRef = doc(groupsRef, groupId, "notes", noteId);
+        await deleteDoc(noteRef);
       } catch (error) {
         setError(error as ServerError);
       }
     },
-    [notesRef]
+    [groupsRef]
   );
 
-  return { notes, loading, error, addNote, updateNote, deleteNote };
+  return { groups, notes, loading, error, addNote, updateNote, deleteNote };
 }

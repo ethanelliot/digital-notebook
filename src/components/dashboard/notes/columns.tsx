@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import type { Note, statusType } from "@/types/Note";
+import type { Note, statusType } from "@/types/note";
 import type { Timestamp } from "firebase/firestore";
 import { Badge } from "@/components/ui/badge";
 import { DataTableColumnHeader } from "./data-table-column-header";
@@ -54,7 +54,7 @@ export const columns: ColumnDef<Note>[] = [
     },
   },
   {
-    accessorKey: "group",
+    accessorKey: "groupName",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Group" />
     ),

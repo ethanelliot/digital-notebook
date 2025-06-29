@@ -1,4 +1,4 @@
-import type { statusType } from "@/types/Note";
+import type { statusType } from "@/types/note";
 import { CircleCheck, Clock, RefreshCcw } from "lucide-react";
 
 import type { LucideIcon } from "lucide-react";

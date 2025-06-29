@@ -3,7 +3,13 @@
 import { db } from "@/firebase";
 import { NotFoundError, ServerError } from "@/lib/errors";
 import type { NotebookData } from "@/types/notebook";
-import { doc, getDoc, updateDoc, Timestamp } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  Timestamp,
+  DocumentReference,
+} from "firebase/firestore";
 import { useCallback, useEffect, useState } from "react";
 
 interface UseNotebookResult {
@@ -13,17 +19,23 @@ interface UseNotebookResult {
   saveNotebook: (newData: Partial<NotebookData>) => Promise<void>;
 }
 
-export function useNotebook(id: string | undefined): UseNotebookResult {
+export function useNotebook(
+  groupId: string,
+  notebookId: string
+): UseNotebookResult {
+  const [notebookRef, setNotebookRef] = useState<DocumentReference | null>(
+    null
+  );
   const [notebook, setNotebook] = useState<NotebookData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    if (!id) {
+    if (!notebookId || !groupId) {
       setNotebook(null);
       setLoading(false);
       setError(null);
-      console.log("No notebook ID provided. Ready for new notebook creation.");
+      console.log("No notebook or Group ID provided.");
       return;
     }
 
@@ -32,16 +44,25 @@ export function useNotebook(id: string | undefined): UseNotebookResult {
 
     const fetchNotebookData = async () => {
       try {
-        const notebookDocRef = doc(db, "notebooks", id);
-        const docSnap = await getDoc(notebookDocRef);
+        console.log(groupId, notebookId);
+        const notebookDocRef = doc(
+          db,
+          "groups",
+          groupId,
+          "notebooks",
+          notebookId
+        );
 
-        if (docSnap.exists()) {
-          setNotebook(docSnap.data() as NotebookData);
-          console.log("Notebook data loaded:", docSnap.data());
-        } else {
-          setError(new NotFoundError("Notebook not found"));
-          setNotebook(null);
+        const notebookSnap = await getDoc(notebookDocRef);
+
+        if (!notebookSnap.exists()) {
+          throw new NotFoundError("Notebook not found.");
         }
+
+        setNotebookRef(notebookDocRef);
+        setNotebook(notebookSnap.data() as NotebookData);
+
+        console.log("Notebook data loaded:", notebookSnap.data());
       } catch (error) {
         console.error("Error fetching notebook:", error);
         setError(error as ServerError);
@@ -52,12 +73,12 @@ export function useNotebook(id: string | undefined): UseNotebookResult {
     };
 
     fetchNotebookData();
-  }, [id]);
+  }, [groupId, notebookId]);
 
   const saveNotebook = useCallback(
     async (newData: Partial<NotebookData>) => {
-      if (!id) {
-        console.error("Cannot save: No notebook ID provided");
+      if (!notebookId || !groupId) {
+        console.error("Cannot save: No notebook or group ID provided");
         setError(new Error("Cannot save: No notebook ID provided."));
         return;
       }
@@ -65,8 +86,6 @@ export function useNotebook(id: string | undefined): UseNotebookResult {
       setError(null);
 
       try {
-        const notebookDocRef = doc(db, "notebooks", id);
-
         setNotebook(
           (prev) =>
             ({
@@ -76,7 +95,11 @@ export function useNotebook(id: string | undefined): UseNotebookResult {
             } as NotebookData)
         );
 
-        await updateDoc(notebookDocRef, {
+        if (!notebookRef) {
+          throw new Error("Cannot save: Notebook reference is not set.");
+        }
+
+        await updateDoc(notebookRef, {
           ...newData,
         });
 
@@ -86,7 +109,7 @@ export function useNotebook(id: string | undefined): UseNotebookResult {
         setError(error as Error);
       }
     },
-    [id]
+    [groupId, notebookId, notebookRef]
   );
 
   return { notebook, loading, error, saveNotebook };

@@ -7,5 +7,6 @@ export type Note = {
   content: string;
   status: statusType;
   dueDate: Timestamp;
-  group: string;
+  groupName: string;
+  groupId: string;
 };

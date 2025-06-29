@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { NoteForm } from "../forms/note-form";
-import type { Note } from "@/types/Note";
+import type { Note } from "@/types/note";
 import { useDashboardContext } from "@/contexts/dashboard-context";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
@@ -43,7 +43,7 @@ export const NoteFormDialog: React.FC<NoteFormDialogProps> = ({
           initialData={note}
           onSubmit={(data) => {
             if (note) {
-              updateNote({ newData: data, id: note.id });
+              updateNote({ note, newData: data });
             } else {
               addNote(data);
             }
