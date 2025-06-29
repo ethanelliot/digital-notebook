@@ -36,6 +36,8 @@ export function DataTableToolbar<TData>({
               return (
                 <DataTableTextFilter
                   table={table}
+                  column={column.id}
+                  placeholder={columnMeta?.placeholder}
                   className={"sm:w-64 w-full"}
                 />
               );
@@ -44,7 +46,7 @@ export function DataTableToolbar<TData>({
               return (
                 <DataTableSelectFilter
                   column={column}
-                  title="Status"
+                  title={columnMeta?.label}
                   possibleValues={columnMeta?.options}
                 />
               );
@@ -53,7 +55,7 @@ export function DataTableToolbar<TData>({
               return (
                 <DataTableSelectFilter
                   column={column}
-                  title="Status"
+                  title={columnMeta?.label}
                   possibleValues={columnMeta?.options}
                   multiple={true}
                 />

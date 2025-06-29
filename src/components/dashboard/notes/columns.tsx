@@ -3,9 +3,9 @@ import "@/types/table";
 import type { Note, statusType } from "@/types/note";
 import type { Timestamp } from "firebase/firestore";
 import { Badge } from "@/components/ui/badge";
-import { DataTableColumnHeader } from "../../ui/data-table/data-table-column-header";
-import DataTableRowActions from "../../ui/data-table/data-table-row-actions";
+import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
 import { statuses } from "@/lib/constants";
+import NotesTableRowActions from "./notes-table-row-actions";
 
 export const columns: ColumnDef<Note>[] = [
   {
@@ -86,7 +86,7 @@ export const columns: ColumnDef<Note>[] = [
       variant: "multiSelect",
     },
     enableColumnFilter: true,
-    size: 20,
+    size: 10,
   },
   {
     id: "actions",
@@ -95,8 +95,10 @@ export const columns: ColumnDef<Note>[] = [
     cell: ({ row }) => {
       const note = row.original;
 
-      return <DataTableRowActions note={note} />;
+      return <NotesTableRowActions note={note} />;
     },
-    size: 10,
+    meta: {
+      headerClassName: "w-5",
+    },
   },
 ];

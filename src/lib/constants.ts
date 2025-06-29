@@ -1,5 +1,5 @@
 import type { statusType } from "@/types/note";
-import { CircleCheck, Clock, RefreshCcw } from "lucide-react";
+import { CircleCheck, Clock, Eye, EyeOff, RefreshCcw } from "lucide-react";
 
 import type { LucideIcon } from "lucide-react";
 
@@ -24,5 +24,23 @@ export const statuses: StatusOption[] = [
     value: "Completed",
     label: "Completed",
     icon: CircleCheck,
-  }
+  },
+];
+export type VisibilityOption = {
+  value: boolean;
+  label: string;
+  icon: LucideIcon;
+};
+
+export const Visibility: VisibilityOption[] = [
+  {
+    value: false,
+    label: "Visible",
+    icon: Eye,
+  },
+  {
+    value: true,
+    label: "Hidden",
+    icon: EyeOff ,
+  },
 ];

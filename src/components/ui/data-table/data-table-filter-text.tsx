@@ -3,20 +3,24 @@ import { type Table } from "@tanstack/react-table";
 
 interface DataTableTextFilterProps<TData> {
   table: Table<TData>;
+  column: string;
   className?: string;
+  placeholder?: string;
 }
 
 export function DataTableTextFilter<TData>({
   table,
+  column,
   className,
+  placeholder,
 }: DataTableTextFilterProps<TData>) {
   return (
     <Input
-      placeholder="Filter Notes"
+      placeholder={placeholder}
       className={className}
-      value={(table.getColumn("content")?.getFilterValue() as string) ?? ""}
+      value={(table.getColumn(column)?.getFilterValue() as string) ?? ""}
       onChange={(event) =>
-        table.getColumn("content")?.setFilterValue(event.target.value)
+        table.getColumn(column)?.setFilterValue(event.target.value)
       }
     ></Input>
   );

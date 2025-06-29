@@ -10,6 +10,7 @@ import {
   getDoc,
   onSnapshot,
   query,
+  updateDoc,
   writeBatch,
 } from "firebase/firestore";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -19,10 +20,15 @@ type UpdateNoteInput = {
   note: Note;
   newData: Partial<Omit<Note, "id" | "createdAt" | "groupName">>;
 };
-
 type deleteNoteInput = {
   groupId: string;
   noteId: string;
+};
+
+type AddGroupInput = Omit<Group, "id" | "CreatedAt">;
+type UpdateGroupInput = {
+  group: Group;
+  newData: Partial<Omit<Group, "id" | "createdAt">>;
 };
 
 export interface UseDashboardDatasResult {
@@ -33,6 +39,8 @@ export interface UseDashboardDatasResult {
   addNote: (note: AddNoteInput) => Promise<void>;
   updateNote: (note: UpdateNoteInput) => Promise<void>;
   deleteNote: (note: deleteNoteInput) => Promise<void>;
+  addGroup: (group: AddGroupInput) => Promise<void>;
+  updateGroup: (group: UpdateGroupInput) => Promise<void>;
 }
 
 export function useDashboardData(): UseDashboardDatasResult {
@@ -79,6 +87,7 @@ export function useDashboardData(): UseDashboardDatasResult {
       unsubscribe()
     );
     notesUnsubscribers.current = [];
+    setNotes([]);
 
     const visibleGroups = groups.filter((group) => !group.isHidden);
 
@@ -191,5 +200,46 @@ export function useDashboardData(): UseDashboardDatasResult {
     [groupsRef]
   );
 
-  return { groups, notes, loading, error, addNote, updateNote, deleteNote };
+  const addGroup = useCallback(
+    async (data: AddGroupInput) => {
+      try {
+        await addDoc(groupsRef, {
+          ...data,
+        });
+      } catch (error) {
+        setError(error as ServerError);
+        console.log(error);
+      }
+    },
+    [groupsRef]
+  );
+
+  const updateGroup = useCallback(
+    async ({ group, newData }: UpdateGroupInput) => {
+      try {
+        if (Object.keys(newData).length > 0) {
+          const groupRef = doc(groupsRef, group.id);
+          await updateDoc(groupRef, {
+            ...newData,
+            updatedAt: new Date(),
+          });
+        }
+      } catch (error) {
+        setError(error as ServerError);
+      }
+    },
+    [groupsRef]
+  );
+
+  return {
+    groups,
+    notes,
+    loading,
+    error,
+    addNote,
+    updateNote,
+    deleteNote,
+    addGroup,
+    updateGroup,
+  };
 }

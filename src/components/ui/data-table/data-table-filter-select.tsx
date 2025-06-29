@@ -100,8 +100,8 @@ export function DataTableSelectFilter<TData, TValue>({
                 const isSelected = selectedValues.has(option.value);
                 return (
                   <CommandItem
-                    key={String(option.value)}
-                    value={String(option.value)}
+                    key={option.value}
+                    value={option.value}
                     onSelect={() => onItemSelect(option.value, isSelected)}
                   >
                     <div className="flex items-center space-x-2">

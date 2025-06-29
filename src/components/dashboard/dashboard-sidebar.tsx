@@ -25,6 +25,8 @@ import { SidebarItemGroup } from "./sidebar-group";
 import { useDashboardContext } from "@/contexts/dashboard-context";
 import { useEffect, useState } from "react";
 import { Skeleton } from "../ui/skeleton";
+import { Link } from "react-router-dom";
+import { Button } from "../ui/button";
 
 const data = {
   navHead: {
@@ -112,8 +114,12 @@ export function DashboardSidebar() {
 
         <SidebarGroup className="flex-1">
           <SidebarGroupLabel>Groups</SidebarGroupLabel>
-          <SidebarGroupAction title="Edit Group">
-            <Pencil />
+          <SidebarGroupAction title="Edit Group" asChild>
+            <Button variant="ghost" asChild className="p-0 -translate-y-2">
+              <Link to="groups">
+                <Pencil size={16} />
+              </Link>
+            </Button>
           </SidebarGroupAction>
           {loading ? (
             <Skeleton className=" w-full h-full" />
