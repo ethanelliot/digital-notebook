@@ -27,11 +27,13 @@ import { DataTableToolbar } from "./data-table-toolbar";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  onAdd?: () => void;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  onAdd,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -56,7 +58,7 @@ export function DataTable<TData, TValue>({
   });
   return (
     <div>
-      <DataTableToolbar table={table} />
+      <DataTableToolbar table={table} onAdd={onAdd} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

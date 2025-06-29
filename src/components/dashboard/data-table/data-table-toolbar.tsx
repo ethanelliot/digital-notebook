@@ -1,7 +1,6 @@
 import { type Table } from "@tanstack/react-table";
 import { DataTableTextFilter } from "./data-table-filter-text";
 import { DataTableSelectFilter } from "./data-table-filter-select";
-import { statuses } from "@/lib/constants";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -9,42 +8,61 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Settings2, Plus } from "lucide-react";
-import { NoteFormDialog } from "../dialog/note-form-dialog";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useMemo } from "react";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
+  onAdd?: () => void;
 }
 
 export function DataTableToolbar<TData>({
   table,
+  onAdd,
 }: DataTableToolbarProps<TData>) {
-  const [openNewNote, setOpenNewNote] = useState(false);
-
-  const statusColumn = table.getColumn("status");
-  const groupColumn = table.getColumn("groupName");
+  const columns = useMemo(
+    () => table.getAllColumns().filter((column) => column.getCanFilter()),
+    [table]
+  );
 
   return (
     <div className="flex justfiy justify-between pb-2 gap-2">
       <div className="w-full flex gap-2 flex-wrap sm:flex-nowrap">
-        <DataTableTextFilter table={table} className={"sm:w-64 w-full"} />
-        <div className="w-full flex gap-2 gap-y-2">
-          {statusColumn && (
-            <DataTableSelectFilter
-              column={statusColumn}
-              title="Status"
-              possibleValues={statuses.map((value) => value.value)}
-            />
-          )}
-          {groupColumn && (
-            <DataTableSelectFilter
-              column={groupColumn}
-              title="Group"
-              multiple={true}
-            />
-          )}
-        </div>
+        {columns.map((column) => {
+          const columnMeta = column.columnDef.meta;
+
+          switch (columnMeta?.variant) {
+            case "text":
+              return (
+                <DataTableTextFilter
+                  table={table}
+                  className={"sm:w-64 w-full"}
+                />
+              );
+              break;
+            case "select":
+              return (
+                <DataTableSelectFilter
+                  column={column}
+                  title="Status"
+                  possibleValues={columnMeta?.options}
+                />
+              );
+
+            case "multiSelect":
+              return (
+                <DataTableSelectFilter
+                  column={column}
+                  title="Status"
+                  possibleValues={columnMeta?.options}
+                  multiple={true}
+                />
+              );
+
+            default:
+              break;
+          }
+        })}
       </div>
 
       <div className="flex gap-2 gap-y-2 flex-col sm:flex-row">
@@ -74,13 +92,12 @@ export function DataTableToolbar<TData>({
               })}
           </DropdownMenuContent>
         </DropdownMenu>
-
-        <Button onClick={() => setOpenNewNote(true)}>
-          <Plus />
-          <span className="sm:block hidden">New</span>
-        </Button>
-
-        <NoteFormDialog open={openNewNote} onOpenChange={setOpenNewNote} />
+        {onAdd && (
+          <Button onClick={onAdd}>
+            <Plus />
+            <span className="sm:block hidden">New</span>
+          </Button>
+        )}
       </div>
     </div>
   );

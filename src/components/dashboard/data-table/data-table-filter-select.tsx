@@ -19,12 +19,13 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import type { FilterOption } from "@/types/table";
 
 interface DataTableSelectFilterProps<TData, TValue> {
   column: Column<TData, TValue>;
   title: string;
   multiple?: boolean;
-  possibleValues?: string[];
+  possibleValues?: FilterOption[];
 }
 
 export function DataTableSelectFilter<TData, TValue>({
@@ -38,7 +39,10 @@ export function DataTableSelectFilter<TData, TValue>({
 
   const options = possibleValues
     ? possibleValues
-    : Array.from(column.getFacetedUniqueValues().keys());
+    : Array.from(column.getFacetedUniqueValues().keys()).map((key) => ({
+        value: key,
+        label: String(key),
+      }));
 
   const selectedValues = useMemo(
     () => new Set(Array.isArray(columnFilterValue) ? columnFilterValue : []),
@@ -93,12 +97,12 @@ export function DataTableSelectFilter<TData, TValue>({
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => {
-                const isSelected = selectedValues.has(option);
+                const isSelected = selectedValues.has(option.value);
                 return (
                   <CommandItem
-                    key={String(option)}
-                    value={String(option)}
-                    onSelect={() => onItemSelect(option, isSelected)}
+                    key={String(option.value)}
+                    value={String(option.value)}
+                    onSelect={() => onItemSelect(option.value, isSelected)}
                   >
                     <div className="flex items-center space-x-2">
                       <div
@@ -110,7 +114,7 @@ export function DataTableSelectFilter<TData, TValue>({
                         <Check />
                       </div>
 
-                      <span>{String(option)}</span>
+                      <span>{String(option.label)}</span>
                     </div>
                   </CommandItem>
                 );

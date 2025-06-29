@@ -1,9 +1,10 @@
 import type { ColumnDef } from "@tanstack/react-table";
+import "@/types/table";
 import type { Note, statusType } from "@/types/note";
 import type { Timestamp } from "firebase/firestore";
 import { Badge } from "@/components/ui/badge";
-import { DataTableColumnHeader } from "./data-table-column-header";
-import DataTableRowActions from "./data-table-row-actions";
+import { DataTableColumnHeader } from "../data-table/data-table-column-header";
+import DataTableRowActions from "../data-table/data-table-row-actions";
 import { statuses } from "@/lib/constants";
 
 export const columns: ColumnDef<Note>[] = [
@@ -11,6 +12,12 @@ export const columns: ColumnDef<Note>[] = [
     accessorKey: "content",
     header: "Content",
     enableHiding: false,
+    meta: {
+      label: "Content",
+      placeholder: "Filter Notes...",
+      variant: "text",
+    },
+    enableColumnFilter: true,
   },
   {
     accessorKey: "status",
@@ -30,6 +37,16 @@ export const columns: ColumnDef<Note>[] = [
         </Badge>
       );
     },
+
+    meta: {
+      label: "Status",
+      variant: "select",
+      options: statuses.map((status) => ({
+        label: status.label,
+        value: status.value,
+      })),
+    },
+    enableColumnFilter: true,
   },
 
   {
@@ -62,6 +79,11 @@ export const columns: ColumnDef<Note>[] = [
       // value is an array of selected options
       return value.includes(row.getValue(id));
     },
+    meta: {
+      label: "Group",
+      variant: "multiSelect",
+    },
+    enableColumnFilter: true,
   },
   {
     id: "actions",
