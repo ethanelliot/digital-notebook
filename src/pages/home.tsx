@@ -1,10 +1,93 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import NotesTable from "@/components/dashboard/notes/notes-table";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import { useDashboardContext } from "@/contexts/dashboard-context";
+import type { Note } from "@/types/note";
+import { Badge } from "@/components/ui/badge";
+import { statuses } from "@/lib/constants";
+import { getRelativeDate } from "@/lib/format-time";
 
 const Home: React.FC = () => {
+  const [upcomingNotes, setUpcomingNotes] = useState<Note[]>([]);
+  const { notes } = useDashboardContext();
+
+  useEffect(() => {
+    setUpcomingNotes(() => {
+      // Example: filter notes for upcoming ones, or just copy all notes
+      console.log(
+        notes.filter((note) => note.status == "Not-started").slice(0, 5)
+      );
+      return notes
+        .filter(
+          (note) =>
+            note.status === "Not-started" || note.status === "In-progress"
+        )
+        .sort(
+          (a, b) => a.dueDate.toDate().getTime() - b.dueDate.toDate().getTime()
+        )
+        .slice(0, 5);
+    });
+  }, [notes]);
+
   return (
-    <div className="container mx-auto ">
-      <p className="text-3xl font-bold mb-4">Home</p>
+    <div className="container flex flex-col mx-auto gap-4 ">
+      <p className="text-3xl font-bold">Home</p>
+      <div className="flex gap-4 w-full">
+        <Card className="w-full min-h-100">
+          <CardHeader>
+            <CardTitle>Notes</CardTitle>
+            <CardDescription>
+              Track and manage your upcoming notes.
+            </CardDescription>
+            <CardAction>
+              <Button>
+                <Plus /> New
+              </Button>
+            </CardAction>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-2 overflow-hidden">
+            {upcomingNotes.map((note) => {
+              const status = statuses.find(
+                (status) => status.value === note.status
+              );
+              return (
+                <div className="flex flex-col items-start gap-2 space-x-4 rounded-md border p-4">
+                  <p className="font-semibold">{note.content}</p>
+                  <div>
+                    <Badge variant="outline">
+                      {status?.icon && <status.icon />}
+                      <span>{status?.label}</span>
+                    </Badge>
+                    <span className="ml-2 text-sm text-muted-foreground">
+                      Due {getRelativeDate(note.dueDate.toDate())}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </CardContent>
+        </Card>
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle>Notebooks</CardTitle>
+            <CardDescription>
+              Browse your recently used notebooks.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p>Card Content</p>
+          </CardContent>
+        </Card>
+      </div>
       <NotesTable />
     </div>
   );

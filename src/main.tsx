@@ -9,6 +9,7 @@ import { ThemeProvider } from "./components/theme-provider.js";
 import DashboardLayout from "./components/dashboard/dashboard-layout.js";
 import Home from "./pages/home.js";
 import GroupsPage from "./pages/groups-page.js";
+import Notes from "./pages/notes.js";
 
 const router = createBrowserRouter([
   {
@@ -21,7 +22,7 @@ const router = createBrowserRouter([
       },
       {
         path: "notes",
-        element: <Home />,
+        element: <Notes />,
       },
       {
         path: "groups",
