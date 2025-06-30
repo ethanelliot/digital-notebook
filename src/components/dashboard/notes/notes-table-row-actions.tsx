@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
-import { useDashboardContext } from "@/contexts/dashboard-context";
+import { useWorkspaceContext } from "@/contexts/workspace-context";
 import { Button } from "@/components/ui/button";
 import type { Note } from "@/types/note";
 import { NoteFormDialog } from "../dialog/note-form-dialog";
@@ -27,7 +27,7 @@ const NotesTableRowActions: React.FC<NotesTableRowActionsProps> = ({
   const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
   const [isNoteDialogOpen, setIsNoteDialogOpen] = useState(false);
 
-  const { updateNote, deleteNote } = useDashboardContext();
+  const { updateNote, deleteNote } = useWorkspaceContext();
 
   return (
     <>
@@ -93,7 +93,7 @@ const NotesTableRowActions: React.FC<NotesTableRowActionsProps> = ({
       {/* alert dialog for deletion confirmation */}
       <ConfirmDeleteDialog
         onConfirm={() => {
-          deleteNote({ noteId: note.id, groupId: note.groupId });
+          deleteNote({ noteId: note.id });
         }}
         open={isDeleteAlertOpen}
         onOpenChange={setIsDeleteAlertOpen}

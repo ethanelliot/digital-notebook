@@ -65,7 +65,6 @@ export const columns: ColumnDef<Note>[] = [
     sortingFn: (rowA, rowB) => {
       const dateA: Timestamp = rowA.getValue("dueDate");
       const dateB: Timestamp = rowB.getValue("dueDate");
-      console.log("sorting");
 
       // Compare the timestamps' toMillis() value for accurate sorting
       return dateA.toMillis() - dateB.toMillis();

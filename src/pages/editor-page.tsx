@@ -6,15 +6,11 @@ import NotFoundPage from "./not-found";
 import ErrorPage from "./error";
 
 function EditorPage() {
-  const { groupId, notebookId } = useParams<{
-    groupId: string;
+  const { notebookId } = useParams<{
     notebookId: string;
   }>();
 
-  const { notebook, error, saveNotebook } = useNotebook(
-    groupId || "",
-    notebookId || ""
-  );
+  const { notebook, error, saveNotebook } = useNotebook(notebookId || "");
 
   if (error) {
     if (error instanceof NotFoundError) {

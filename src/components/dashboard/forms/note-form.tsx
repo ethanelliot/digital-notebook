@@ -35,16 +35,21 @@ import { formatTimeFromTimestamp } from "@/lib/format-time";
 import { Timestamp } from "firebase/firestore";
 import React from "react";
 import { statuses } from "@/lib/constants";
-import { useDashboardContext } from "@/contexts/dashboard-context";
+import { useWorkspaceContext } from "@/contexts/workspace-context";
 
 interface NoteFormProps {
-  onSubmit: (data: Omit<Note, "id" | "createdAt" | "groupName">) => void;
+  onSubmit: (
+    data: Omit<
+      Note,
+      "id" | "createdAt" | "updatedAt" | "groupName" | "groupName" | "groupRef"
+    >
+  ) => void;
   initialData?: Omit<Note, "id"> | null;
 }
 
 export const NoteForm = React.forwardRef<HTMLFormElement, NoteFormProps>(
   ({ onSubmit, initialData }, ref) => {
-    const { groups } = useDashboardContext();
+    const { groups } = useWorkspaceContext();
 
     const [formData, setFormData] = useState({
       content: initialData?.content || "",

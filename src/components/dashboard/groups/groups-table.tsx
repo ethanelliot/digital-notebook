@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { columns } from "@/components/dashboard/groups/columns";
 
-import { useDashboardContext } from "@/contexts/dashboard-context";
+import { useWorkspaceContext } from "@/contexts/workspace-context";
 import { DataTableSkeleton } from "@/components/ui/data-table/data-table-skeleton";
 import GroupFormDialog from "../dialog/group-form-dialog";
 
 const GroupsTable: React.FC = () => {
-  const { loading, groups } = useDashboardContext();
+  const { loading, groups } = useWorkspaceContext();
   const [openNewGroup, setOpenNewGroup] = useState(false);
 
   if (groups.length === 0 && loading) {

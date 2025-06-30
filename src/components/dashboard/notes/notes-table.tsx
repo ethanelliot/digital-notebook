@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { DataTable } from "@/components/ui/data-table/data-table";
 import { columns } from "@/components/dashboard/notes/columns";
 
-import { useDashboardContext } from "@/contexts/dashboard-context";
+import { useWorkspaceContext } from "@/contexts/workspace-context";
 import { DataTableSkeleton } from "@/components/ui/data-table/data-table-skeleton";
 import { NoteFormDialog } from "../dialog/note-form-dialog";
 
 const NotesTable: React.FC = () => {
-  const { loading, notes } = useDashboardContext();
+  const { loading, notes } = useWorkspaceContext();
   const [openNewNote, setOpenNewNote] = useState(false);
 
   if (notes.length === 0 && loading) {

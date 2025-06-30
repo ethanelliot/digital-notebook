@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { ConfirmDeleteDialog } from "../dialog/confirm-delete-dialog";
 import type { Group } from "@/types/group";
 import GroupFormDialog from "../dialog/group-form-dialog";
+import { useWorkspaceContext } from "@/contexts/workspace-context";
 
 interface GroupsTableRowActionsProps {
   group: Group;
@@ -21,6 +22,7 @@ const GroupsTableRowActions: React.FC<GroupsTableRowActionsProps> = ({
 }) => {
   const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
   const [isGroupDialogOpen, setIsGroupDialogOpen] = useState(false);
+  const { deleteGroup } = useWorkspaceContext();
 
   return (
     <>
@@ -67,7 +69,7 @@ const GroupsTableRowActions: React.FC<GroupsTableRowActionsProps> = ({
       {/* alert dialog for deletion confirmation */}
       <ConfirmDeleteDialog
         onConfirm={() => {
-          //   deleteNote({ noteId: note.id, groupId: note.groupId });
+          deleteGroup({ groupId: group.id });
         }}
         open={isDeleteAlertOpen}
         onOpenChange={setIsDeleteAlertOpen}

@@ -9,7 +9,7 @@ import EditorToolbar from "./editor-toolbar";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskItemNodeView from "./task-item-node-view";
-import type { NotebookData } from "@/types/notebook";
+import type { Notebook } from "@/types/notebook";
 import { useEffect, useRef, useState } from "react";
 import { Skeleton } from "../ui/skeleton";
 
@@ -25,14 +25,18 @@ const extensions = [
 ];
 
 interface EditorProps {
-  notebook: NotebookData;
-  saveNotebook: (newData: Record<string, unknown>) => void;
+  notebook: Notebook;
+  saveNotebook: (
+    newData: Partial<
+      Omit<Notebook, "id" | "createdAt" | "UpdatedAt" | "groupName" | "groupId">
+    >
+  ) => void;
 }
 
 export const Editor = ({ notebook, saveNotebook }: EditorProps) => {
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
   const editor = useEditor({ extensions, content: notebook.content });
-  const [title, setTitle] = useState(notebook.title || "");
+  const [name, setName] = useState(notebook.name || "");
 
   editor?.on("update", ({ editor }) => {
     if (debounceTimeout.current) {
@@ -46,21 +50,21 @@ export const Editor = ({ notebook, saveNotebook }: EditorProps) => {
   });
 
   useEffect(() => {
-    if (title) {
+    if (name) {
       if (debounceTimeout.current) {
         clearTimeout(debounceTimeout.current);
       }
       debounceTimeout.current = setTimeout(() => {
-        saveNotebook({ title });
+        saveNotebook({ name });
       }, 1000);
     }
-  }, [title]);
+  }, [name, saveNotebook]);
 
   return (
     <div className="flex flex-col h-screen">
       <EditorContext.Provider value={{ editor }}>
         <div className="sticky top-0 z-50 bg-white">
-          <EditorToolbar title={title} setTitle={setTitle} />
+          <EditorToolbar name={name} setName={setName} />
         </div>
 
         <div className="lg:w-1/3 md:w-2/3 md:mx-auto flex-grow sm:w-auto mx-10 ">

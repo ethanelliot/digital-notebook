@@ -41,7 +41,6 @@ export const columns: ColumnDef<Group>[] = [
     filterFn: (row, columnId, filterValue) => {
       // in the data-table-filter-select component we set the filter to a list even if there is only one element
       if (!filterValue || filterValue.length === 0) return true;
-      console.log(filterValue, row.getValue(columnId));
       return filterValue[0] === row.getValue(columnId);
     },
     cell: ({ row }) => {

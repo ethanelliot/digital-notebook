@@ -1,5 +1,9 @@
+import type { Timestamp } from "firebase/firestore";
+
 export type Group = {
   id: string;
-  name:string;
-  isHidden:boolean;
+  name: string;
+  isHidden: boolean;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
 };

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useDashboardContext } from "@/contexts/dashboard-context";
+import { useWorkspaceContext } from "@/contexts/workspace-context";
 import type { Group } from "@/types/group";
 import { Eye, EyeOff } from "lucide-react";
 import React, { useCallback } from "react";
@@ -11,7 +11,7 @@ interface GroupsTableVisabilityProps {
 const GroupsTableVisability: React.FC<GroupsTableVisabilityProps> = ({
   group,
 }) => {
-  const { updateGroup } = useDashboardContext();
+  const { updateGroup } = useWorkspaceContext();
   const toggleVisability = useCallback(() => {
     updateGroup({ group: group, newData: { isHidden: !group.isHidden } });
   }, [group, updateGroup]);

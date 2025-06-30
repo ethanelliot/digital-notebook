@@ -1,6 +1,7 @@
 import { useCurrentEditor } from "@tiptap/react";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
+import { useNavigate } from "react-router-dom";
 import {
   Bold,
   Italic,
@@ -29,12 +30,13 @@ import {
 import { Input } from "../ui/input";
 
 interface EditorToolbarProps {
-  title: string;
-  setTitle: (title: string) => void;
+  name: string;
+  setName: (name: string) => void;
 }
 
-const EditorToolbar = ({ title, setTitle }: EditorToolbarProps) => {
+const EditorToolbar = ({ name, setName }: EditorToolbarProps) => {
   const { editor } = useCurrentEditor();
+  const navigate = useNavigate();
 
   if (!editor) {
     return null;
@@ -43,15 +45,15 @@ const EditorToolbar = ({ title, setTitle }: EditorToolbarProps) => {
   return (
     <div className="w-full relative flex flex-wrap items-center justify-between gap-2 p-2 border-border bg-background border-b py-4 md:py-6">
       <div className="flex items-center gap-2 flex-shrink-0">
-        <Button variant={"outline"} size="icon">
+        <Button variant="outline" size="icon" onClick={() => navigate(-1)}>
           <ArrowLeft />
         </Button>
         <Input
           type="text"
           placeholder="Notebook Name"
           className="w-64"
-          onChange={(e) => setTitle(e.target.value)}
-          value={title}
+          onChange={(e) => setName(e.target.value)}
+          value={name}
         />
       </div>
       <div className="flex-grow flex justify-center w-full order-last overflow-x-auto md:overflow-x-clip gap-2 md:w-auto  md:justify-start  md:static  md:order-none lg:order-none lg:absolute lg:left-1/2 lg:-translate-x-1/2 lg:w-auto ">

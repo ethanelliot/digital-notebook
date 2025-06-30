@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { SidebarItemGroup } from "./sidebar-group";
-import { useDashboardContext } from "@/contexts/dashboard-context";
+import { useWorkspaceContext } from "@/contexts/workspace-context";
 import { useEffect, useState } from "react";
 import { Skeleton } from "../ui/skeleton";
 import { Link } from "react-router-dom";
@@ -59,7 +59,7 @@ const data = {
 };
 
 export function DashboardSidebar() {
-  const { loading, groups } = useDashboardContext();
+  const { loading, groups } = useWorkspaceContext();
   const [groupsData, setGroupsData] = useState<
     { title: string; url: string; icon: LucideIcon; isActive?: boolean }[]
   >([]);

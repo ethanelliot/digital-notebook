@@ -10,6 +10,7 @@ import DashboardLayout from "./components/dashboard/dashboard-layout.js";
 import Home from "./pages/home.js";
 import GroupsPage from "./pages/groups-page.js";
 import Notes from "./pages/notes.js";
+import { WorkspaceProvider } from "./contexts/workspace-context.js";
 
 const router = createBrowserRouter([
   {
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/:groupId/notebook/:notebookId", // Root path
+    path: "/notebook/:notebookId", // Root path
     element: <EditorPage />,
   },
   {
@@ -46,8 +47,10 @@ if (!rootElement) {
 }
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <WorkspaceProvider>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </WorkspaceProvider>
   </React.StrictMode>
 );

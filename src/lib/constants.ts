@@ -1,7 +1,8 @@
 import type { statusType } from "@/types/note";
 import { CircleCheck, Clock, Eye, EyeOff, RefreshCcw } from "lucide-react";
-
 import type { LucideIcon } from "lucide-react";
+
+export const MAX_VISIBLE_GROUPS = 30;
 
 export type StatusOption = {
   value: statusType;

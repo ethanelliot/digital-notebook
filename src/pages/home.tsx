@@ -9,23 +9,21 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import { useDashboardContext } from "@/contexts/dashboard-context";
+import { BookCopy, Plus } from "lucide-react";
+import { useWorkspaceContext } from "@/contexts/workspace-context";
 import type { Note } from "@/types/note";
 import { Badge } from "@/components/ui/badge";
 import { statuses } from "@/lib/constants";
 import { getRelativeDate } from "@/lib/format-time";
+import { Link } from "react-router-dom";
 
 const Home: React.FC = () => {
   const [upcomingNotes, setUpcomingNotes] = useState<Note[]>([]);
-  const { notes } = useDashboardContext();
+  const { notebooks, notes } = useWorkspaceContext();
 
   useEffect(() => {
     setUpcomingNotes(() => {
       // Example: filter notes for upcoming ones, or just copy all notes
-      console.log(
-        notes.filter((note) => note.status == "Not-started").slice(0, 5)
-      );
       return notes
         .filter(
           (note) =>
@@ -41,7 +39,7 @@ const Home: React.FC = () => {
   return (
     <div className="container flex flex-col mx-auto gap-4 ">
       <p className="text-3xl font-bold">Home</p>
-      <div className="flex gap-4 w-full">
+      <div className="flex gap-4 w-full flex-col sm:flex-row">
         <Card className="w-full min-h-100">
           <CardHeader>
             <CardTitle>Notes</CardTitle>
@@ -84,7 +82,22 @@ const Home: React.FC = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <p>Card Content</p>
+            {notebooks.map((notebook) => {
+              return (
+                <div className="flex flex-col items-start gap-2 space-x-4 rounded-md border p-4">
+                  <Link
+                    to={`/${notebook.groupId}/notebook/${notebook.id}`}
+                    className="font-semibold hover:underline"
+                  >
+                    {notebook.name}
+                  </Link>
+                  <div className="text-sm text-muted-foreground flex items-center gap-2">
+                    <BookCopy size={16} />
+                    {notebook.groupName}
+                  </div>
+                </div>
+              );
+            })}
           </CardContent>
         </Card>
       </div>

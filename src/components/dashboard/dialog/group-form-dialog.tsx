@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { useRef } from "react";
-import { useDashboardContext } from "@/contexts/dashboard-context";
+import { useWorkspaceContext } from "@/contexts/workspace-context";
 import type { Group } from "@/types/group";
 import { Button } from "@/components/ui/button";
 import { GroupForm } from "../forms/group-form";
@@ -22,7 +22,7 @@ const GroupFormDialog = ({
   onOpenChange,
   group,
 }: GroupFormDialogProps) => {
-  const { addGroup, updateGroup } = useDashboardContext();
+  const { addGroup, updateGroup } = useWorkspaceContext();
   const formRef = useRef<HTMLFormElement>(null);
 
   const isEditForm = !!group;
