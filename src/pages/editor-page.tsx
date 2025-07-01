@@ -3,7 +3,7 @@ import { useNotebookContent } from "@/hooks/use-notebook-content";
 import { NotFoundError } from "@/lib/errors";
 import { useParams } from "react-router-dom";
 import NotFoundPage from "./not-found";
-import ErrorPage from "./error";
+import ErrorPage from "./error-page";
 import { useMemo } from "react";
 import { useWorkspaceContext } from "@/contexts/workspace-context";
 

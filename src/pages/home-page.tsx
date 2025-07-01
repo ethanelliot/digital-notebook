@@ -19,7 +19,7 @@ import { Link } from "react-router-dom";
 import NotebookActions from "@/components/dashboard/notebook/notebook-actions";
 import { NoteFormDialog } from "@/components/dashboard/dialog/note-form-dialog";
 
-const Home: React.FC = () => {
+const HomePage: React.FC = () => {
   const [upcomingNotes, setUpcomingNotes] = useState<Note[]>([]);
 
   const [openNewNote, setOpenNewNote] = useState(false);
@@ -119,4 +119,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default HomePage;

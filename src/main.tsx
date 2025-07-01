@@ -5,12 +5,13 @@ import "./index.css";
 
 import NotFoundPage from "./pages/not-found.js";
 import EditorPage from "./pages/editor-page.js";
+import HomePage from "./pages/home-page.js";
+import GroupsPage from "./pages/groups-page.js";
+import NotesPage from "./pages/notes-page.js";
 import { ThemeProvider } from "./components/theme-provider.js";
 import DashboardLayout from "./components/dashboard/dashboard-layout.js";
-import Home from "./pages/home.js";
-import GroupsPage from "./pages/groups-page.js";
-import Notes from "./pages/notes.js";
 import { WorkspaceProvider } from "./contexts/workspace-context.js";
+import CalendarPage from "./pages/calender-page.js";
 
 const router = createBrowserRouter([
   {
@@ -19,11 +20,15 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <Home />,
+        element: <HomePage />,
       },
       {
         path: "notes",
-        element: <Notes />,
+        element: <NotesPage />,
+      },
+      {
+        path: "calendar",
+        element: <CalendarPage />,
       },
       {
         path: "groups",

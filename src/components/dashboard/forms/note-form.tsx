@@ -217,12 +217,7 @@ export const NoteForm = React.forwardRef<HTMLFormElement, NoteFormProps>(
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-[200px] p-0">
-                <Command
-                  value={formData.groupId}
-                  onValueChange={(value) =>
-                    setFormData((prev) => ({ ...prev, groupId: value }))
-                  }
-                >
+                <Command>
                   <CommandInput placeholder="Search Group..." className="h-9" />
                   <CommandList>
                     <CommandEmpty>No Group found.</CommandEmpty>
@@ -231,12 +226,12 @@ export const NoteForm = React.forwardRef<HTMLFormElement, NoteFormProps>(
                         .filter((group) => !group.isHidden)
                         .map((group) => (
                           <CommandItem
-                            key={group.name}
-                            value={group.id}
-                            onSelect={(currentValue) => {
+                            key={group.id}
+                            value={group.name}
+                            onSelect={() => {
                               setFormData((prev) => ({
                                 ...prev,
-                                groupId: currentValue,
+                                groupId: group.id,
                               }));
                               setOpenGroup(false);
                             }}
