@@ -33,7 +33,7 @@ type DeleteNoteInput = {
   noteId: string;
 };
 
-type AddGroupInput = Omit<Group, "id" | "createdAt">;
+type AddGroupInput = Omit<Group, "id" | "createdAt" | "updatedAt">;
 type UpdateGroupInput = {
   group: Group;
   newData: Partial<Omit<Group, "id" | "createdAt">>;
@@ -49,7 +49,7 @@ type AddNotebookInput = Omit<
 type UpdateNotebookInput = {
   notebook: Notebook;
   newData: Partial<
-    Omit<Notebook, "id" | "createdAt" | "UpdatedAt" | "groupName" | "groupRef">
+    Omit<Notebook, "id" | "createdAt" | "updatedAt" | "groupName" | "groupRef">
   >;
 };
 type DeleteNotebookInput = {
@@ -347,6 +347,7 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
           newData;
         const notebookRef = doc(notebooksRef, notebook.id);
 
+        console.log(newGroupId);
         let groupRef;
         if (newGroupId && newGroupId !== notebook.groupId) {
           groupRef = doc(groupsRef, newGroupId);
@@ -374,8 +375,15 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
         return;
       }
       try {
+        const batch = writeBatch(db);
+
         const notebookRef = doc(notebooksRef, notebookId);
-        await deleteDoc(notebookRef);
+        const notebookContentRef = doc(notebookRef, "content", "main");
+
+        batch.delete(notebookContentRef);
+        batch.delete(notebookRef);
+
+        await batch.commit();
       } catch (error) {
         setError(error as ServerError);
       }

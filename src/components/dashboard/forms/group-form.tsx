@@ -13,8 +13,8 @@ import { AlertCircleIcon } from "lucide-react";
 import { forwardRef, useState } from "react";
 
 interface GroupFormProps {
-  onSubmit: (data: Omit<Group, "id">) => void;
-  initialData?: Omit<Group, "id">;
+  onSubmit: (data: Omit<Group, "id" | "createdAt" | "updatedAt">) => void;
+  initialData?: Group;
 }
 
 export const GroupForm = forwardRef<HTMLFormElement, GroupFormProps>(

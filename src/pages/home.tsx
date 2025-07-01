@@ -16,9 +16,14 @@ import { Badge } from "@/components/ui/badge";
 import { statuses } from "@/lib/constants";
 import { getRelativeDate } from "@/lib/format-time";
 import { Link } from "react-router-dom";
+import NotebookActions from "@/components/dashboard/notebook/notebook-actions";
+import { NoteFormDialog } from "@/components/dashboard/dialog/note-form-dialog";
 
 const Home: React.FC = () => {
   const [upcomingNotes, setUpcomingNotes] = useState<Note[]>([]);
+
+  const [openNewNote, setOpenNewNote] = useState(false);
+
   const { notebooks, notes } = useWorkspaceContext();
 
   useEffect(() => {
@@ -47,9 +52,13 @@ const Home: React.FC = () => {
               Track and manage your upcoming notes.
             </CardDescription>
             <CardAction>
-              <Button>
+              <Button onClick={() => setOpenNewNote(true)}>
                 <Plus /> New
               </Button>
+              <NoteFormDialog
+                open={openNewNote}
+                onOpenChange={setOpenNewNote}
+              />
             </CardAction>
           </CardHeader>
           <CardContent className="flex flex-col gap-2 overflow-hidden">
@@ -85,12 +94,16 @@ const Home: React.FC = () => {
             {notebooks.map((notebook) => {
               return (
                 <div className="flex flex-col items-start gap-2 space-x-4 rounded-md border p-4">
-                  <Link
-                    to={`/notebook/${notebook.id}`}
-                    className="font-semibold hover:underline"
-                  >
-                    {notebook.name}
-                  </Link>
+                  <div className="flex w-full justify-between">
+                    <Link
+                      to={`/notebook/${notebook.id}`}
+                      className="font-semibold hover:underline"
+                    >
+                      {notebook.name}
+                    </Link>
+                    <NotebookActions notebook={notebook} />
+                  </div>
+
                   <div className="text-sm text-muted-foreground flex items-center gap-2">
                     <BookCopy size={16} />
                     {notebook.groupName}

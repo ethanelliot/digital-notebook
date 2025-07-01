@@ -41,7 +41,7 @@ interface NoteFormProps {
   onSubmit: (
     data: Omit<
       Note,
-      "id" | "createdAt" | "updatedAt" | "groupName" | "groupName" | "groupRef"
+      "id" | "createdAt" | "updatedAt" | "groupName" | "groupRef"
     >
   ) => void;
   initialData?: Omit<Note, "id"> | null;
