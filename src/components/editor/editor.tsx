@@ -3,13 +3,13 @@ import {
   EditorContext,
   ReactNodeViewRenderer,
   useEditor,
+  type JSONContent,
 } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import EditorToolbar from "./editor-toolbar";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskItemNodeView from "./task-item-node-view";
-import type { Notebook } from "@/types/notebook";
 import { useEffect, useRef, useState } from "react";
 import { Skeleton } from "../ui/skeleton";
 
@@ -25,40 +25,43 @@ const extensions = [
 ];
 
 interface EditorProps {
-  notebook: Notebook;
-  saveNotebook: (
-    newData: Partial<
-      Omit<Notebook, "id" | "createdAt" | "UpdatedAt" | "groupName" | "groupId">
-    >
-  ) => void;
+  notebookName: string;
+  notebookContent: JSONContent;
+  saveNotebookName: (name: string) => void;
+  saveNotebookContent: (content: JSONContent) => Promise<void>;
 }
 
-export const Editor = ({ notebook, saveNotebook }: EditorProps) => {
+export const Editor = ({
+  notebookName,
+  notebookContent,
+  saveNotebookName,
+  saveNotebookContent,
+}: EditorProps) => {
   const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
-  const editor = useEditor({ extensions, content: notebook.content });
-  const [name, setName] = useState(notebook.name || "");
+  const editor = useEditor({ extensions, content: notebookContent });
+  const [name, setName] = useState(notebookName || "");
 
   editor?.on("update", ({ editor }) => {
     if (debounceTimeout.current) {
       clearTimeout(debounceTimeout.current);
     }
     debounceTimeout.current = setTimeout(() => {
-      saveNotebook({
-        content: editor.getJSON(),
-      });
+      saveNotebookContent(editor.getJSON());
     }, 1000);
   });
 
   useEffect(() => {
     if (name) {
+      console.log("update");
       if (debounceTimeout.current) {
         clearTimeout(debounceTimeout.current);
       }
       debounceTimeout.current = setTimeout(() => {
-        saveNotebook({ name });
+        saveNotebookName(name);
       }, 1000);
     }
-  }, [name, saveNotebook]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [name]);
 
   return (
     <div className="flex flex-col h-screen">

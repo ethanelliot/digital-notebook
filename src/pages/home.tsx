@@ -86,7 +86,7 @@ const Home: React.FC = () => {
               return (
                 <div className="flex flex-col items-start gap-2 space-x-4 rounded-md border p-4">
                   <Link
-                    to={`/${notebook.groupId}/notebook/${notebook.id}`}
+                    to={`/notebook/${notebook.id}`}
                     className="font-semibold hover:underline"
                   >
                     {notebook.name}
