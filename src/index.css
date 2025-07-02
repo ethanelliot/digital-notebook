@@ -140,6 +140,17 @@
   }
 }
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
 .tiptap {
   @apply min-h-full border-none outline-none text-[var(--foreground)] bg-[var(--background)] font-sans text-base leading-normal;
 }
