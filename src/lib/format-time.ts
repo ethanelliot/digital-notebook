@@ -1,6 +1,8 @@
+import { Timestamp } from "firebase/firestore";
+
 export const formatTimeFromTimestamp = (date: Date | undefined) => {
   if (!date) {
-    return "";
+    return "23:59";
   }
 
   const hours = date.getHours();
@@ -11,6 +13,12 @@ export const formatTimeFromTimestamp = (date: Date | undefined) => {
 
   return `${formattedHours}:${formattedMinutes}`;
 };
+
+export function getEndOfDayTimestamp(date: Date): Timestamp {
+  const endOfDay = new Date(date);
+  endOfDay.setHours(23, 59);
+  return Timestamp.fromDate(endOfDay);
+}
 
 export const getRelativeDate = (date: Date) => {
   const today = new Date();

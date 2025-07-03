@@ -8,13 +8,13 @@ const DashboardLayout: React.FC = () => {
   return (
     <SidebarProvider>
       <DashboardSidebar />
-      <main className="w-full min-h-dvh grid grid-rows-[auto_1fr]">
-        <header className="h-16  w-auto p-4 flex items-center justify-between ">
+      <main className="w-full min-h-dvh grid grid-rows-[auto_1fr] grid-cols-1  max-w-dvw">
+        <header className="h-16 p-4 flex items-center justify-between ">
           <SidebarTrigger />
           <ModeToggle />
         </header>
 
-        <div className=" h-full w-full px-4 ">
+        <div className="w-full h-full px-4 ">
           <Outlet />
         </div>
       </main>

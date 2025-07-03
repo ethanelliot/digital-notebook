@@ -16,7 +16,6 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useWorkspaceContext } from "@/contexts/workspace-context";
-import { statuses } from "@/lib/constants";
 import { getDateRange } from "@/lib/date-helpers";
 import { cn } from "@/lib/utils";
 import type { Note } from "@/types/note";
@@ -42,6 +41,9 @@ import {
   Plus,
 } from "lucide-react";
 import { useMemo, useState } from "react";
+import CalendarNotesList from "./calendar-notes-list";
+import { NoteFormDialog } from "../dialog/note-form-dialog";
+import { getEndOfDayTimestamp } from "@/lib/format-time";
 
 const views = [
   {
@@ -83,6 +85,7 @@ const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(startOfMonth(new Date()));
   const [view, setView] = useState<"month" | "week">("month");
   const [groupsFilter, setGroupsFilter] = useState<Set<string>>(new Set());
+  const [openNoteForm, setOpenNoteForm] = useState(false);
 
   const { startDate, endDate } = useMemo(
     () => getDateRange(view, currentDate),
@@ -99,48 +102,46 @@ const Calendar = () => {
     [notes, startDate, endDate, groupsFilter]
   );
   return (
-    <div className="flex-1 grid grid-rows-[4rem_1fr] mb-6">
-      <div className=" flex justify-between">
-        <div>
-          <div className="flex justify-between items-center mb-4 gap-2">
-            <Button
-              variant={"outline"}
-              onClick={() => {
-                if (view === "month") {
-                  setCurrentDate(subMonths(currentDate, 1));
-                } else {
-                  setCurrentDate(subWeeks(currentDate, 1));
-                }
-              }}
-            >
-              <ChevronLeft />
-            </Button>
-            <p className="text-xl w-40 text-center">
-              {format(currentDate, "MMMM yyyy")}
-            </p>
-            <Button
-              variant={"outline"}
-              onClick={() => {
-                if (view === "month") {
-                  setCurrentDate(addMonths(currentDate, 1));
-                } else {
-                  setCurrentDate(addWeeks(currentDate, 1));
-                }
-              }}
-            >
-              <ChevronRight />
-            </Button>
-          </div>
+    <div className="flex-1 grid grid-rows-[auto_1fr]">
+      <div className="flex flex-wrap justify-between mb-2 gap-2">
+        <div className="flex justify-between items-center gap-2 flex-shrink-0">
+          <Button
+            variant={"outline"}
+            onClick={() => {
+              if (view === "month") {
+                setCurrentDate(subMonths(currentDate, 1));
+              } else {
+                setCurrentDate(subWeeks(currentDate, 1));
+              }
+            }}
+          >
+            <ChevronLeft />
+          </Button>
+          <p className="text-xl w-32 text-center">
+            {format(currentDate, "MMM yyyy")}
+          </p>
+          <Button
+            variant={"outline"}
+            onClick={() => {
+              if (view === "month") {
+                setCurrentDate(addMonths(currentDate, 1));
+              } else {
+                setCurrentDate(addWeeks(currentDate, 1));
+              }
+            }}
+          >
+            <ChevronRight />
+          </Button>
         </div>
-        <div className="flex gap-2 ">
+        <div className="flex flex-grow gap-2 order-last lg:order-none w-full md:w-auto justify-center md:justify-end ">
           <Popover>
             <PopoverTrigger asChild>
               <Button variant={"outline"}>
-                <CirclePlus className="h-4 w-4" />{" "}
+                <CirclePlus className="h-4 w-4" />
                 <span className="ml-2">groups</span>
                 {groupsFilter.size > 0 && (
                   <>
-                    <Separator orientation="vertical" className="mx-2 h-4" />{" "}
+                    <Separator orientation="vertical" className="mx-2 h-4" />
                     <Badge
                       variant="secondary"
                       className="rounded-sm px-1 font-normal"
@@ -216,7 +217,7 @@ const Calendar = () => {
             }}
           >
             <Calendar1 />
-            <span>This {view}</span>
+            <span className="hidden sm:block">This {view}</span>
           </Button>
           <Tabs
             value={view}
@@ -236,14 +237,14 @@ const Calendar = () => {
               })}
             </TabsList>
           </Tabs>
-          <Button>
-            <Plus />
-            <span>Add</span>
-          </Button>
         </div>
+        <Button onClick={() => setOpenNoteForm(true)} className="flex-shrink-0">
+          <Plus />
+          <span className="hidden sm:block">Add</span>
+        </Button>
       </div>
       {view === "month" && (
-        <div className="grid grid-cols-7 gap-2">
+        <div className="flex-1 grid grid-cols-7 sm:gap-2">
           {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
             <div key={day} className="font-bold text-center">
               {day}
@@ -255,39 +256,37 @@ const Calendar = () => {
             return (
               <div
                 key={day.toString()}
-                className={`p-2 aspect-square border rounded-md hover:cursor-pointer $ ${
+                className={` aspect-square border rounded-md  $ ${
                   !isSameMonth(day, currentDate) ? "opacity-30" : ""
                 }`}
               >
-                <p
-                  className={`h-6 w-6 flex items-center justify-center text-sm font-bold mb-2 ${
-                    isToday(day)
-                      ? "bg-primary text-primary-foreground rounded-full"
-                      : ""
-                  }`}
-                >
-                  {format(day, "d")}
-                </p>
-                <div className="h-full overflow-y-auto hide-scrollbar">
-                  {dayNotes.map((note) => {
-                    const status = statuses.find(
-                      (status) => status.value === note.status
-                    );
-                    return (
-                      <div className="p-1 border rounded-sm text-[12px] ">
-                        <p className="font-semibold truncate hover:overflow-visible hover:whitespace-normal ">
-                          {note.content}
-                        </p>
-                        <p className="text-[10px] text-secondary-foreground">
-                          {note.groupName}
-                        </p>
-                        <Badge variant="outline" className="text-[8px] px-1">
-                          {status?.icon && <status.icon size={2} />}
-                          <span>{status?.label}</span>
-                        </Badge>
-                      </div>
-                    );
-                  })}
+                <div className="flex flex-col w-full h-full ">
+                  <div className="flex justify-between w-full p-1">
+                    <p
+                      className={`h-6 w-6 flex items-center justify-center text-sm font-bold ${
+                        isToday(day)
+                          ? "bg-primary text-primary-foreground md:rounded-full rounded-br-md"
+                          : ""
+                      }`}
+                    >
+                      {format(day, "d")}
+                    </p>
+
+                    <Button
+                      variant={"ghost"}
+                      size={"icon"}
+                      className="h-6 w-6 md:flex hidden"
+                      onClick={() => {
+                        setCurrentDate(day);
+                        setOpenNoteForm(true);
+                      }}
+                    >
+                      <Plus />
+                    </Button>
+                  </div>
+                  <div className="flex-1 sm:p-2 overflow-y-auto hide-scrollbar">
+                    <CalendarNotesList notes={dayNotes} />
+                  </div>
                 </div>
               </div>
             );
@@ -306,7 +305,7 @@ const Calendar = () => {
             return (
               <div className="flex flex-col justify-center items-center gap-2">
                 <p
-                  className={`h-6 w-6 flex items-center justify-center text-sm font-bold ${
+                  className={`h-6 w-6 flex items-center justify-center text-sm font-bold  ${
                     isToday(day)
                       ? "bg-primary text-primary-foreground rounded-full"
                       : ""
@@ -314,32 +313,26 @@ const Calendar = () => {
                 >
                   {format(day, "d")}
                 </p>
+
                 <div
                   key={day.toString()}
-                  className={
-                    "p-2 w-full h-full border rounded-md hover:cursor-pointer"
-                  }
+                  className={"p-2 w-full h-full border rounded-md "}
                 >
                   <div className="h-full overflow-y-auto hide-scrollbar">
-                    {dayNotes.map((note) => {
-                      const status = statuses.find(
-                        (status) => status.value === note.status
-                      );
-                      return (
-                        <div className="p-1 border rounded-sm text-[12px] ">
-                          <p className="font-semibold truncate hover:overflow-visible hover:whitespace-normal ">
-                            {note.content}
-                          </p>
-                          <p className="text-[10px] text-secondary-foreground">
-                            {note.groupName}
-                          </p>
-                          <Badge variant="outline" className="text-[8px] px-1">
-                            {status?.icon && <status.icon size={2} />}
-                            <span>{status?.label}</span>
-                          </Badge>
-                        </div>
-                      );
-                    })}
+                    <div className="w-full flex justify-end mb-2">
+                      <Button
+                        variant={"ghost"}
+                        size={"icon"}
+                        className="h-6 w-6 md:flex hidden"
+                        onClick={() => {
+                          setCurrentDate(day);
+                          setOpenNoteForm(true);
+                        }}
+                      >
+                        <Plus />
+                      </Button>
+                    </div>
+                    <CalendarNotesList notes={dayNotes} />
                   </div>
                 </div>
               </div>
@@ -347,6 +340,16 @@ const Calendar = () => {
           })}
         </div>
       )}
+
+      {/* NoteFormDialog */}
+
+      <NoteFormDialog
+        open={openNoteForm}
+        onOpenChange={setOpenNoteForm}
+        defaultValues={{
+          dueDate: getEndOfDayTimestamp(currentDate),
+        }}
+      />
     </div>
   );
 };

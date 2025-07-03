@@ -15,16 +15,20 @@ import { Button } from "@/components/ui/button";
 type NoteFormDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  note?: Note;
+  note?: Note; // pass note if edit form
+  defaultValues?: Partial<Note>; // default values for explicity setting intial values of feilds
 };
 
 export const NoteFormDialog: React.FC<NoteFormDialogProps> = ({
   open,
   onOpenChange,
   note,
+  defaultValues,
 }) => {
   const { addNote, updateNote } = useWorkspaceContext();
   const formRef = useRef<HTMLFormElement>(null);
+
+  const initialData = note || defaultValues;
 
   const isEditForm = !!note;
 
@@ -40,7 +44,7 @@ export const NoteFormDialog: React.FC<NoteFormDialogProps> = ({
         </DialogHeader>
         <NoteForm
           ref={formRef}
-          initialData={note}
+          initialData={initialData}
           onSubmit={(data) => {
             if (note) {
               updateNote({ note, newData: data });

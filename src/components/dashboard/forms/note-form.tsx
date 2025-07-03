@@ -44,7 +44,7 @@ interface NoteFormProps {
       "id" | "createdAt" | "updatedAt" | "groupName" | "groupRef"
     >
   ) => void;
-  initialData?: Omit<Note, "id"> | null;
+  initialData?: Partial<Omit<Note, "id">> | null;
 }
 
 export const NoteForm = React.forwardRef<HTMLFormElement, NoteFormProps>(
@@ -54,7 +54,7 @@ export const NoteForm = React.forwardRef<HTMLFormElement, NoteFormProps>(
     const [formData, setFormData] = useState({
       content: initialData?.content || "",
       dueDate: initialData?.dueDate?.toDate() || undefined,
-      dueTime: formatTimeFromTimestamp(initialData?.dueDate.toDate()),
+      dueTime: formatTimeFromTimestamp(initialData?.dueDate?.toDate()),
       status: initialData?.status || "Not-started",
       groupId: initialData?.groupId || "",
     });
@@ -76,6 +76,7 @@ export const NoteForm = React.forwardRef<HTMLFormElement, NoteFormProps>(
 
         // Add hours and mins to date
         if (formData.dueTime) {
+          console.log(formData.dueTime);
           const [hours, minutes] = formData.dueTime.split(":").map(Number);
           date.setHours(hours);
           date.setMinutes(minutes);
