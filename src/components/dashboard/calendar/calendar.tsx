@@ -86,6 +86,7 @@ const Calendar = () => {
   const [view, setView] = useState<"month" | "week">("month");
   const [groupsFilter, setGroupsFilter] = useState<Set<string>>(new Set());
   const [openNoteForm, setOpenNoteForm] = useState(false);
+  const [selectedNote, setSelectedNote] = useState<Note | null>(null);
 
   const { startDate, endDate } = useMemo(
     () => getDateRange(view, currentDate),
@@ -102,7 +103,7 @@ const Calendar = () => {
     [notes, startDate, endDate, groupsFilter]
   );
   return (
-    <div className="flex-1 grid grid-rows-[auto_1fr]">
+    <div className="flex-1 grid grid-rows-[auto_1fr] mb-4">
       <div className="flex flex-wrap justify-between mb-2 gap-2">
         <div className="flex justify-between items-center gap-2 flex-shrink-0">
           <Button
@@ -244,9 +245,15 @@ const Calendar = () => {
         </Button>
       </div>
       {view === "month" && (
-        <div className="flex-1 grid grid-cols-7 sm:gap-2">
+        <div
+          className={`flex-1 sm:gap-2 grid grid-cols-7  ${
+            Math.floor(days.length / 7) == 5
+              ? "grid-rows-[2em_repeat(5,1fr)]"
+              : "grid-rows-[2em_repeat(6,1fr)]"
+          }`}
+        >
           {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
-            <div key={day} className="font-bold text-center">
+            <div key={day} className="font-bold text-center h-2">
               {day}
             </div>
           ))}
@@ -256,12 +263,12 @@ const Calendar = () => {
             return (
               <div
                 key={day.toString()}
-                className={` aspect-square border rounded-md  $ ${
+                className={`min-h-0 sm:aspect-square border sm:rounded-md  $ ${
                   !isSameMonth(day, currentDate) ? "opacity-30" : ""
                 }`}
               >
                 <div className="flex flex-col w-full h-full ">
-                  <div className="flex justify-between w-full p-1">
+                  <div className="flex justify-between w-full sm:p-1">
                     <p
                       className={`h-6 w-6 flex items-center justify-center text-sm font-bold ${
                         isToday(day)
@@ -285,7 +292,13 @@ const Calendar = () => {
                     </Button>
                   </div>
                   <div className="flex-1 sm:p-2 overflow-y-auto hide-scrollbar">
-                    <CalendarNotesList notes={dayNotes} />
+                    <CalendarNotesList
+                      onNotesClicked={(note: Note) => {
+                        setSelectedNote(note);
+                        setOpenNoteForm(true);
+                      }}
+                      notes={dayNotes}
+                    />
                   </div>
                 </div>
               </div>
@@ -332,7 +345,13 @@ const Calendar = () => {
                         <Plus />
                       </Button>
                     </div>
-                    <CalendarNotesList notes={dayNotes} />
+                    <CalendarNotesList
+                      onNotesClicked={(note: Note) => {
+                        setSelectedNote(note);
+                        setOpenNoteForm(true);
+                      }}
+                      notes={dayNotes}
+                    />
                   </div>
                 </div>
               </div>
@@ -345,7 +364,15 @@ const Calendar = () => {
 
       <NoteFormDialog
         open={openNoteForm}
-        onOpenChange={setOpenNoteForm}
+        onOpenChange={(open: boolean) => {
+          if (open === false) {
+            setOpenNoteForm(false);
+            setSelectedNote(null);
+          } else {
+            setOpenNoteForm(true);
+          }
+        }}
+        note={selectedNote ?? undefined}
         defaultValues={{
           dueDate: getEndOfDayTimestamp(currentDate),
         }}
