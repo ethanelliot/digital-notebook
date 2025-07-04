@@ -9,15 +9,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookCopy, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useWorkspaceContext } from "@/contexts/workspace-context";
 import type { Note } from "@/types/note";
 import { Badge } from "@/components/ui/badge";
-import { statuses } from "@/lib/constants";
+import { groupColors, statuses } from "@/lib/constants";
 import { getRelativeDate } from "@/lib/format-time";
 import { Link } from "react-router-dom";
 import NotebookActions from "@/components/dashboard/notebook/notebook-actions";
 import { NoteFormDialog } from "@/components/dashboard/dialog/note-form-dialog";
+import { cn } from "@/lib/utils";
 
 const HomePage: React.FC = () => {
   const [upcomingNotes, setUpcomingNotes] = useState<Note[]>([]);
@@ -105,8 +106,16 @@ const HomePage: React.FC = () => {
                   </div>
 
                   <div className="text-sm text-muted-foreground flex items-center gap-2">
-                    <BookCopy size={16} />
-                    {notebook.groupName}
+                    <span className="flex gap-1 items-center">
+                      <div
+                        className={cn(
+                          "h-4 w-4 rounded-full",
+                          groupColors[notebook.groupColor].background
+                        )}
+                      ></div>
+
+                      {notebook.groupName}
+                    </span>
                   </div>
                 </div>
               );

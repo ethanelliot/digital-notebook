@@ -165,8 +165,9 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
         return {
           id: doc.id,
           ...noteData,
-          groupName: group?.name,
           groupId: group?.id,
+          groupName: group?.name,
+          groupColor: group?.color,
         } as Notebook;
       });
       setNotebooks(allNotebooks);

@@ -34,7 +34,7 @@ import { cn } from "@/lib/utils";
 import { formatTimeFromTimestamp } from "@/lib/format-time";
 import { Timestamp } from "firebase/firestore";
 import React from "react";
-import { statuses } from "@/lib/constants";
+import { groupColors, statuses } from "@/lib/constants";
 import { useWorkspaceContext } from "@/contexts/workspace-context";
 
 interface NoteFormProps {
@@ -210,10 +210,27 @@ export const NoteForm = React.forwardRef<HTMLFormElement, NoteFormProps>(
                   aria-expanded={openGroup}
                   className=" justify-between"
                 >
-                  {groups.find((group) => group.id === formData.groupId)?.name
-                    ? groups.find((group) => group.id === formData.groupId)
-                        ?.name
-                    : "Select Group..."}
+                  {(() => {
+                    const selectedGroup = groups.find(
+                      (group) => group.id === formData.groupId
+                    );
+
+                    return selectedGroup?.name ? (
+                      <span className="flex gap-1 items-center">
+                        <div
+                          className={cn(
+                            "h-4 w-4 rounded-full",
+                            selectedGroup.color
+                              ? groupColors[selectedGroup.color].background
+                              : ""
+                          )}
+                        ></div>
+                        {selectedGroup.name}
+                      </span>
+                    ) : (
+                      "Select Group..."
+                    );
+                  })()}
                   <ChevronsUpDown className="opacity-50" />
                 </Button>
               </PopoverTrigger>
@@ -237,7 +254,16 @@ export const NoteForm = React.forwardRef<HTMLFormElement, NoteFormProps>(
                               setOpenGroup(false);
                             }}
                           >
-                            {group.name}
+                            <span className="flex gap-1">
+                              <div
+                                className={cn(
+                                  "h-4 w-4 rounded-full",
+                                  groupColors[group.color].background
+                                )}
+                              ></div>
+
+                              {group.name}
+                            </span>
                             <Check
                               className={cn(
                                 "ml-auto",
