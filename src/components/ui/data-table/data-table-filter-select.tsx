@@ -37,7 +37,7 @@ export function DataTableSelectFilter<TData, TValue>({
   const [open, setOpen] = useState(false);
   const columnFilterValue = column.getFilterValue();
 
-  const options = possibleValues
+  const options: FilterOption[] = possibleValues
     ? possibleValues
     : Array.from(column.getFacetedUniqueValues().keys()).map((key) => ({
         value: key,
@@ -100,9 +100,11 @@ export function DataTableSelectFilter<TData, TValue>({
                 const isSelected = selectedValues.has(option.value);
                 return (
                   <CommandItem
-                    key={option.value}
-                    value={option.value}
-                    onSelect={() => onItemSelect(option.value, isSelected)}
+                    key={String(option.value)}
+                    value={String(option.value)}
+                    onSelect={() =>
+                      onItemSelect(option.value as TValue, isSelected)
+                    }
                   >
                     <div className="flex items-center space-x-2">
                       <div
@@ -114,7 +116,15 @@ export function DataTableSelectFilter<TData, TValue>({
                         <Check />
                       </div>
 
-                      <span>{String(option.label)}</span>
+                      <span className="flex items-center gap-1">
+                        <div
+                          className={cn(
+                            "h-4 w-4 rounded-full",
+                            option.color || option.icon ? "block" : "hidden"
+                          )}
+                        ></div>
+                        {String(option.label)}
+                      </span>
                     </div>
                   </CommandItem>
                 );

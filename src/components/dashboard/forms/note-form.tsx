@@ -41,7 +41,7 @@ interface NoteFormProps {
   onSubmit: (
     data: Omit<
       Note,
-      "id" | "createdAt" | "updatedAt" | "groupName" | "groupRef"
+      "id" | "createdAt" | "updatedAt" | "groupName" | "groupRef" | "groupColor"
     >
   ) => void;
   initialData?: Partial<Omit<Note, "id">> | null;

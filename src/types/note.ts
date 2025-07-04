@@ -1,4 +1,5 @@
 import type { DocumentReference, Timestamp } from "firebase/firestore";
+import type { GroupColor } from "./group";
 
 export type statusType = "In-progress" | "Completed" | "Not-started";
 
@@ -8,8 +9,9 @@ export type Note = {
   status: statusType;
   dueDate: Timestamp;
   groupRef: DocumentReference;
-  groupName: string;
   groupId: string;
+  groupName: string;
+  groupColor: GroupColor;
   createdAt: Timestamp;
   updatedAt: Timestamp;
 };

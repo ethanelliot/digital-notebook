@@ -4,8 +4,9 @@ import type { Note, statusType } from "@/types/note";
 import type { Timestamp } from "firebase/firestore";
 import { Badge } from "@/components/ui/badge";
 import { DataTableColumnHeader } from "@/components/ui/data-table/data-table-column-header";
-import { statuses } from "@/lib/constants";
+import { groupColors, statuses } from "@/lib/constants";
 import NotesTableRowActions from "./notes-table-row-actions";
+import { cn } from "@/lib/utils";
 
 export const columns: ColumnDef<Note>[] = [
   {
@@ -76,6 +77,19 @@ export const columns: ColumnDef<Note>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Group" />
     ),
+    cell: ({ row }) => {
+      return (
+        <span className="flex gap-1 items-center">
+          <div
+            className={cn(
+              "h-4 w-4 rounded-full",
+              groupColors[row.original.groupColor].background
+            )}
+          ></div>
+          {String(row.getValue("groupName"))}
+        </span>
+      );
+    },
     filterFn: (row, id, value) => {
       // value is an array of selected options
       return value.includes(row.getValue(id));

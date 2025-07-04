@@ -1,6 +1,10 @@
+import type { LucideIcon } from "lucide-react";
+
 export interface FilterOption {
   label: string;
   value: unknown;
+  color?: string;
+  icon?: LucideIcon; //todo impliment this
 }
 
 declare module "@tanstack/react-table" {

@@ -44,6 +44,7 @@ import { useMemo, useState } from "react";
 import CalendarNotesList from "./calendar-notes-list";
 import { NoteFormDialog } from "../dialog/note-form-dialog";
 import { getEndOfDayTimestamp } from "@/lib/format-time";
+import { groupColors } from "@/lib/constants";
 
 const views = [
   {
@@ -85,6 +86,7 @@ const Calendar = () => {
   const [currentDate, setCurrentDate] = useState(startOfMonth(new Date()));
   const [view, setView] = useState<"month" | "week">("month");
   const [groupsFilter, setGroupsFilter] = useState<Set<string>>(new Set());
+
   const [openNoteForm, setOpenNoteForm] = useState(false);
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
 
@@ -191,7 +193,15 @@ const Calendar = () => {
                                 <Check />
                               </div>
 
-                              <span>{String(group.name)}</span>
+                              <span className="flex gap-1 items-center">
+                                <div
+                                  className={cn(
+                                    "h-4 w-4 rounded-full",
+                                    groupColors[group.color].background
+                                  )}
+                                ></div>
+                                {String(group.name)}
+                              </span>
                             </div>
                           </CommandItem>
                         );

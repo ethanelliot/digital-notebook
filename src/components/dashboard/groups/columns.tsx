@@ -4,6 +4,8 @@ import "@/types/table";
 import type { Group } from "@/types/group";
 import GroupsTableVisability from "./groups-table-visability";
 import GroupsTableRowActions from "./groups-table-row-actions";
+import { cn } from "@/lib/utils";
+import { groupColors } from "@/lib/constants";
 
 export const columns: ColumnDef<Group>[] = [
   {
@@ -16,6 +18,28 @@ export const columns: ColumnDef<Group>[] = [
       label: "name",
       placeholder: "Filter Groups...",
       variant: "text",
+    },
+  },
+  {
+    accessorKey: "color",
+    header: "Color",
+    enableHiding: true,
+    enableColumnFilter: false,
+    cell: ({ row }) => {
+      const group = row.original;
+      return (
+        <div className="flex items-center justify-center">
+          <div
+            className={cn(
+              "h-4 w-4 rounded-full",
+              groupColors[group.color].background
+            )}
+          ></div>
+        </div>
+      );
+    },
+    meta: {
+      headerClassName: "w-30 text-center",
     },
   },
   {

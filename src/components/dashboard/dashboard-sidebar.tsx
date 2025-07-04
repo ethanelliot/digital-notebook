@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/sidebar";
 import {
   BookA,
-  BookCopy,
   Calendar,
   Home,
   Pencil,
@@ -27,6 +26,7 @@ import { useEffect, useState } from "react";
 import { Skeleton } from "../ui/skeleton";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
+import { groupColors } from "@/lib/constants";
 
 const data = {
   navHead: {
@@ -61,7 +61,7 @@ const data = {
 export function DashboardSidebar() {
   const { loading, groups } = useWorkspaceContext();
   const [groupsData, setGroupsData] = useState<
-    { title: string; url: string; icon: LucideIcon; isActive?: boolean }[]
+    { title: string; url: string; icon?: LucideIcon; color: string }[]
   >([]);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export function DashboardSidebar() {
         .map((group) => ({
           title: group.name,
           url: "/" + group.id,
-          icon: BookCopy,
+          color: groupColors[group.color].background,
         }))
     );
   }, [groups]);

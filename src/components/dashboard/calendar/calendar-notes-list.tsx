@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
-import { statuses } from "@/lib/constants";
+import { groupColors, statuses } from "@/lib/constants";
+import { cn } from "@/lib/utils";
 import type { Note } from "@/types/note";
 type CalendarNotesListProps = {
   notes: Note[];
@@ -16,17 +17,26 @@ const CalendarNotesList = ({
         const status = statuses.find((status) => status.value === note.status);
         return (
           <div
-            className="p-1 border rounded-sm text-[12px] mb-1 cursor-pointer"
+            className={cn(
+              "p-1 rounded-sm text-[12px] mb-1 cursor-pointer",
+              groupColors[note.groupColor].background,
+              groupColors[note.groupColor].text
+            )}
             key={note.id}
             onClick={() => onNotesClicked?.(note)}
           >
             <p className="font-semibold truncate hover:overflow-visible hover:whitespace-normal">
               {note.content}
             </p>
-            <p className="text-[10px] text-secondary-foreground">
-              {note.groupName}
-            </p>
-            <Badge variant="outline" className="text-[8px] px-1 hidden sm:flex">
+            <p className="text-[10px]">{note.groupName}</p>
+            <Badge
+              variant="outline"
+              className={cn(
+                "text-[8px] px-1 hidden sm:flex",
+                groupColors[note.groupColor].text,
+                groupColors[note.groupColor].border
+              )}
+            >
               {status?.icon && <status.icon size={2} />}
               <span>{status?.label}</span>
             </Badge>

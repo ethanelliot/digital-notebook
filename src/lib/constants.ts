@@ -1,3 +1,4 @@
+import type { GroupColor } from "@/types/group";
 import type { statusType } from "@/types/note";
 import { CircleCheck, Clock, Eye, EyeOff, RefreshCcw } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -27,13 +28,14 @@ export const statuses: StatusOption[] = [
     icon: CircleCheck,
   },
 ];
+
 export type VisibilityOption = {
   value: boolean;
   label: string;
   icon: LucideIcon;
 };
 
-export const Visibility: VisibilityOption[] = [
+export const visibility: VisibilityOption[] = [
   {
     value: false,
     label: "Visible",
@@ -42,6 +44,38 @@ export const Visibility: VisibilityOption[] = [
   {
     value: true,
     label: "Hidden",
-    icon: EyeOff ,
+    icon: EyeOff,
   },
 ];
+
+export type GroupColorOption = {
+  value: string;
+  label: string;
+  background: string;
+  text: string;
+  border:string;
+};
+
+export const groupColors: Record<GroupColor, GroupColorOption> = {
+   blue: {
+    value: "blue",
+    label: "Blue",
+    background: "bg-blue-200 dark:bg-blue-800",
+    text: "text-blue-800 dark:text-blue-200",
+    border: "border-blue-800 dark:border-blue-200",
+  },
+  yellow: {
+    value: "yellow",
+    label: "Yellow",
+    background: "bg-yellow-200 dark:bg-yellow-800",
+    text: "text-yellow-800 dark:text-yellow-200",
+    border: "border-yellow-800 dark:border-yellow-200",
+  },
+  purple: {
+    value: "purple",
+    label: "Purple",
+    background: "bg-purple-200 dark:bg-purple-800",
+    text: "text-purple-800 dark:text-purple-200",
+    border: "border-purple-800 dark:border-purple-200",
+  },
+};

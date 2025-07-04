@@ -21,12 +21,15 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 type AddNoteInput = Omit<
   Note,
-  "id" | "createdAt" | "updatedAt" | "groupName" | "groupRef"
+  "id" | "createdAt" | "updatedAt" | "groupName" | "groupColor" | "groupRef"
 >;
 type UpdateNoteInput = {
   note: Note;
   newData: Partial<
-    Omit<Note, "id" | "createdAt" | "updatedAt" | "groupName" | "groupRef">
+    Omit<
+      Note,
+      "id" | "createdAt" | "updatedAt" | "groupName" | "groupColor" | "groupRef"
+    >
   >;
 };
 type DeleteNoteInput = {
@@ -138,6 +141,7 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
         return {
           id: doc.id,
           ...noteData,
+          groupColor: group?.color,
           groupName: group?.name,
           groupId: group?.id,
         } as Note;
