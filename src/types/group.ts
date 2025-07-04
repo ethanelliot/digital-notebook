@@ -1,6 +1,6 @@
 import type { Timestamp } from "firebase/firestore";
 
-export type GroupColor = "blue"|"yellow"|"purple" 
+export type GroupColor = "blue"|"yellow"|"purple" |"green"|"red"
 
 export type Group = {
   id: string;

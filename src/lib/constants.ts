@@ -53,11 +53,11 @@ export type GroupColorOption = {
   label: string;
   background: string;
   text: string;
-  border:string;
+  border: string;
 };
 
 export const groupColors: Record<GroupColor, GroupColorOption> = {
-   blue: {
+  blue: {
     value: "blue",
     label: "Blue",
     background: "bg-blue-200 dark:bg-blue-800",
@@ -77,5 +77,19 @@ export const groupColors: Record<GroupColor, GroupColorOption> = {
     background: "bg-purple-200 dark:bg-purple-800",
     text: "text-purple-800 dark:text-purple-200",
     border: "border-purple-800 dark:border-purple-200",
+  },
+  green: {
+    value: "green",
+    label: "Green",
+    background: "bg-green-200 dark:bg-green-800",
+    text: "text-green-800 dark:text-green-200",
+    border: "border-green-800 dark:border-green-200",
+  },
+  red: {
+    value: "red",
+    label: "Red",
+    background: "bg-red-200 dark:bg-red-800",
+    text: "text-red-800 dark:text-red-200",
+    border: "border-red-800 dark:border-red-200",
   },
 };
