@@ -42,9 +42,9 @@ import {
 } from "lucide-react";
 import { useMemo, useState } from "react";
 import CalendarNotesList from "./calendar-notes-list";
-import { NoteFormDialog } from "../dialog/note-form-dialog";
-import { getEndOfDayTimestamp } from "@/lib/format-time";
 import { groupColors } from "@/lib/constants";
+import { useDialog } from "@/contexts/dialog-context";
+import { getEndOfDayTimestamp } from "@/lib/format-time";
 
 const views = [
   {
@@ -83,12 +83,11 @@ function groupNotesByDate(
 
 const Calendar = () => {
   const { notes, groups } = useWorkspaceContext();
+  const { openDialog } = useDialog();
+
   const [currentDate, setCurrentDate] = useState(startOfMonth(new Date()));
   const [view, setView] = useState<"month" | "week">("month");
   const [groupsFilter, setGroupsFilter] = useState<Set<string>>(new Set());
-
-  const [openNoteForm, setOpenNoteForm] = useState(false);
-  const [selectedNote, setSelectedNote] = useState<Note | null>(null);
 
   const { startDate, endDate } = useMemo(
     () => getDateRange(view, currentDate),
@@ -249,7 +248,10 @@ const Calendar = () => {
             </TabsList>
           </Tabs>
         </div>
-        <Button onClick={() => setOpenNoteForm(true)} className="flex-shrink-0">
+        <Button
+          onClick={() => openDialog("noteForm", {})}
+          className="flex-shrink-0"
+        >
           <Plus />
           <span className="hidden sm:block">Add</span>
         </Button>
@@ -295,7 +297,11 @@ const Calendar = () => {
                       className="h-6 w-6 md:flex hidden"
                       onClick={() => {
                         setCurrentDate(day);
-                        setOpenNoteForm(true);
+                        openDialog("noteForm", {
+                          defaultValues: {
+                            dueDate: getEndOfDayTimestamp(currentDate),
+                          },
+                        });
                       }}
                     >
                       <Plus />
@@ -304,8 +310,9 @@ const Calendar = () => {
                   <div className="flex-1 sm:p-2 overflow-y-auto hide-scrollbar">
                     <CalendarNotesList
                       onNotesClicked={(note: Note) => {
-                        setSelectedNote(note);
-                        setOpenNoteForm(true);
+                        openDialog("noteForm", {
+                          note: note,
+                        });
                       }}
                       notes={dayNotes}
                     />
@@ -349,7 +356,11 @@ const Calendar = () => {
                         className="h-6 w-6 md:flex hidden"
                         onClick={() => {
                           setCurrentDate(day);
-                          setOpenNoteForm(true);
+                          openDialog("noteForm", {
+                            defaultValues: {
+                              dueDate: getEndOfDayTimestamp(currentDate),
+                            },
+                          });
                         }}
                       >
                         <Plus />
@@ -357,8 +368,9 @@ const Calendar = () => {
                     </div>
                     <CalendarNotesList
                       onNotesClicked={(note: Note) => {
-                        setSelectedNote(note);
-                        setOpenNoteForm(true);
+                        openDialog("noteForm", {
+                          note: note,
+                        });
                       }}
                       notes={dayNotes}
                     />
@@ -369,24 +381,6 @@ const Calendar = () => {
           })}
         </div>
       )}
-
-      {/* NoteFormDialog */}
-
-      <NoteFormDialog
-        open={openNoteForm}
-        onOpenChange={(open: boolean) => {
-          if (open === false) {
-            setOpenNoteForm(false);
-            setSelectedNote(null);
-          } else {
-            setOpenNoteForm(true);
-          }
-        }}
-        note={selectedNote ?? undefined}
-        defaultValues={{
-          dueDate: getEndOfDayTimestamp(currentDate),
-        }}
-      />
     </div>
   );
 };

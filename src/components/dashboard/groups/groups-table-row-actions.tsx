@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,7 +9,6 @@ import {
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Group } from "@/types/group";
-import GroupFormDialog from "../dialog/group-form-dialog";
 import { useWorkspaceContext } from "@/contexts/workspace-context";
 import { useDialog } from "@/contexts/dialog-context";
 
@@ -20,10 +19,9 @@ interface GroupsTableRowActionsProps {
 const GroupsTableRowActions: React.FC<GroupsTableRowActionsProps> = ({
   group,
 }) => {
-  const [isGroupDialogOpen, setIsGroupDialogOpen] = useState(false);
   const { deleteGroup } = useWorkspaceContext();
 
-  const { openConfirm } = useDialog();
+  const { openDialog, openConfirm } = useDialog();
 
   return (
     <>
@@ -35,7 +33,9 @@ const GroupsTableRowActions: React.FC<GroupsTableRowActionsProps> = ({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => setIsGroupDialogOpen(true)}>
+          <DropdownMenuItem
+            onClick={() => openDialog("groupForm", { group: group })}
+          >
             Edit
           </DropdownMenuItem>
 
@@ -65,14 +65,6 @@ const GroupsTableRowActions: React.FC<GroupsTableRowActionsProps> = ({
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-
-      {/* Dialog for Edit Note */}
-
-      <GroupFormDialog
-        open={isGroupDialogOpen}
-        onOpenChange={setIsGroupDialogOpen}
-        group={group}
-      />
     </>
   );
 };

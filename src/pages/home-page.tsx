@@ -17,15 +17,15 @@ import { groupColors, statuses } from "@/lib/constants";
 import { getRelativeDate } from "@/lib/format-time";
 import { Link } from "react-router-dom";
 import NotebookActions from "@/components/dashboard/notebook/notebook-actions";
-import { NoteFormDialog } from "@/components/dashboard/dialog/note-form-dialog";
 import { cn } from "@/lib/utils";
+import { useDialog } from "@/contexts/dialog-context";
 
 const HomePage: React.FC = () => {
   const [upcomingNotes, setUpcomingNotes] = useState<Note[]>([]);
 
-  const [openNewNote, setOpenNewNote] = useState(false);
-
   const { notebooks, notes } = useWorkspaceContext();
+
+  const { openDialog } = useDialog();
 
   useEffect(() => {
     setUpcomingNotes(() => {
@@ -53,13 +53,9 @@ const HomePage: React.FC = () => {
               Track and manage your upcoming notes.
             </CardDescription>
             <CardAction>
-              <Button onClick={() => setOpenNewNote(true)}>
+              <Button onClick={() => openDialog("noteForm", {})}>
                 <Plus /> New
               </Button>
-              <NoteFormDialog
-                open={openNewNote}
-                onOpenChange={setOpenNewNote}
-              />
             </CardAction>
           </CardHeader>
           <CardContent className="flex flex-col gap-2 overflow-hidden">

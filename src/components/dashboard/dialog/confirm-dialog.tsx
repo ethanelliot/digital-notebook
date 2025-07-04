@@ -11,7 +11,7 @@ import {
 import { useDialog } from "@/contexts/dialog-context";
 import type { ConfirmDialogProps } from "@/types/dialog";
 
-export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
+const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   title,
   message,
   onConfirm,
@@ -46,3 +46,5 @@ export const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
     </AlertDialog>
   );
 };
+
+export default ConfirmDialog;

@@ -8,26 +8,19 @@ import {
 } from "@/components/ui/dialog";
 import { useRef } from "react";
 import { useWorkspaceContext } from "@/contexts/workspace-context";
-import type { Group } from "@/types/group";
 import { Button } from "@/components/ui/button";
 import { GroupForm } from "../forms/group-form";
+import type { GroupFormDialogProps } from "@/types/dialog";
+import { useDialog } from "@/contexts/dialog-context";
 
-type GroupFormDialogProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  group?: Group;
-};
-const GroupFormDialog = ({
-  open,
-  onOpenChange,
-  group,
-}: GroupFormDialogProps) => {
+const GroupFormDialog: React.FC<GroupFormDialogProps> = ({ group }) => {
   const { addGroup, updateGroup } = useWorkspaceContext();
+  const { state, closeDialog } = useDialog();
   const formRef = useRef<HTMLFormElement>(null);
 
   const isEditForm = !!group;
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={state.isOpen} onOpenChange={closeDialog}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{isEditForm ? "Edit" : "Create"} group</DialogTitle>
@@ -45,11 +38,11 @@ const GroupFormDialog = ({
             } else {
               addGroup(data);
             }
-            onOpenChange(false);
+            closeDialog();
           }}
         />
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button variant="outline" onClick={() => closeDialog()}>
             Cancel
           </Button>
           <Button

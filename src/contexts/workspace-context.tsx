@@ -26,7 +26,9 @@ export function WorkspaceProvider({ children }: WorkspaceProviderProps) {
 export function useWorkspaceContext() {
   const context = useContext(WorkspaceContext);
   if (context === undefined) {
-    throw new Error("useDashboardContext must be used within a NotesProvider");
+    throw new Error(
+      "useWorkspaceContext must be used within a WorkspaceProvider"
+    );
   }
   return context;
 }

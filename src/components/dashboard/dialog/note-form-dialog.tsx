@@ -7,25 +7,18 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { NoteForm } from "../forms/note-form";
-import type { Note } from "@/types/note";
 import { useWorkspaceContext } from "@/contexts/workspace-context";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
+import type { NoteFormDialogProps } from "@/types/dialog";
+import { useDialog } from "@/contexts/dialog-context";
 
-type NoteFormDialogProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  note?: Note; // pass note if edit form
-  defaultValues?: Partial<Note>; // default values for explicity setting intial values of feilds
-};
-
-export const NoteFormDialog: React.FC<NoteFormDialogProps> = ({
-  open,
-  onOpenChange,
+const NoteFormDialog: React.FC<NoteFormDialogProps> = ({
   note,
   defaultValues,
 }) => {
   const { addNote, updateNote } = useWorkspaceContext();
+  const { state, closeDialog } = useDialog();
   const formRef = useRef<HTMLFormElement>(null);
 
   const initialData = note || defaultValues;
@@ -33,7 +26,7 @@ export const NoteFormDialog: React.FC<NoteFormDialogProps> = ({
   const isEditForm = !!note;
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={state.isOpen} onOpenChange={closeDialog}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{isEditForm ? "Edit" : "Create"} note</DialogTitle>
@@ -51,11 +44,11 @@ export const NoteFormDialog: React.FC<NoteFormDialogProps> = ({
             } else {
               addNote(data);
             }
-            onOpenChange(false);
+            closeDialog();
           }}
         />
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button variant="outline" onClick={() => closeDialog()}>
             Cancel
           </Button>
           <Button
@@ -69,3 +62,5 @@ export const NoteFormDialog: React.FC<NoteFormDialogProps> = ({
     </Dialog>
   );
 };
+
+export default NoteFormDialog;

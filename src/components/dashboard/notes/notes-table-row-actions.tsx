@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,7 +13,6 @@ import { MoreHorizontal } from "lucide-react";
 import { useWorkspaceContext } from "@/contexts/workspace-context";
 import { Button } from "@/components/ui/button";
 import type { Note } from "@/types/note";
-import { NoteFormDialog } from "../dialog/note-form-dialog";
 import { statuses } from "@/lib/constants";
 import { useDialog } from "@/contexts/dialog-context";
 
@@ -24,11 +23,10 @@ interface NotesTableRowActionsProps {
 const NotesTableRowActions: React.FC<NotesTableRowActionsProps> = ({
   note,
 }) => {
-  const [isNoteDialogOpen, setIsNoteDialogOpen] = useState(false);
-
   const { openConfirm } = useDialog();
 
   const { updateNote, deleteNote } = useWorkspaceContext();
+  const { openDialog } = useDialog();
 
   return (
     <>
@@ -40,7 +38,7 @@ const NotesTableRowActions: React.FC<NotesTableRowActionsProps> = ({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => setIsNoteDialogOpen(true)}>
+          <DropdownMenuItem onClick={() => openDialog("noteForm", { note })}>
             Edit
           </DropdownMenuItem>
 
@@ -89,14 +87,6 @@ const NotesTableRowActions: React.FC<NotesTableRowActionsProps> = ({
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-
-      {/* Dialog for Edit Note */}
-
-      <NoteFormDialog
-        open={isNoteDialogOpen}
-        onOpenChange={setIsNoteDialogOpen}
-        note={note}
-      />
     </>
   );
 };

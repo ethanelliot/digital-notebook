@@ -9,25 +9,21 @@ import {
 import { useRef } from "react";
 import { useWorkspaceContext } from "@/contexts/workspace-context";
 import { Button } from "@/components/ui/button";
-import type { Notebook } from "@/types/notebook";
 import { NotebookForm } from "../forms/notebook-form";
+import type { NotebookFormDialogProps } from "@/types/dialog";
+import { useDialog } from "@/contexts/dialog-context";
 
-type NotebookFormDialogProps = {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  notebook?: Notebook;
-};
-const NotebookFormDialog = ({
-  open,
-  onOpenChange,
+const NotebookFormDialog: React.FC<NotebookFormDialogProps> = ({
   notebook,
-}: NotebookFormDialogProps) => {
+}) => {
   const { addNotebook, updateNotebook } = useWorkspaceContext();
+  const { state, closeDialog } = useDialog();
+
   const formRef = useRef<HTMLFormElement>(null);
 
   const isEditForm = !!notebook;
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={state.isOpen} onOpenChange={closeDialog}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{isEditForm ? "Edit" : "Create"} notebook</DialogTitle>
@@ -45,11 +41,11 @@ const NotebookFormDialog = ({
             } else {
               addNotebook(data);
             }
-            onOpenChange(false);
+            closeDialog();
           }}
         />
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+          <Button variant="outline" onClick={() => closeDialog()}>
             Cancel
           </Button>
           <Button

@@ -104,7 +104,7 @@ const DialogRenderer = () => {
 export function useDialog() {
   const context = useContext(DialogContext);
   if (context === undefined) {
-    throw new Error("useDashboardContext must be used within a NotesProvider");
+    throw new Error("useDialogdContext must be used within a DialogProvider");
   }
   return context;
 }

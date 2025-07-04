@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,7 +10,6 @@ import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useWorkspaceContext } from "@/contexts/workspace-context";
 import type { Notebook } from "@/types/notebook";
-import NotebookFormDialog from "../dialog/notebook-form-dialog";
 import { useDialog } from "@/contexts/dialog-context";
 
 interface NotebookActionsProps {
@@ -18,10 +17,9 @@ interface NotebookActionsProps {
 }
 
 const NotebookActions: React.FC<NotebookActionsProps> = ({ notebook }) => {
-  const [isNotebookDialogOpen, setIsNotebookDialogOpen] = useState(false);
   const { deleteNotebook } = useWorkspaceContext();
 
-  const { openConfirm } = useDialog();
+  const { openDialog, openConfirm } = useDialog();
 
   return (
     <>
@@ -33,7 +31,9 @@ const NotebookActions: React.FC<NotebookActionsProps> = ({ notebook }) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => setIsNotebookDialogOpen(true)}>
+          <DropdownMenuItem
+            onClick={() => openDialog("notebookForm", { notebook })}
+          >
             Edit
           </DropdownMenuItem>
 
@@ -63,12 +63,6 @@ const NotebookActions: React.FC<NotebookActionsProps> = ({ notebook }) => {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      {/* Dialog for Edit Note */}
-      <NotebookFormDialog
-        open={isNotebookDialogOpen}
-        onOpenChange={setIsNotebookDialogOpen}
-        notebook={notebook}
-      />
     </>
   );
 };
