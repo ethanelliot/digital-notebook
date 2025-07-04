@@ -47,12 +47,15 @@ type DeleteGroupInput = {
 
 type AddNotebookInput = Omit<
   Notebook,
-  "id" | "createdAt" | "updatedAt" | "groupName" | "groupRef"
+  "id" | "createdAt" | "updatedAt" | "groupColor" | "groupName" | "groupRef"
 >;
 type UpdateNotebookInput = {
   notebook: Notebook;
   newData: Partial<
-    Omit<Notebook, "id" | "createdAt" | "updatedAt" | "groupName" | "groupRef">
+    Omit<
+      Notebook,
+      "id" | "createdAt" | "updatedAt" | "groupColor" | "groupName" | "groupRef"
+    >
   >;
 };
 type DeleteNotebookInput = {

@@ -25,7 +25,7 @@ interface NotebookFormProps {
   onSubmit: (
     data: Omit<
       Notebook,
-      "id" | "createdAt" | "updatedAt" | "groupName" | "groupRef"
+      "id" | "createdAt" | "updatedAt" | "groupColor" | "groupName" | "groupRef"
     >
   ) => void;
   initialData?: Notebook;
