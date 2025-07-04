@@ -323,10 +323,6 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
     [groupsRef, notesRef, notebooksRef]
   );
 
-  // TODO: Split notebook metadata from content for better performance
-  // Move content to subcollection, create useNotebookContent(id) hook for lazy loading
-  // Current approach loads unnecessary data (images, large docs) on dashboard
-
   const addNotebook = useCallback(
     async (data: AddNotebookInput) => {
       try {

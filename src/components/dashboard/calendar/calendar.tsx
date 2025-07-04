@@ -21,7 +21,6 @@ import { cn } from "@/lib/utils";
 import type { Note } from "@/types/note";
 import {
   eachDayOfInterval,
-  isToday,
   startOfMonth,
   startOfWeek,
   isSameMonth,
@@ -41,12 +40,17 @@ import {
   Plus,
 } from "lucide-react";
 import { useMemo, useState } from "react";
-import CalendarNotesList from "./calendar-notes-list";
 import { groupColors } from "@/lib/constants";
 import { useDialog } from "@/contexts/dialog-context";
 import { getEndOfDayTimestamp } from "@/lib/format-time";
+import { useIsMobile } from "@/hooks/use-mobile";
+import CalendarDrawer from "./calendar-drawer";
+import CalendarWeekView from "./calendar-view-week";
+import CalendarMonthView from "./calendar-view-month";
 
-const views = [
+export type CalendarView = "month" | "week";
+
+const calendarViews = [
   {
     name: "Month",
     value: "month",
@@ -56,8 +60,6 @@ const views = [
     value: "week",
   },
 ];
-
-const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 function groupNotesByDate(
   notes: Note[],
@@ -84,10 +86,12 @@ function groupNotesByDate(
 const Calendar = () => {
   const { notes, groups } = useWorkspaceContext();
   const { openDialog } = useDialog();
+  const isMobile = useIsMobile();
 
   const [currentDate, setCurrentDate] = useState(startOfMonth(new Date()));
-  const [view, setView] = useState<"month" | "week">("month");
+  const [view, setView] = useState<CalendarView>("month");
   const [groupsFilter, setGroupsFilter] = useState<Set<string>>(new Set());
+  const [openDrawer, setOpenDrawer] = useState<boolean>(false);
 
   const { startDate, endDate } = useMemo(
     () => getDateRange(view, currentDate),
@@ -103,6 +107,7 @@ const Calendar = () => {
     () => groupNotesByDate(notes, startDate, endDate, groupsFilter),
     [notes, startDate, endDate, groupsFilter]
   );
+
   return (
     <div className="flex-1 grid grid-rows-[auto_1fr] mb-4">
       <div className="flex flex-wrap justify-between mb-2 gap-2">
@@ -231,10 +236,10 @@ const Calendar = () => {
           </Button>
           <Tabs
             value={view}
-            onValueChange={(value) => setView(value as "month" | "week")}
+            onValueChange={(value) => setView(value as CalendarView)}
           >
             <TabsList className=" bg-background gap-1 border">
-              {views.map((view) => {
+              {calendarViews.map((view) => {
                 return (
                   <TabsTrigger
                     key={view.value}
@@ -257,129 +262,49 @@ const Calendar = () => {
         </Button>
       </div>
       {view === "month" && (
-        <div
-          className={`flex-1 sm:gap-2 grid grid-cols-7  ${
-            Math.floor(days.length / 7) == 5
-              ? "grid-rows-[2em_repeat(5,1fr)]"
-              : "grid-rows-[2em_repeat(6,1fr)]"
-          }`}
-        >
-          {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
-            <div key={day} className="font-bold text-center h-2">
-              {day}
-            </div>
-          ))}
-          {days.map((day) => {
-            const dayNotes = notesByDate.get(format(day, "yyyy-MM-dd")) || [];
-
-            return (
-              <div
-                key={day.toString()}
-                className={`min-h-0 sm:aspect-square border sm:rounded-md  $ ${
-                  !isSameMonth(day, currentDate) ? "opacity-30" : ""
-                }`}
-              >
-                <div className="flex flex-col w-full h-full ">
-                  <div className="flex justify-between w-full sm:p-1">
-                    <p
-                      className={`h-6 w-6 flex items-center justify-center text-sm font-bold ${
-                        isToday(day)
-                          ? "bg-primary text-primary-foreground md:rounded-full rounded-br-md"
-                          : ""
-                      }`}
-                    >
-                      {format(day, "d")}
-                    </p>
-
-                    <Button
-                      variant={"ghost"}
-                      size={"icon"}
-                      className="h-6 w-6 md:flex hidden"
-                      onClick={() => {
-                        setCurrentDate(day);
-                        openDialog("noteForm", {
-                          defaultValues: {
-                            dueDate: getEndOfDayTimestamp(currentDate),
-                          },
-                        });
-                      }}
-                    >
-                      <Plus />
-                    </Button>
-                  </div>
-                  <div className="flex-1 sm:p-2 overflow-y-auto hide-scrollbar">
-                    <CalendarNotesList
-                      onNotesClicked={(note: Note) => {
-                        openDialog("noteForm", {
-                          note: note,
-                        });
-                      }}
-                      notes={dayNotes}
-                    />
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        <CalendarMonthView
+          days={days}
+          notesByDate={notesByDate}
+          onCellClick={(day: Date) => {
+            if (isMobile) {
+              setCurrentDate(day);
+              setOpenDrawer(true);
+            }
+          }}
+          onCellAction={(day: Date) => {
+            if (!isMobile) {
+              setCurrentDate(day);
+              openDialog("noteForm", {
+                defaultValues: {
+                  dueDate: getEndOfDayTimestamp(currentDate),
+                },
+              });
+            }
+          }}
+        />
       )}
       {view === "week" && (
-        <div className=" grid grid-cols-7 grid-rows-[auto_1fr] gap-2">
-          {daysOfWeek.map((day) => (
-            <div key={day} className="h-6 font-bold text-center">
-              {day}
-            </div>
-          ))}
-          {days.map((day) => {
-            const dayNotes = notesByDate.get(format(day, "yyyy-MM-dd")) || [];
-            return (
-              <div className="flex flex-col justify-center items-center gap-2">
-                <p
-                  className={`h-6 w-6 flex items-center justify-center text-sm font-bold  ${
-                    isToday(day)
-                      ? "bg-primary text-primary-foreground rounded-full"
-                      : ""
-                  }`}
-                >
-                  {format(day, "d")}
-                </p>
+        <CalendarWeekView
+          days={days}
+          notesByDate={notesByDate}
+          onCellAction={(day: Date) => {
+            setCurrentDate(day);
+            openDialog("noteForm", {
+              defaultValues: {
+                dueDate: getEndOfDayTimestamp(currentDate),
+              },
+            });
+          }}
+        />
+      )}
 
-                <div
-                  key={day.toString()}
-                  className={"p-2 w-full h-full border rounded-md "}
-                >
-                  <div className="h-full overflow-y-auto hide-scrollbar">
-                    <div className="w-full flex justify-end mb-2">
-                      <Button
-                        variant={"ghost"}
-                        size={"icon"}
-                        className="h-6 w-6 md:flex hidden"
-                        onClick={() => {
-                          setCurrentDate(day);
-                          openDialog("noteForm", {
-                            defaultValues: {
-                              dueDate: getEndOfDayTimestamp(currentDate),
-                            },
-                          });
-                        }}
-                      >
-                        <Plus />
-                      </Button>
-                    </div>
-                    <CalendarNotesList
-                      onNotesClicked={(note: Note) => {
-                        openDialog("noteForm", {
-                          note: note,
-                        });
-                      }}
-                      notes={dayNotes}
-                    />
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+      {isMobile && (
+        <CalendarDrawer
+          open={openDrawer}
+          setIsOpen={setOpenDrawer}
+          notes={notesByDate.get(format(currentDate, "yyyy-MM-dd")) || []}
+          date={currentDate}
+        />
       )}
     </div>
   );

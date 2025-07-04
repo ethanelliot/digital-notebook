@@ -27,7 +27,7 @@ const NoteFormDialog: React.FC<NoteFormDialogProps> = ({
 
   return (
     <Dialog open={state.isOpen} onOpenChange={closeDialog}>
-      <DialogContent>
+      <DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle>{isEditForm ? "Edit" : "Create"} note</DialogTitle>
           <DialogDescription>
@@ -48,12 +48,21 @@ const NoteFormDialog: React.FC<NoteFormDialogProps> = ({
           }}
         />
         <DialogFooter>
-          <Button variant="outline" onClick={() => closeDialog()}>
+          <Button
+            variant="outline"
+            onClick={(e) => {
+              e.stopPropagation(); //this line prevents other popup elements from closing
+              closeDialog();
+            }}
+          >
             Cancel
           </Button>
           <Button
             type="submit"
-            onClick={() => formRef.current?.requestSubmit()}
+            onClick={(e) => {
+              e.stopPropagation(); //this line prevents other popup elements from closing
+              formRef.current?.requestSubmit();
+            }}
           >
             {isEditForm ? "Save Changes" : "Create Note"}
           </Button>

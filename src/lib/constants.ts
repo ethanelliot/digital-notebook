@@ -93,3 +93,6 @@ export const groupColors: Record<GroupColor, GroupColorOption> = {
     border: "border-red-800 dark:border-red-200",
   },
 };
+
+
+export const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
