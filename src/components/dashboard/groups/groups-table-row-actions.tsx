@@ -8,10 +8,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ConfirmDeleteDialog } from "../dialog/confirm-delete-dialog";
 import type { Group } from "@/types/group";
 import GroupFormDialog from "../dialog/group-form-dialog";
 import { useWorkspaceContext } from "@/contexts/workspace-context";
+import { useDialog } from "@/contexts/dialog-context";
 
 interface GroupsTableRowActionsProps {
   group: Group;
@@ -20,9 +20,10 @@ interface GroupsTableRowActionsProps {
 const GroupsTableRowActions: React.FC<GroupsTableRowActionsProps> = ({
   group,
 }) => {
-  const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
   const [isGroupDialogOpen, setIsGroupDialogOpen] = useState(false);
   const { deleteGroup } = useWorkspaceContext();
+
+  const { openConfirm } = useDialog();
 
   return (
     <>
@@ -50,7 +51,14 @@ const GroupsTableRowActions: React.FC<GroupsTableRowActionsProps> = ({
           <DropdownMenuItem
             className="text-red-600"
             onClick={() => {
-              setIsDeleteAlertOpen(true);
+              openConfirm({
+                title: "Are you absolutely sure?",
+                message:
+                  "This action cannot be undone. This will permanently delete your item from our servers",
+                onConfirm: () => {
+                  deleteGroup({ groupId: group.id });
+                },
+              });
             }}
           >
             Delete
@@ -64,15 +72,6 @@ const GroupsTableRowActions: React.FC<GroupsTableRowActionsProps> = ({
         open={isGroupDialogOpen}
         onOpenChange={setIsGroupDialogOpen}
         group={group}
-      />
-
-      {/* alert dialog for deletion confirmation */}
-      <ConfirmDeleteDialog
-        onConfirm={() => {
-          deleteGroup({ groupId: group.id });
-        }}
-        open={isDeleteAlertOpen}
-        onOpenChange={setIsDeleteAlertOpen}
       />
     </>
   );

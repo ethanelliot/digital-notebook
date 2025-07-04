@@ -12,6 +12,7 @@ import { ThemeProvider } from "./components/theme-provider.js";
 import DashboardLayout from "./components/dashboard/dashboard-layout.js";
 import { WorkspaceProvider } from "./contexts/workspace-context.js";
 import CalendarPage from "./pages/calender-page.js";
+import { DialogProvider } from "./contexts/dialog-context.js";
 
 const router = createBrowserRouter([
   {
@@ -54,7 +55,9 @@ ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <WorkspaceProvider>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <RouterProvider router={router} />
+        <DialogProvider>
+          <RouterProvider router={router} />
+        </DialogProvider>
       </ThemeProvider>
     </WorkspaceProvider>
   </React.StrictMode>

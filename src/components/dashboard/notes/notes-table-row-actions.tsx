@@ -14,8 +14,8 @@ import { useWorkspaceContext } from "@/contexts/workspace-context";
 import { Button } from "@/components/ui/button";
 import type { Note } from "@/types/note";
 import { NoteFormDialog } from "../dialog/note-form-dialog";
-import { ConfirmDeleteDialog } from "../dialog/confirm-delete-dialog";
 import { statuses } from "@/lib/constants";
+import { useDialog } from "@/contexts/dialog-context";
 
 interface NotesTableRowActionsProps {
   note: Note;
@@ -24,8 +24,9 @@ interface NotesTableRowActionsProps {
 const NotesTableRowActions: React.FC<NotesTableRowActionsProps> = ({
   note,
 }) => {
-  const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
   const [isNoteDialogOpen, setIsNoteDialogOpen] = useState(false);
+
+  const { openConfirm } = useDialog();
 
   const { updateNote, deleteNote } = useWorkspaceContext();
 
@@ -74,7 +75,14 @@ const NotesTableRowActions: React.FC<NotesTableRowActionsProps> = ({
           <DropdownMenuItem
             className="text-red-600"
             onClick={() => {
-              setIsDeleteAlertOpen(true);
+              openConfirm({
+                title: "Are you absolutely sure?",
+                message:
+                  "This action cannot be undone. This will permanently delete your item from our servers",
+                onConfirm: () => {
+                  deleteNote({ noteId: note.id });
+                },
+              });
             }}
           >
             Delete
@@ -88,15 +96,6 @@ const NotesTableRowActions: React.FC<NotesTableRowActionsProps> = ({
         open={isNoteDialogOpen}
         onOpenChange={setIsNoteDialogOpen}
         note={note}
-      />
-
-      {/* alert dialog for deletion confirmation */}
-      <ConfirmDeleteDialog
-        onConfirm={() => {
-          deleteNote({ noteId: note.id });
-        }}
-        open={isDeleteAlertOpen}
-        onOpenChange={setIsDeleteAlertOpen}
       />
     </>
   );

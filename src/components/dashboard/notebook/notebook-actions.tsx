@@ -8,19 +8,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ConfirmDeleteDialog } from "../dialog/confirm-delete-dialog";
 import { useWorkspaceContext } from "@/contexts/workspace-context";
 import type { Notebook } from "@/types/notebook";
 import NotebookFormDialog from "../dialog/notebook-form-dialog";
+import { useDialog } from "@/contexts/dialog-context";
 
 interface NotebookActionsProps {
   notebook: Notebook;
 }
 
 const NotebookActions: React.FC<NotebookActionsProps> = ({ notebook }) => {
-  const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
   const [isNotebookDialogOpen, setIsNotebookDialogOpen] = useState(false);
   const { deleteNotebook } = useWorkspaceContext();
+
+  const { openConfirm } = useDialog();
 
   return (
     <>
@@ -48,7 +49,14 @@ const NotebookActions: React.FC<NotebookActionsProps> = ({ notebook }) => {
           <DropdownMenuItem
             className="text-red-600"
             onClick={() => {
-              setIsDeleteAlertOpen(true);
+              openConfirm({
+                title: "Are you absolutely sure?",
+                message:
+                  "This action cannot be undone. This will permanently delete your item from our servers",
+                onConfirm: () => {
+                  deleteNotebook({ notebookId: notebook.id });
+                },
+              });
             }}
           >
             Delete
@@ -60,14 +68,6 @@ const NotebookActions: React.FC<NotebookActionsProps> = ({ notebook }) => {
         open={isNotebookDialogOpen}
         onOpenChange={setIsNotebookDialogOpen}
         notebook={notebook}
-      />
-      {/* alert dialog for deletion confirmation */}
-      <ConfirmDeleteDialog
-        onConfirm={() => {
-          deleteNotebook({ notebookId: notebook.id });
-        }}
-        open={isDeleteAlertOpen}
-        onOpenChange={setIsDeleteAlertOpen}
       />
     </>
   );
