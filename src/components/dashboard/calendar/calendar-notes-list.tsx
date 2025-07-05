@@ -21,8 +21,8 @@ const CalendarNotesList = ({
         return (
           <div
             className={cn(
-              "p-1 sm:h-auto text-[12px] mb-1 cursor-pointer",
-              view === "month" ? "h-2 rounded-sm" : "", // Todo: Find a way to make this not so hard coded inside component
+              "p-1 sm:h-auto rounded-sm text-[12px] mb-1 cursor-pointer",
+              view === "month" ? "h-2 " : "", // Todo: Find a way to make this not so hard coded inside component
               groupColors[note.groupColor].background,
               groupColors[note.groupColor].text
             )}

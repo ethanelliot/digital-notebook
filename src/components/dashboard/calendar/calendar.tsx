@@ -47,6 +47,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import CalendarDrawer from "./calendar-drawer";
 import CalendarWeekView from "./calendar-view-week";
 import CalendarMonthView from "./calendar-view-month";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export type CalendarView = "month" | "week";
 
@@ -311,3 +312,34 @@ const Calendar = () => {
 };
 
 export default Calendar;
+
+export const CalendarSkeleton: React.FC = () => {
+  return (
+    <div className="flex-1 grid grid-rows-[auto_1fr] mb-4">
+      <div className="flex flex-wrap justify-between mb-2 gap-2">
+        <div className="flex justify-between items-center gap-2 flex-shrink-0">
+          <Skeleton className="rounded-md h-9 px-2 min-w-64" />
+        </div>
+        <div className="flex flex-grow gap-2 order-last lg:order-none w-full md:w-auto justify-center md:justify-end ">
+          <Skeleton className="rounded-md h-9 px-2 min-w-100" />
+        </div>
+        <Skeleton className="flex-shrink-0 h-9 rounded-md min-w-32" />
+      </div>
+      <div
+        className={
+          "flex-1 sm:gap-2 grid grid-cols-7 grid-rows-[2em_repeat(6,1fr)]"
+        }
+      >
+        {Array(42)
+          .fill(0)
+          .map(() => {
+            return (
+              <div className="min-h-0 sm:aspect-square h-full w-full ">
+                <Skeleton className="w-full h-full rounded-none sm:rounded-md " />
+              </div>
+            );
+          })}
+      </div>
+    </div>
+  );
+};

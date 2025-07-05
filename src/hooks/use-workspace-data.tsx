@@ -105,11 +105,9 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
             } as Group)
         );
         setGroups(newGroups);
-        setLoading(false);
       },
       (error) => {
         setError(new ServerError(error.message));
-        setLoading(false);
       }
     );
 
@@ -175,6 +173,9 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
       });
       setNotebooks(allNotebooks);
     });
+
+    setLoading(false);
+
     return () => {
       notesUnsubscribe();
       notebooksUnsubscribe();

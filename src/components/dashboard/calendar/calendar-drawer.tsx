@@ -10,7 +10,6 @@ import { getEndOfDayTimestamp } from "@/lib/format-time";
 import type { Note } from "@/types/note";
 import { Plus } from "lucide-react";
 import React from "react";
-import CalendarNotesList from "./calendar-notes-list";
 import { useDialog } from "@/contexts/dialog-context";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
