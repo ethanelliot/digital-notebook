@@ -24,7 +24,7 @@ const CalendarWeekView: React.FC<CalendarWeekViewProps> = ({
   const { openDialog } = useDialog();
   const view: CalendarView = "week";
   return (
-    <div className=" grid grid-cols-7 grid-rows-[auto_1fr] sm:gap-2">
+    <div className="flex-1 grid grid-cols-7 grid-rows-[auto_1fr] sm:gap-2">
       {daysOfWeek.map((day) => (
         <div key={day} className="h-6 font-bold text-center">
           {day}

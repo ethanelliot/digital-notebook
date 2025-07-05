@@ -48,6 +48,7 @@ import CalendarDrawer from "./calendar-drawer";
 import CalendarWeekView from "./calendar-view-week";
 import CalendarMonthView from "./calendar-view-month";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useSwipeable } from "react-swipeable";
 
 export type CalendarView = "month" | "week";
 
@@ -108,6 +109,24 @@ const Calendar = () => {
     () => groupNotesByDate(notes, startDate, endDate, groupsFilter),
     [notes, startDate, endDate, groupsFilter]
   );
+
+  // swipe for small screens
+  const handlers = useSwipeable({
+    onSwipedLeft: () => {
+      if (view === "month") {
+        setCurrentDate(subMonths(currentDate, 1));
+      } else {
+        setCurrentDate(subWeeks(currentDate, 1));
+      }
+    },
+    onSwipedRight: () => {
+      if (view === "month") {
+        setCurrentDate(addMonths(currentDate, 1));
+      } else {
+        setCurrentDate(addWeeks(currentDate, 1));
+      }
+    },
+  });
 
   return (
     <div className="flex-1 grid grid-rows-[auto_1fr] mb-4">
@@ -262,42 +281,44 @@ const Calendar = () => {
           <span className="hidden sm:block">Add</span>
         </Button>
       </div>
-      {view === "month" && (
-        <CalendarMonthView
-          days={days}
-          notesByDate={notesByDate}
-          onCellClick={(day: Date) => {
-            if (isMobile) {
-              setCurrentDate(day);
-              setOpenDrawer(true);
-            }
-          }}
-          onCellAction={(day: Date) => {
-            if (!isMobile) {
+      <span {...handlers} className="flex-1 flex h-full w-full">
+        {view === "month" && (
+          <CalendarMonthView
+            days={days}
+            notesByDate={notesByDate}
+            onCellClick={(day: Date) => {
+              if (isMobile) {
+                setCurrentDate(day);
+                setOpenDrawer(true);
+              }
+            }}
+            onCellAction={(day: Date) => {
+              if (!isMobile) {
+                setCurrentDate(day);
+                openDialog("noteForm", {
+                  defaultValues: {
+                    dueDate: getEndOfDayTimestamp(currentDate),
+                  },
+                });
+              }
+            }}
+          />
+        )}
+        {view === "week" && (
+          <CalendarWeekView
+            days={days}
+            notesByDate={notesByDate}
+            onCellAction={(day: Date) => {
               setCurrentDate(day);
               openDialog("noteForm", {
                 defaultValues: {
                   dueDate: getEndOfDayTimestamp(currentDate),
                 },
               });
-            }
-          }}
-        />
-      )}
-      {view === "week" && (
-        <CalendarWeekView
-          days={days}
-          notesByDate={notesByDate}
-          onCellAction={(day: Date) => {
-            setCurrentDate(day);
-            openDialog("noteForm", {
-              defaultValues: {
-                dueDate: getEndOfDayTimestamp(currentDate),
-              },
-            });
-          }}
-        />
-      )}
+            }}
+          />
+        )}
+      </span>
 
       {isMobile && (
         <CalendarDrawer
