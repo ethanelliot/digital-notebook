@@ -112,14 +112,14 @@ const Calendar = () => {
 
   // swipe for small screens
   const handlers = useSwipeable({
-    onSwipedLeft: () => {
+    onSwipedRight: () => {
       if (view === "month") {
         setCurrentDate(subMonths(currentDate, 1));
       } else {
         setCurrentDate(subWeeks(currentDate, 1));
       }
     },
-    onSwipedRight: () => {
+    onSwipedLeft: () => {
       if (view === "month") {
         setCurrentDate(addMonths(currentDate, 1));
       } else {
@@ -281,7 +281,7 @@ const Calendar = () => {
           <span className="hidden sm:block">Add</span>
         </Button>
       </div>
-      <span {...handlers} className="flex-1 flex h-full w-full">
+      <div {...handlers} className="flex-1 flex flex-col h-full w-full">
         {view === "month" && (
           <CalendarMonthView
             days={days}
@@ -318,7 +318,7 @@ const Calendar = () => {
             }}
           />
         )}
-      </span>
+      </div>
 
       {isMobile && (
         <CalendarDrawer
