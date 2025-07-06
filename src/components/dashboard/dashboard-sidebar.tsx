@@ -10,16 +10,17 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import {
+  Book,
   BookA,
   Calendar,
   Home,
+  Layers,
   Pencil,
   Plus,
   Settings,
   StickyNote,
   type LucideIcon,
 } from "lucide-react";
-import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
 import { SidebarItemGroup } from "./sidebar-group";
 import { useWorkspaceContext } from "@/contexts/workspace-context";
 import { useEffect, useState } from "react";
@@ -27,11 +28,20 @@ import { Skeleton } from "../ui/skeleton";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { groupColors } from "@/lib/constants";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { useDialog } from "@/contexts/dialog-context";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const data = {
   navHead: {
     version: ["1.0.0"],
   },
+
   navMain: [
     {
       title: "Home",
@@ -60,6 +70,8 @@ const data = {
 
 export function DashboardSidebar() {
   const { loading, groups } = useWorkspaceContext();
+  const { openDialog } = useDialog();
+  const isMobile = useIsMobile();
   const [groupsData, setGroupsData] = useState<
     { title: string; url: string; icon?: LucideIcon; color: string }[]
   >([]);
@@ -99,12 +111,40 @@ export function DashboardSidebar() {
         {/*  ADD BUTTON */}
         <SidebarGroup>
           <SidebarMenu>
-            <Dialog>
-              <DialogTrigger className="inline-flex items-center justify-center w-full h-12 rounded-md px-6 border bg-background shadow-xs gap-2 whitespace-nowrap text-sm font-medium transition-all hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50">
-                <Plus className="size-4" />
-              </DialogTrigger>
-              <DialogContent>yes</DialogContent>
-            </Dialog>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button className="w-full h-12">
+                  <Plus className="size-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+                align="start"
+                side={isMobile ? "bottom" : "right"}
+                sideOffset={4}
+              >
+                <DropdownMenuItem onClick={() => openDialog("noteForm", {})}>
+                  <div className="flex size-6 items-center justify-center rounded-md border">
+                    <StickyNote className="size-3.5 shrink-0" />
+                  </div>
+                  New Note
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => openDialog("notebookForm", {})}
+                >
+                  <div className="flex size-6 items-center justify-center rounded-md border">
+                    <Book className="size-3.5 shrink-0" />
+                  </div>
+                  New Notebook
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => openDialog("groupForm", {})}>
+                  <div className="flex size-6 items-center justify-center rounded-md border">
+                    <Layers className="size-3.5 shrink-0" />
+                  </div>
+                  New Group
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </SidebarMenu>
         </SidebarGroup>
         <SidebarGroup>
