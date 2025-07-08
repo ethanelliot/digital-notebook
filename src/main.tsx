@@ -13,33 +13,46 @@ import DashboardLayout from "./components/dashboard/dashboard-layout.js";
 import { WorkspaceProvider } from "./contexts/workspace-context.js";
 import CalendarPage from "./pages/calender-page.js";
 import { DialogProvider } from "./contexts/dialog-context.js";
+import { AuthProvider } from "./contexts/auth-context.js";
+import ProtectedRoute from "./components/auth/protected-route.js";
+import LoginPage from "./pages/login-page.js";
 
 const router = createBrowserRouter([
+  // protected
   {
-    path: "/",
-    element: <DashboardLayout />,
+    element: <ProtectedRoute />,
     children: [
       {
-        path: "",
-        element: <HomePage />,
+        path: "/",
+        element: <DashboardLayout />,
+        children: [
+          {
+            path: "",
+            element: <HomePage />,
+          },
+          {
+            path: "notes",
+            element: <NotesPage />,
+          },
+          {
+            path: "calendar",
+            element: <CalendarPage />,
+          },
+          {
+            path: "groups",
+            element: <GroupsPage />,
+          },
+        ],
       },
       {
-        path: "notes",
-        element: <NotesPage />,
-      },
-      {
-        path: "calendar",
-        element: <CalendarPage />,
-      },
-      {
-        path: "groups",
-        element: <GroupsPage />,
+        path: "/notebook/:notebookId", // Root path
+        element: <EditorPage />,
       },
     ],
   },
   {
-    path: "/notebook/:notebookId", // Root path
-    element: <EditorPage />,
+    path: "/login",
+    element: <LoginPage />,
   },
   {
     path: "*",
@@ -53,12 +66,14 @@ if (!rootElement) {
 }
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <WorkspaceProvider>
-      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <DialogProvider>
-          <RouterProvider router={router} />
-        </DialogProvider>
-      </ThemeProvider>
-    </WorkspaceProvider>
+    <AuthProvider>
+      <WorkspaceProvider>
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+          <DialogProvider>
+            <RouterProvider router={router} />
+          </DialogProvider>
+        </ThemeProvider>
+      </WorkspaceProvider>
+    </AuthProvider>
   </React.StrictMode>
 );

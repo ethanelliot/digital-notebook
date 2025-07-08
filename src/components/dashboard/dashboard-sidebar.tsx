@@ -15,6 +15,7 @@ import {
   Calendar,
   Home,
   Layers,
+  LogOut,
   Pencil,
   Plus,
   Settings,
@@ -36,6 +37,7 @@ import {
 } from "../ui/dropdown-menu";
 import { useDialog } from "@/contexts/dialog-context";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useAuth } from "@/contexts/auth-context";
 
 const data = {
   navHead: {
@@ -87,6 +89,8 @@ export function DashboardSidebar() {
         }))
     );
   }, [groups]);
+
+  const { logout } = useAuth();
 
   return (
     <Sidebar>
@@ -142,6 +146,12 @@ export function DashboardSidebar() {
                     <Layers className="size-3.5 shrink-0" />
                   </div>
                   New Group
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => logout()}>
+                  <div className="flex size-6 items-center justify-center rounded-md border">
+                    <LogOut className="size-3.5 shrink-0" />
+                  </div>
+                  Logout
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
