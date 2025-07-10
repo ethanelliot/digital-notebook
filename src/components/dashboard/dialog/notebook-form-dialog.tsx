@@ -39,6 +39,7 @@ const NotebookFormDialog: React.FC<NotebookFormDialogProps> = ({
             if (isEditForm) {
               updateNotebook({ notebook, newData: data });
             } else {
+              console.log("create notebook");
               addNotebook(data);
             }
             closeDialog();
@@ -61,7 +62,7 @@ const NotebookFormDialog: React.FC<NotebookFormDialogProps> = ({
               formRef.current?.requestSubmit();
             }}
           >
-            {isEditForm ? "Save Changes" : "Create Note"}
+            {isEditForm ? "Save Changes" : "Create Notebook"}
           </Button>
         </DialogFooter>
       </DialogContent>

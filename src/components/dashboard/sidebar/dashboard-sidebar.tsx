@@ -15,29 +15,27 @@ import {
   Calendar,
   Home,
   Layers,
-  LogOut,
   Pencil,
   Plus,
-  Settings,
   StickyNote,
   type LucideIcon,
 } from "lucide-react";
-import { SidebarItemGroup } from "./sidebar-group";
+import { SidebarItemGroup } from "./sidebar-item-group";
 import { useWorkspaceContext } from "@/contexts/workspace-context";
 import { useEffect, useState } from "react";
-import { Skeleton } from "../ui/skeleton";
+import { Skeleton } from "../../ui/skeleton";
 import { Link } from "react-router-dom";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { groupColors } from "@/lib/constants";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
+} from "../../ui/dropdown-menu";
 import { useDialog } from "@/contexts/dialog-context";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useAuth } from "@/contexts/auth-context";
+import SidebarUser from "./sidebar-user";
 
 const data = {
   navHead: {
@@ -61,13 +59,6 @@ const data = {
       icon: StickyNote,
     },
   ],
-  navSecondary: [
-    {
-      title: "Settings",
-      url: "/settings",
-      icon: Settings,
-    },
-  ],
 };
 
 export function DashboardSidebar() {
@@ -89,8 +80,6 @@ export function DashboardSidebar() {
         }))
     );
   }, [groups]);
-
-  const { logout } = useAuth();
 
   return (
     <Sidebar>
@@ -147,12 +136,6 @@ export function DashboardSidebar() {
                   </div>
                   New Group
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => logout()}>
-                  <div className="flex size-6 items-center justify-center rounded-md border">
-                    <LogOut className="size-3.5 shrink-0" />
-                  </div>
-                  Logout
-                </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </SidebarMenu>
@@ -177,8 +160,8 @@ export function DashboardSidebar() {
             <SidebarItemGroup items={groupsData} />
           )}
         </SidebarGroup>
-        <SidebarGroup className="">
-          <SidebarItemGroup items={data.navSecondary} />
+        <SidebarGroup className="gap-4">
+          <SidebarUser />
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>

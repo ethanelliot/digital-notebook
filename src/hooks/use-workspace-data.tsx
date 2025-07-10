@@ -329,9 +329,7 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
       try {
         const groupRef = doc(groupsRef, data.groupId);
 
-        const notebookRef = collection(notebooksRef, "notebooks");
-
-        await addDoc(notebookRef, {
+        await addDoc(notebooksRef, {
           ...data,
           groupRef: groupRef,
           updatedAt: serverTimestamp(),
