@@ -26,9 +26,11 @@ const router = createBrowserRouter([
   // protected
   {
     element: (
-      <DialogProvider>
-        <ProtectedRoute />
-      </DialogProvider>
+      <WorkspaceProvider>
+        <DialogProvider>
+          <ProtectedRoute />
+        </DialogProvider>
+      </WorkspaceProvider>
     ),
     children: [
       {
@@ -84,11 +86,9 @@ if (!rootElement) {
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
     <AuthProvider>
-      <WorkspaceProvider>
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-          <RouterProvider router={router} />
-        </ThemeProvider>
-      </WorkspaceProvider>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </AuthProvider>
   </React.StrictMode>
 );
