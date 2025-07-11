@@ -2,8 +2,8 @@ import { dialogRegistry } from "@/lib/dialogs";
 import type DialogTypes from "@/types/dialog";
 import {
   createContext,
+  use,
   useCallback,
-  useContext,
   useMemo,
   useState,
   type ReactNode,
@@ -102,7 +102,7 @@ const DialogRenderer = () => {
 
 // Custom hook to use the context
 export function useDialog() {
-  const context = useContext(DialogContext);
+  const context = use(DialogContext);
   if (context === undefined) {
     throw new Error("useDialogdContext must be used within a DialogProvider");
   }

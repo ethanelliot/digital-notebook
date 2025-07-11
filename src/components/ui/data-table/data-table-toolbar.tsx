@@ -35,6 +35,7 @@ export function DataTableToolbar<TData>({
             case "text":
               return (
                 <DataTableTextFilter
+                  key={column.id}
                   table={table}
                   column={column.id}
                   placeholder={columnMeta?.placeholder}
@@ -45,6 +46,7 @@ export function DataTableToolbar<TData>({
             case "select":
               return (
                 <DataTableSelectFilter
+                  key={column.id}
                   column={column}
                   title={columnMeta?.label ?? ""}
                   possibleValues={columnMeta?.options}
@@ -54,6 +56,7 @@ export function DataTableToolbar<TData>({
             case "multiSelect":
               return (
                 <DataTableSelectFilter
+                  key={column.id}
                   column={column}
                   title={columnMeta?.label ?? ""}
                   possibleValues={columnMeta?.options}

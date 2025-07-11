@@ -7,13 +7,7 @@ import {
   type User as FirebaseUser,
   type UserCredential,
 } from "firebase/auth";
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, use, useEffect, useState, type ReactNode } from "react";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -83,7 +77,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext);
+  const context = use(AuthContext);
 
   if (context === undefined) {
     throw new Error("useAuth must be used within an AuthProvider");

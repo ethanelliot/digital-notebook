@@ -17,12 +17,12 @@ import { Badge } from "@/components/ui/badge";
 import { groupColors, statuses } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
-type CalendarDrawerProps = {
+interface CalendarDrawerProps {
   open: boolean;
   setIsOpen: (open: boolean) => void;
   notes: Note[];
   date: Date;
-};
+}
 
 const CalendarDrawer: React.FC<CalendarDrawerProps> = ({
   open,
@@ -45,6 +45,7 @@ const CalendarDrawer: React.FC<CalendarDrawerProps> = ({
                 );
                 return (
                   <div
+                    key={note.id}
                     className={cn(
                       "w-full rounded-sm p-2",
                       groupColors[note.groupColor].background,

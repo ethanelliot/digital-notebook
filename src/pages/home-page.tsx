@@ -64,7 +64,10 @@ const HomePage: React.FC = () => {
                 (status) => status.value === note.status
               );
               return (
-                <div className="flex flex-col items-start gap-2 space-x-4 rounded-md border p-4">
+                <div
+                  key={note.id}
+                  className="flex flex-col items-start gap-2 space-x-4 rounded-md border p-4"
+                >
                   <p className="font-semibold">{note.content}</p>
                   <div>
                     <Badge variant="outline">
@@ -90,7 +93,10 @@ const HomePage: React.FC = () => {
           <CardContent className="flex flex-col gap-2 overflow-hidden">
             {notebooks.map((notebook) => {
               return (
-                <div className="flex flex-col items-start gap-2 space-x-4 rounded-md border p-4">
+                <div
+                  key={notebook.id}
+                  className="flex flex-col items-start gap-2 space-x-4 rounded-md border p-4"
+                >
                   <div className="flex w-full justify-between">
                     <Link
                       to={`/notebook/${notebook.id}`}

@@ -51,7 +51,7 @@ const SettingsPage = () => {
         >
           <TabsList className="mx-">
             {tabs.map((tab) => (
-              <TabsTrigger className="px-4" value={tab.label}>
+              <TabsTrigger key={tab.label} className="px-4" value={tab.label}>
                 <tab.icon />
                 {tab.title}
               </TabsTrigger>

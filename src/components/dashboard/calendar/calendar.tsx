@@ -79,7 +79,7 @@ function groupNotesByDate(
     )
     .forEach((note: Note) => {
       const dateKey = format(note.dueDate.toDate(), "yyyy-MM-dd");
-      const existing = map.get(dateKey) || [];
+      const existing = map.get(dateKey) ?? [];
       map.set(dateKey, [...existing, note]);
     });
   return map;
@@ -324,7 +324,7 @@ const Calendar = () => {
         <CalendarDrawer
           open={openDrawer}
           setIsOpen={setOpenDrawer}
-          notes={notesByDate.get(format(currentDate, "yyyy-MM-dd")) || []}
+          notes={notesByDate.get(format(currentDate, "yyyy-MM-dd")) ?? []}
           date={currentDate}
         />
       )}
@@ -353,9 +353,10 @@ export const CalendarSkeleton: React.FC = () => {
       >
         {Array(42)
           .fill(0)
-          .map(() => {
+          .map((_, i) => {
             return (
-              <div className="min-h-0 sm:aspect-square h-full w-full ">
+              // eslint-disable-next-line react-x/no-array-index-key
+              <div key={i} className="min-h-0 sm:aspect-square h-full w-full ">
                 <Skeleton className="w-full h-full rounded-none sm:rounded-md " />
               </div>
             );

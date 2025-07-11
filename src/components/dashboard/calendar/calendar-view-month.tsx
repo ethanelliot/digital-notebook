@@ -9,12 +9,12 @@ import { useDialog } from "@/contexts/dialog-context";
 import type { CalendarView } from "./calendar";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-type CalendarMonthViewProps = {
+interface CalendarMonthViewProps {
   days: Date[];
   notesByDate: Map<string, Note[]>;
   onCellAction: (day: Date) => void;
   onCellClick?: (day: Date) => void;
-};
+}
 
 const CalendarMonthView: React.FC<CalendarMonthViewProps> = ({
   days,
@@ -47,7 +47,7 @@ const CalendarMonthView: React.FC<CalendarMonthViewProps> = ({
         }`}
       >
         {days.map((day) => {
-          const dayNotes = notesByDate.get(format(day, "yyyy-MM-dd")) || [];
+          const dayNotes = notesByDate.get(format(day, "yyyy-MM-dd")) ?? [];
 
           return (
             <div

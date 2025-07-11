@@ -2,7 +2,7 @@ import {
   useWorkspaceData,
   type UseWorkspaceDataResult,
 } from "@/hooks/use-workspace-data";
-import { createContext, useContext, type ReactNode } from "react";
+import { createContext, use, type ReactNode } from "react";
 
 const WorkspaceContext = createContext<UseWorkspaceDataResult | undefined>(
   undefined
@@ -24,7 +24,7 @@ export function WorkspaceProvider({ children }: WorkspaceProviderProps) {
 
 // Custom hook to use the context
 export function useWorkspaceContext() {
-  const context = useContext(WorkspaceContext);
+  const context = use(WorkspaceContext);
   if (context === undefined) {
     throw new Error(
       "useWorkspaceContext must be used within a WorkspaceProvider"

@@ -92,7 +92,7 @@ const SidebarUser: React.FC = () => {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               {data.actions.map((item) => (
-                <Link to={item.url}>
+                <Link key={item.title} to={item.url}>
                   <DropdownMenuItem>
                     <item.icon />
                     <span>{item.title}</span>

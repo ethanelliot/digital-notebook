@@ -3,11 +3,11 @@ import { groupColors, statuses } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import type { Note } from "@/types/note";
 import type { CalendarView } from "./calendar";
-type CalendarNotesListProps = {
+interface CalendarNotesListProps {
   notes: Note[];
   onNoteClick?: (note: Note) => void;
   view?: CalendarView;
-};
+}
 
 const CalendarNotesList = ({
   notes,

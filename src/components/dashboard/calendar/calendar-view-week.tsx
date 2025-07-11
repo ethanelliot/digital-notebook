@@ -8,12 +8,12 @@ import CalendarNotesList from "./calendar-notes-list";
 import { useDialog } from "@/contexts/dialog-context";
 import type { CalendarView } from "./calendar";
 
-type CalendarWeekViewProps = {
+interface CalendarWeekViewProps {
   days: Date[];
   notesByDate: Map<string, Note[]>;
   onCellAction: (day: Date) => void;
   onCellClick?: () => void;
-};
+}
 
 const CalendarWeekView: React.FC<CalendarWeekViewProps> = ({
   days,
@@ -33,7 +33,10 @@ const CalendarWeekView: React.FC<CalendarWeekViewProps> = ({
         ))}
 
         {days.map((day) => (
-          <div className="flex items-center justify-center">
+          <div
+            key={day.toDateString()}
+            className="flex items-center justify-center"
+          >
             <p
               className={`h-6 w-6 flex items-center justify-center text-sm font-bold ${
                 isToday(day)
@@ -49,7 +52,7 @@ const CalendarWeekView: React.FC<CalendarWeekViewProps> = ({
 
       <div className="flex-1 grid grid-cols-7 divide-x border rounded-md sm:gap-2 sm:border-0">
         {days.map((day) => {
-          const dayNotes = notesByDate.get(format(day, "yyyy-MM-dd")) || [];
+          const dayNotes = notesByDate.get(format(day, "yyyy-MM-dd")) ?? [];
           return (
             <div
               key={day.toString()}
