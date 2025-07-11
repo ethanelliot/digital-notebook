@@ -23,7 +23,7 @@ const data = {
   actions: [
     {
       title: "Account",
-      url: "/account",
+      url: "/settings",
       icon: UserCircle,
     },
     {

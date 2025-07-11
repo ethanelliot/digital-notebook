@@ -1,6 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import "./index.css";
 
 import NotFoundPage from "./pages/not-found.js";
@@ -16,6 +20,7 @@ import { DialogProvider } from "./contexts/dialog-context.js";
 import { AuthProvider } from "./contexts/auth-context.js";
 import ProtectedRoute from "./components/auth/protected-route.js";
 import LoginPage from "./pages/login-page.js";
+import SettingsPage from "./pages/settings-page.js";
 
 const router = createBrowserRouter([
   // protected
@@ -41,6 +46,14 @@ const router = createBrowserRouter([
           {
             path: "groups",
             element: <GroupsPage />,
+          },
+          {
+            path: "settings",
+            element: <Navigate to="/settings/profile" replace />,
+          },
+          {
+            path: "settings/:tab",
+            element: <SettingsPage />,
           },
         ],
       },
