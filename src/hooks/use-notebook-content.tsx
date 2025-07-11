@@ -1,6 +1,6 @@
 // src/hooks/useNotebook.ts
 
-import { db } from "@/firebase";
+import { auth, db } from "@/firebase";
 import { NotFoundError, ServerError } from "@/lib/errors";
 import type { JSONContent } from "@tiptap/react";
 import { doc, getDoc, updateDoc, DocumentReference } from "firebase/firestore";
@@ -28,6 +28,11 @@ export function useNotebookContent(
 
   // todo add snapshot listener
   useEffect(() => {
+    if (!auth.currentUser) {
+      setError(new Error("User is not authenticated"));
+      return;
+    }
+
     if (!notebookId) {
       setNotebookContent(null);
       setLoading(false);

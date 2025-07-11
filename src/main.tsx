@@ -25,7 +25,11 @@ import SettingsPage from "./pages/settings-page.js";
 const router = createBrowserRouter([
   // protected
   {
-    element: <ProtectedRoute />,
+    element: (
+      <DialogProvider>
+        <ProtectedRoute />
+      </DialogProvider>
+    ),
     children: [
       {
         path: "/",
@@ -82,9 +86,7 @@ ReactDOM.createRoot(rootElement).render(
     <AuthProvider>
       <WorkspaceProvider>
         <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-          <DialogProvider>
-            <RouterProvider router={router} />
-          </DialogProvider>
+          <RouterProvider router={router} />
         </ThemeProvider>
       </WorkspaceProvider>
     </AuthProvider>

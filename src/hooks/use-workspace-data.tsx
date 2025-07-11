@@ -1,4 +1,4 @@
-import { db } from "@/firebase";
+import { auth, db } from "@/firebase";
 import { MAX_VISIBLE_GROUPS } from "@/lib/constants";
 import { ServerError } from "@/lib/errors";
 import type { Group } from "@/types/group";
@@ -13,6 +13,7 @@ import {
   onSnapshot,
   query,
   serverTimestamp,
+  setDoc,
   updateDoc,
   where,
   writeBatch,
@@ -74,7 +75,7 @@ export interface UseWorkspaceDataResult {
   addGroup: (group: AddGroupInput) => Promise<void>;
   updateGroup: (group: UpdateGroupInput) => Promise<void>;
   deleteGroup: (group: DeleteGroupInput) => Promise<void>;
-  addNotebook: (notebook: AddNotebookInput) => Promise<void>;
+  addNotebook: (notebook: AddNotebookInput) => Promise<string | undefined>;
   updateNotebook: (notebook: UpdateNotebookInput) => Promise<void>;
   deleteNotebook: (notebook: DeleteNotebookInput) => Promise<void>;
 }
@@ -92,7 +93,12 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
   const notebooksRef = useMemo(() => collection(db, "notebooks"), []);
 
   useEffect(() => {
-    const q = query(groupsRef); // adjust for visability
+    if (!auth.currentUser) {
+      setError(new Error("User must be authenticated"));
+      return;
+    }
+
+    const q = query(groupsRef, where("createdBy", "==", auth.currentUser.uid)); // adjust for visability
 
     const unsubscribe = onSnapshot(
       q,
@@ -108,6 +114,7 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
       },
       (error) => {
         setError(new ServerError(error.message));
+        console.error(error);
       }
     );
 
@@ -127,9 +134,18 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
       return;
     }
 
+    if (!auth.currentUser) {
+      setError(new Error("User must be authenticated"));
+      return;
+    }
+
     const groupRefs = visibleGroups.map((group) => doc(db, "groups", group.id));
 
-    const notesQuery = query(notesRef, where("groupRef", "in", groupRefs));
+    const notesQuery = query(
+      notesRef,
+      where("groupRef", "in", groupRefs),
+      where("createdBy", "==", auth.currentUser.uid)
+    );
 
     const notesUnsubscribe = onSnapshot(notesQuery, (snapshot) => {
       const allNotes = snapshot.docs.map((doc) => {
@@ -152,7 +168,8 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
 
     const notebookQuery = query(
       notebooksRef,
-      where("groupRef", "in", groupRefs)
+      where("groupRef", "in", groupRefs),
+      where("createdBy", "==", auth.currentUser.uid)
     );
 
     const notebooksUnsubscribe = onSnapshot(notebookQuery, (snapshot) => {
@@ -185,6 +202,11 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
   const addNote = useCallback(
     async (data: AddNoteInput) => {
       try {
+        if (!auth.currentUser) {
+          setError(new Error("User must be authenticated to create notes"));
+          return;
+        }
+
         const groupRef = doc(groupsRef, data.groupId);
 
         await addDoc(notesRef, {
@@ -192,6 +214,7 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
           status: data.status,
           dueDate: data.dueDate,
           groupRef: groupRef,
+          createdBy: auth.currentUser.uid,
           updatedAt: serverTimestamp(),
           createdAt: serverTimestamp(),
         });
@@ -205,6 +228,11 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
 
   const updateNote = useCallback(
     async ({ note, newData }: UpdateNoteInput) => {
+      if (!auth.currentUser) {
+        setError(new Error("User must be authenticated to update notes"));
+        return;
+      }
+
       if (!note) {
         console.error("Cannot save: No note ID provided");
         setError(new Error("Cannot save: No notebook ID provided."));
@@ -237,6 +265,11 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
 
   const deleteNote = useCallback(
     async ({ noteId }: DeleteNoteInput) => {
+      if (!auth.currentUser) {
+        setError(new Error("User must be authenticated to delete notes"));
+        return;
+      }
+
       if (!noteId) {
         console.error("Cannot delete: No note or group ID provided");
         setError(new Error("Cannot save: No notebook ID provided."));
@@ -255,9 +288,15 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
 
   const addGroup = useCallback(
     async (data: AddGroupInput) => {
+      if (!auth.currentUser) {
+        setError(new Error("User must be authenticated to add groups"));
+        return;
+      }
+
       try {
         await addDoc(groupsRef, {
           ...data,
+          createdBy: auth.currentUser.uid,
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp(),
         });
@@ -271,8 +310,13 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
 
   const updateGroup = useCallback(
     async ({ group, newData }: UpdateGroupInput) => {
+      if (!auth.currentUser) {
+        setError(new Error("User must be authenticated to update groups"));
+        return;
+      }
+
       try {
-        //   if (Object.keys(newData).length > 0)
+        // TODO check if there are updates...   if (Object.keys(newData).length > 0)
         const groupRef = doc(groupsRef, group.id);
         await updateDoc(groupRef, {
           ...newData,
@@ -287,6 +331,11 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
 
   const deleteGroup = useCallback(
     async ({ groupId }: DeleteGroupInput) => {
+      if (!auth.currentUser) {
+        setError(new Error("User must be authenticated to delete groups"));
+        return;
+      }
+
       if (!groupId) {
         console.error("Cannot delete: No group ID provided");
         setError(new Error("Cannot save: No notebook ID provided."));
@@ -326,15 +375,42 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
 
   const addNotebook = useCallback(
     async (data: AddNotebookInput) => {
+      if (!auth.currentUser) {
+        setError(new Error("User must be authenticated to add notebooks"));
+        return;
+      }
+
       try {
         const groupRef = doc(groupsRef, data.groupId);
 
-        await addDoc(notebooksRef, {
+        const notebookRef = await addDoc(notebooksRef, {
           ...data,
           groupRef: groupRef,
+          createdBy: auth.currentUser.uid,
           updatedAt: serverTimestamp(),
           createdAt: serverTimestamp(),
         });
+
+        const contentCollectionRef = collection(notebookRef, "content");
+
+        const notebookMainContentDocRef = doc(contentCollectionRef, "main");
+
+        await setDoc(notebookMainContentDocRef, {
+          type: "doc",
+          content: [
+            {
+              type: "paragraph",
+              content: [
+                {
+                  type: "text",
+                  text: "Start typing to get started!",
+                },
+              ],
+            },
+          ],
+        });
+
+        return notebookRef.id;
       } catch (error) {
         setError(error as ServerError);
         console.log(error);
@@ -345,6 +421,10 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
 
   const updateNotebook = useCallback(
     async ({ notebook, newData }: UpdateNotebookInput) => {
+      if (!auth.currentUser) {
+        setError(new Error("User must be authenticated to update notebooks"));
+        return;
+      }
       try {
         const { groupId: newGroupId, ...newNotebookDataWithoutGroupId } =
           newData;
@@ -372,6 +452,10 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
 
   const deleteNotebook = useCallback(
     async ({ notebookId }: DeleteNotebookInput) => {
+      if (!auth.currentUser) {
+        setError(new Error("User must be authenticated to delete notebooks"));
+        return;
+      }
       if (!notebookId) {
         console.error("Cannot delete: No group or notebook ID provided");
         setError(new Error("Cannot save: No notebook ID provided."));

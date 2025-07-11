@@ -12,14 +12,35 @@ import { Button } from "@/components/ui/button";
 import { NotebookForm } from "../forms/notebook-form";
 import type { NotebookFormDialogProps } from "@/types/dialog";
 import { useDialog } from "@/contexts/dialog-context";
+import { useNavigate } from "react-router-dom";
+import type { Notebook } from "@/types/notebook";
 
 const NotebookFormDialog: React.FC<NotebookFormDialogProps> = ({
   notebook,
 }) => {
   const { addNotebook, updateNotebook } = useWorkspaceContext();
+  const navigate = useNavigate();
   const { state, closeDialog } = useDialog();
 
   const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSubmit = async (
+    data: Omit<
+      Notebook,
+      "id" | "createdAt" | "updatedAt" | "groupColor" | "groupName" | "groupRef"
+    >
+  ) => {
+    if (isEditForm) {
+      updateNotebook({ notebook, newData: data });
+      closeDialog();
+    } else {
+      const newNotebookId = await addNotebook(data);
+      if (newNotebookId) {
+        closeDialog();
+        navigate(`/notebook/${newNotebookId}`);
+      }
+    }
+  };
 
   const isEditForm = !!notebook;
   return (
@@ -35,15 +56,7 @@ const NotebookFormDialog: React.FC<NotebookFormDialogProps> = ({
         <NotebookForm
           ref={formRef}
           initialData={notebook}
-          onSubmit={(data) => {
-            if (isEditForm) {
-              updateNotebook({ notebook, newData: data });
-            } else {
-              console.log("create notebook");
-              addNotebook(data);
-            }
-            closeDialog();
-          }}
+          onSubmit={handleSubmit}
         />
         <DialogFooter>
           <Button
