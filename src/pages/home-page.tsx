@@ -1,5 +1,10 @@
+import { Plus } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import NotebookActions from '@/components/dashboard/notebook/notebook-actions'
 import NotesTable from '@/components/dashboard/notes/notes-table'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardAction,
@@ -8,17 +13,12 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
+import { useDialog } from '@/contexts/dialog-context'
 import { useWorkspaceContext } from '@/contexts/workspace-context'
-import type { Note } from '@/types/note'
-import { Badge } from '@/components/ui/badge'
 import { groupColors, statuses } from '@/lib/constants'
 import { getRelativeDate } from '@/lib/format-time'
-import { Link } from 'react-router-dom'
-import NotebookActions from '@/components/dashboard/notebook/notebook-actions'
 import { cn } from '@/lib/utils'
-import { useDialog } from '@/contexts/dialog-context'
+import type { Note } from '@/types/note'
 
 const HomePage: React.FC = () => {
   const [upcomingNotes, setUpcomingNotes] = useState<Note[]>([])

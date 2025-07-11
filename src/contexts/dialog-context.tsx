@@ -1,5 +1,3 @@
-import { dialogRegistry } from '@/lib/dialogs'
-import type DialogTypes from '@/types/dialog'
 import {
   createContext,
   use,
@@ -8,6 +6,8 @@ import {
   useState,
   type ReactNode,
 } from 'react'
+import { dialogRegistry } from '@/lib/dialogs'
+import type DialogTypes from '@/types/dialog'
 
 interface DialogProviderProps {
   children: ReactNode

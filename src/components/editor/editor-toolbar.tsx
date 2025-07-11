@@ -1,7 +1,4 @@
 import { useCurrentEditor } from '@tiptap/react'
-import { Button } from '@/components/ui/button'
-import { ModeToggle } from '@/components/mode-toggle'
-import { useNavigate } from 'react-router-dom'
 import {
   Bold,
   Italic,
@@ -20,6 +17,9 @@ import {
   SquareCode,
   ListCheck,
 } from 'lucide-react' // Example icons
+import { useNavigate } from 'react-router-dom'
+import { ModeToggle } from '@/components/mode-toggle'
+import { Button } from '@/components/ui/button'
 import { Toggle } from '@/components/ui/toggle'
 import {
   DropdownMenu,

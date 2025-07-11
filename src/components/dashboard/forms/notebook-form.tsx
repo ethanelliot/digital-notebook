@@ -1,15 +1,6 @@
+import { AlertCircleIcon, Check, ChevronsUpDown } from 'lucide-react'
+import { forwardRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-
-import { useWorkspaceContext } from '@/contexts/workspace-context'
-import { cn } from '@/lib/utils'
-import type { Notebook } from '@/types/notebook'
 import {
   Command,
   CommandInput,
@@ -18,8 +9,16 @@ import {
   CommandGroup,
   CommandItem,
 } from '@/components/ui/command'
-import { AlertCircleIcon, Check, ChevronsUpDown } from 'lucide-react'
-import { forwardRef, useState } from 'react'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import { useWorkspaceContext } from '@/contexts/workspace-context'
+import { cn } from '@/lib/utils'
+import type { Notebook } from '@/types/notebook'
 
 interface NotebookFormProps {
   onSubmit: (

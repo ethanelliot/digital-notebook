@@ -1,15 +1,15 @@
 import { type Table } from '@tanstack/react-table'
-import { DataTableTextFilter } from './data-table-filter-text'
-import { DataTableSelectFilter } from './data-table-filter-select'
+import { Settings2, Plus } from 'lucide-react'
+import { useMemo } from 'react'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Settings2, Plus } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { useMemo } from 'react'
+import { DataTableSelectFilter } from './data-table-filter-select'
+import { DataTableTextFilter } from './data-table-filter-text'
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>

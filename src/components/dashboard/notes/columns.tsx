@@ -1,12 +1,12 @@
-import type { ColumnDef } from '@tanstack/react-table'
 import '@/types/table'
-import type { Note, statusType } from '@/types/note'
-import type { Timestamp } from 'firebase/firestore'
 import { Badge } from '@/components/ui/badge'
 import { DataTableColumnHeader } from '@/components/ui/data-table/data-table-column-header'
 import { groupColors, statuses } from '@/lib/constants'
-import NotesTableRowActions from './notes-table-row-actions'
 import { cn } from '@/lib/utils'
+import type { Note, statusType } from '@/types/note'
+import NotesTableRowActions from './notes-table-row-actions'
+import type { ColumnDef } from '@tanstack/react-table'
+import type { Timestamp } from 'firebase/firestore'
 
 export const columns: ColumnDef<Note>[] = [
   {

@@ -1,5 +1,5 @@
-import { Input } from '@/components/ui/input'
 import { type Table } from '@tanstack/react-table'
+import { Input } from '@/components/ui/input'
 
 interface DataTableTextFilterProps<TData> {
   table: Table<TData>

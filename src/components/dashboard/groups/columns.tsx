@@ -1,11 +1,11 @@
-import type { ColumnDef } from '@tanstack/react-table'
 import '@/types/table'
 
-import type { Group } from '@/types/group'
-import GroupsTableVisability from './groups-table-visability'
-import GroupsTableRowActions from './groups-table-row-actions'
-import { cn } from '@/lib/utils'
 import { groupColors } from '@/lib/constants'
+import { cn } from '@/lib/utils'
+import type { Group } from '@/types/group'
+import GroupsTableRowActions from './groups-table-row-actions'
+import GroupsTableVisability from './groups-table-visability'
+import type { ColumnDef } from '@tanstack/react-table'
 
 export const columns: ColumnDef<Group>[] = [
   {

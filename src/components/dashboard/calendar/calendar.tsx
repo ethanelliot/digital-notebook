@@ -1,24 +1,3 @@
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-import { Separator } from '@/components/ui/separator'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { useWorkspaceContext } from '@/contexts/workspace-context'
-import { getDateRange } from '@/lib/date-helpers'
-import { cn } from '@/lib/utils'
-import type { Note } from '@/types/note'
 import {
   eachDayOfInterval,
   startOfMonth,
@@ -40,15 +19,36 @@ import {
   Plus,
 } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { groupColors } from '@/lib/constants'
-import { useDialog } from '@/contexts/dialog-context'
-import { getEndOfDayTimestamp } from '@/lib/format-time'
-import { useIsMobile } from '@/hooks/use-mobile'
-import CalendarDrawer from './calendar-drawer'
-import CalendarWeekView from './calendar-view-week'
-import CalendarMonthView from './calendar-view-month'
-import { Skeleton } from '@/components/ui/skeleton'
 import { useSwipeable } from 'react-swipeable'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import { Separator } from '@/components/ui/separator'
+import { Skeleton } from '@/components/ui/skeleton'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { useDialog } from '@/contexts/dialog-context'
+import { useWorkspaceContext } from '@/contexts/workspace-context'
+import { useIsMobile } from '@/hooks/use-mobile'
+import { groupColors } from '@/lib/constants'
+import { getDateRange } from '@/lib/date-helpers'
+import { getEndOfDayTimestamp } from '@/lib/format-time'
+import { cn } from '@/lib/utils'
+import type { Note } from '@/types/note'
+import CalendarDrawer from './calendar-drawer'
+import CalendarMonthView from './calendar-view-month'
+import CalendarWeekView from './calendar-view-week'
 
 export type CalendarView = 'month' | 'week'
 

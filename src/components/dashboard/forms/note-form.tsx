@@ -1,27 +1,13 @@
-import { Button } from '@/components/ui/button'
-import { Calendar } from '@/components/ui/calendar'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-import type { Note, statusType } from '@/types/note'
+import { Timestamp } from 'firebase/firestore'
 import {
   AlertCircleIcon,
   Check,
   ChevronDownIcon,
   ChevronsUpDown,
 } from 'lucide-react'
-import { useState } from 'react'
+import React, { useState } from 'react'
+import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar'
 import {
   Command,
   CommandEmpty,
@@ -30,12 +16,25 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command'
-import { cn } from '@/lib/utils'
-import { formatTimeFromTimestamp } from '@/lib/format-time'
-import { Timestamp } from 'firebase/firestore'
-import React from 'react'
-import { groupColors, statuses } from '@/lib/constants'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { useWorkspaceContext } from '@/contexts/workspace-context'
+import { groupColors, statuses } from '@/lib/constants'
+import { formatTimeFromTimestamp } from '@/lib/format-time'
+import { cn } from '@/lib/utils'
+import type { Note, statusType } from '@/types/note'
 
 interface NoteFormProps {
   onSubmit: (

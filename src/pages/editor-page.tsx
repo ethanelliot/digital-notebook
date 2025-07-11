@@ -1,11 +1,11 @@
+import { useMemo } from 'react'
+import { useParams } from 'react-router-dom'
 import { Editor, EditorSkeleton } from '@/components/editor/editor'
+import { useWorkspaceContext } from '@/contexts/workspace-context'
 import { useNotebookContent } from '@/hooks/use-notebook-content'
 import { NotFoundError } from '@/lib/errors'
-import { useParams } from 'react-router-dom'
-import NotFoundPage from './not-found'
 import ErrorPage from './error-page'
-import { useMemo } from 'react'
-import { useWorkspaceContext } from '@/contexts/workspace-context'
+import NotFoundPage from './not-found'
 
 function EditorPage() {
   const { notebookId } = useParams<{

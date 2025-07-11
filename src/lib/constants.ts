@@ -1,6 +1,6 @@
+import { CircleCheck, Clock, Eye, EyeOff, RefreshCcw } from 'lucide-react'
 import type { GroupColor } from '@/types/group'
 import type { statusType } from '@/types/note'
-import { CircleCheck, Clock, Eye, EyeOff, RefreshCcw } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
 export const MAX_VISIBLE_GROUPS = 30 // this is a hard limit set by the firebase in query

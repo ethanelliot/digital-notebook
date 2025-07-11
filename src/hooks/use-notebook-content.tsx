@@ -1,10 +1,10 @@
 // src/hooks/useNotebook.ts
 
+import { doc, getDoc, updateDoc, DocumentReference } from 'firebase/firestore'
+import { useCallback, useEffect, useState } from 'react'
 import { auth, db } from '@/firebase'
 import { NotFoundError, ServerError } from '@/lib/errors'
 import type { JSONContent } from '@tiptap/react'
-import { doc, getDoc, updateDoc, DocumentReference } from 'firebase/firestore'
-import { useCallback, useEffect, useState } from 'react'
 
 interface UseNotebookContentResult {
   notebookContent: JSONContent | null

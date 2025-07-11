@@ -11,7 +11,7 @@ import {
   type ColumnFiltersState,
   getFacetedUniqueValues,
 } from '@tanstack/react-table'
-
+import { useState } from 'react'
 import {
   Table,
   TableBody,
@@ -21,7 +21,6 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { DataTablePagination } from './data-table-pagination'
-import { useState } from 'react'
 import { DataTableToolbar } from './data-table-toolbar'
 
 interface DataTableProps<TData, TValue> {

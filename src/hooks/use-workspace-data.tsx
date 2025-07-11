@@ -1,9 +1,3 @@
-import { auth, db } from '@/firebase'
-import { MAX_VISIBLE_GROUPS } from '@/lib/constants'
-import { ServerError } from '@/lib/errors'
-import type { Group } from '@/types/group'
-import type { Note, NoteDataFromFirestore } from '@/types/note'
-import type { Notebook, NotebookDataFromFirestore } from '@/types/notebook'
 import {
   addDoc,
   collection,
@@ -20,6 +14,12 @@ import {
   writeBatch,
 } from 'firebase/firestore'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { auth, db } from '@/firebase'
+import { MAX_VISIBLE_GROUPS } from '@/lib/constants'
+import { ServerError } from '@/lib/errors'
+import type { Group } from '@/types/group'
+import type { Note, NoteDataFromFirestore } from '@/types/note'
+import type { Notebook, NotebookDataFromFirestore } from '@/types/notebook'
 
 type AddNoteInput = Omit<
   Note,

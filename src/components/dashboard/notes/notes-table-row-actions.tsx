@@ -1,4 +1,6 @@
+import { MoreHorizontal } from 'lucide-react'
 import React from 'react'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,12 +11,10 @@ import {
   DropdownMenuSubContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { MoreHorizontal } from 'lucide-react'
-import { useWorkspaceContext } from '@/contexts/workspace-context'
-import { Button } from '@/components/ui/button'
-import type { Note } from '@/types/note'
-import { statuses } from '@/lib/constants'
 import { useDialog } from '@/contexts/dialog-context'
+import { useWorkspaceContext } from '@/contexts/workspace-context'
+import { statuses } from '@/lib/constants'
+import type { Note } from '@/types/note'
 
 interface NotesTableRowActionsProps {
   note: Note

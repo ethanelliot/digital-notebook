@@ -1,3 +1,5 @@
+import { useRef } from 'react'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -6,12 +8,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { useRef } from 'react'
-import { useWorkspaceContext } from '@/contexts/workspace-context'
-import { Button } from '@/components/ui/button'
-import { GroupForm } from '../forms/group-form'
-import type { GroupFormDialogProps } from '@/types/dialog'
 import { useDialog } from '@/contexts/dialog-context'
+import { useWorkspaceContext } from '@/contexts/workspace-context'
+import type { GroupFormDialogProps } from '@/types/dialog'
+import { GroupForm } from '../forms/group-form'
 
 const GroupFormDialog: React.FC<GroupFormDialogProps> = ({ group }) => {
   const { addGroup, updateGroup } = useWorkspaceContext()

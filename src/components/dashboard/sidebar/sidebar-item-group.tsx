@@ -1,11 +1,12 @@
 import { type LucideIcon } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
-import { Link } from 'react-router-dom'
 import { cn } from '@/lib/utils'
+
 export function SidebarItemGroup({
   items,
 }: {

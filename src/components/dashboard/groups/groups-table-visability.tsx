@@ -1,8 +1,8 @@
+import { Eye, EyeOff } from 'lucide-react'
+import React, { useCallback } from 'react'
 import { Button } from '@/components/ui/button'
 import { useWorkspaceContext } from '@/contexts/workspace-context'
 import type { Group } from '@/types/group'
-import { Eye, EyeOff } from 'lucide-react'
-import React, { useCallback } from 'react'
 
 interface GroupsTableVisabilityProps {
   group: Group

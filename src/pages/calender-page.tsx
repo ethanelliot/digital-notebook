@@ -1,8 +1,8 @@
+import React from 'react'
 import Calendar, {
   CalendarSkeleton,
 } from '@/components/dashboard/calendar/calendar'
 import { useWorkspaceContext } from '@/contexts/workspace-context'
-import React from 'react'
 
 const CalendarPage: React.FC = () => {
   const { loading } = useWorkspaceContext()

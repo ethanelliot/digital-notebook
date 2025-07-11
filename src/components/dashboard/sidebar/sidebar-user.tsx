@@ -1,3 +1,6 @@
+import { LogOut, MoreVertical, Settings, UserCircle } from 'lucide-react'
+import React from 'react'
+import { Link } from 'react-router-dom'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenu,
@@ -15,9 +18,6 @@ import {
 } from '@/components/ui/sidebar'
 import { useAuth } from '@/contexts/auth-context'
 import { useIsMobile } from '@/hooks/use-mobile'
-import { LogOut, MoreVertical, Settings, UserCircle } from 'lucide-react'
-import React from 'react'
-import { Link } from 'react-router-dom'
 
 const data = {
   actions: [

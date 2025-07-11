@@ -1,3 +1,8 @@
+import { format } from 'date-fns'
+import { Plus } from 'lucide-react'
+import React from 'react'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import {
   Drawer,
   DrawerClose,
@@ -6,16 +11,11 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from '@/components/ui/drawer'
-import { getEndOfDayTimestamp } from '@/lib/format-time'
-import type { Note } from '@/types/note'
-import { Plus } from 'lucide-react'
-import React from 'react'
 import { useDialog } from '@/contexts/dialog-context'
-import { Button } from '@/components/ui/button'
-import { format } from 'date-fns'
-import { Badge } from '@/components/ui/badge'
 import { groupColors, statuses } from '@/lib/constants'
+import { getEndOfDayTimestamp } from '@/lib/format-time'
 import { cn } from '@/lib/utils'
+import type { Note } from '@/types/note'
 
 interface CalendarDrawerProps {
   open: boolean

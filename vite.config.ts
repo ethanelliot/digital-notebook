@@ -1,7 +1,7 @@
-import { defineConfig } from 'vite'
-import reactSWC from '@vitejs/plugin-react-swc'
 import path from 'path'
 import tailwindcss from '@tailwindcss/vite'
+import reactSWC from '@vitejs/plugin-react-swc'
+import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
 export default defineConfig({

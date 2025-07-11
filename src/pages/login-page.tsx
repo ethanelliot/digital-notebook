@@ -1,3 +1,4 @@
+import React from 'react'
 import LoginForm from '@/components/auth/forms/login-form'
 import {
   Card,
@@ -6,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import React from 'react'
 
 const LoginPage: React.FC = () => {
   return (

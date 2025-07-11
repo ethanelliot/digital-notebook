@@ -1,11 +1,11 @@
-import React from 'react'
-import { daysOfWeek } from '@/lib/constants'
 import { isToday, format } from 'date-fns'
-import type { Note } from '@/types/note'
 import { Plus } from 'lucide-react'
+import React from 'react'
 import { Button } from '@/components/ui/button'
-import CalendarNotesList from './calendar-notes-list'
 import { useDialog } from '@/contexts/dialog-context'
+import { daysOfWeek } from '@/lib/constants'
+import type { Note } from '@/types/note'
+import CalendarNotesList from './calendar-notes-list'
 import type { CalendarView } from './calendar'
 
 interface CalendarWeekViewProps {

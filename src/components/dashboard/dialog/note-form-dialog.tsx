@@ -1,3 +1,5 @@
+import { useRef } from 'react'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -6,12 +8,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { NoteForm } from '../forms/note-form'
-import { useWorkspaceContext } from '@/contexts/workspace-context'
-import { useRef } from 'react'
-import { Button } from '@/components/ui/button'
-import type { NoteFormDialogProps } from '@/types/dialog'
 import { useDialog } from '@/contexts/dialog-context'
+import { useWorkspaceContext } from '@/contexts/workspace-context'
+import type { NoteFormDialogProps } from '@/types/dialog'
+import { NoteForm } from '../forms/note-form'
 
 const NoteFormDialog: React.FC<NoteFormDialogProps> = ({
   note,

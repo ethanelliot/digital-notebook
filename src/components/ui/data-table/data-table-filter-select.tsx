@@ -1,13 +1,8 @@
 import { type Column } from '@tanstack/react-table'
-import { useCallback, useMemo, useState } from 'react'
-
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-import { Button } from '@/components/ui/button'
 import { Check, CirclePlus } from 'lucide-react'
+import { useCallback, useMemo, useState } from 'react'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import {
   Command,
   CommandEmpty,
@@ -16,8 +11,12 @@ import {
   CommandItem,
   CommandList,
 } from '@/components/ui/command'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import { Separator } from '@/components/ui/separator'
-import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
 import type { FilterOption } from '@/types/table'
 

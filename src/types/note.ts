@@ -1,5 +1,5 @@
-import type { DocumentReference, Timestamp } from 'firebase/firestore'
 import type { Group, GroupColor } from './group'
+import type { DocumentReference, Timestamp } from 'firebase/firestore'
 
 export type statusType = 'In-progress' | 'Completed' | 'Not-started'
 

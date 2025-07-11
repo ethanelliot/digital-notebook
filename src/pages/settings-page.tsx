@@ -1,3 +1,5 @@
+import { Settings, Unplug, UserCircle } from 'lucide-react'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -7,8 +9,6 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Settings, Unplug, UserCircle } from 'lucide-react'
-import { Navigate, useNavigate, useParams } from 'react-router-dom'
 
 const tabs = [
   {

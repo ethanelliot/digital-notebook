@@ -1,4 +1,3 @@
-import { auth } from '@/firebase'
 import {
   GoogleAuthProvider,
   signInWithEmailAndPassword,
@@ -8,6 +7,7 @@ import {
   type UserCredential,
 } from 'firebase/auth'
 import { createContext, use, useEffect, useState, type ReactNode } from 'react'
+import { auth } from '@/firebase'
 
 interface AuthProviderProps {
   children: ReactNode

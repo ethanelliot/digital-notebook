@@ -1,4 +1,6 @@
+import { MoreHorizontal } from 'lucide-react'
 import React from 'react'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,11 +8,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { MoreHorizontal } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { useDialog } from '@/contexts/dialog-context'
 import { useWorkspaceContext } from '@/contexts/workspace-context'
 import type { Notebook } from '@/types/notebook'
-import { useDialog } from '@/contexts/dialog-context'
 
 interface NotebookActionsProps {
   notebook: Notebook

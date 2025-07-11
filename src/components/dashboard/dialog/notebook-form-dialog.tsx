@@ -1,3 +1,6 @@
+import { useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -6,14 +9,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import { useRef } from 'react'
-import { useWorkspaceContext } from '@/contexts/workspace-context'
-import { Button } from '@/components/ui/button'
-import { NotebookForm } from '../forms/notebook-form'
-import type { NotebookFormDialogProps } from '@/types/dialog'
 import { useDialog } from '@/contexts/dialog-context'
-import { useNavigate } from 'react-router-dom'
+import { useWorkspaceContext } from '@/contexts/workspace-context'
+import type { NotebookFormDialogProps } from '@/types/dialog'
 import type { Notebook } from '@/types/notebook'
+import { NotebookForm } from '../forms/notebook-form'
 
 const NotebookFormDialog: React.FC<NotebookFormDialogProps> = ({
   notebook,

@@ -1,3 +1,5 @@
+import { AlertCircleIcon, Check, ChevronsUpDown } from 'lucide-react'
+import { forwardRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -24,8 +26,6 @@ import {
 import { groupColors, visibility } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 import type { Group, GroupColor } from '@/types/group'
-import { AlertCircleIcon, Check, ChevronsUpDown } from 'lucide-react'
-import { forwardRef, useState } from 'react'
 
 interface GroupFormProps {
   onSubmit: (data: Omit<Group, 'id' | 'createdAt' | 'updatedAt'>) => void

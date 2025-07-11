@@ -1,15 +1,4 @@
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupAction,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from '@/components/ui/sidebar'
-import {
   Book,
   BookA,
   Calendar,
@@ -20,21 +9,32 @@ import {
   StickyNote,
   type LucideIcon,
 } from 'lucide-react'
-import { SidebarItemGroup } from './sidebar-item-group'
-import { useWorkspaceContext } from '@/contexts/workspace-context'
 import { useEffect, useState } from 'react'
-import { Skeleton } from '../../ui/skeleton'
 import { Link } from 'react-router-dom'
-import { Button } from '../../ui/button'
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupAction,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from '@/components/ui/sidebar'
+import { useDialog } from '@/contexts/dialog-context'
+import { useWorkspaceContext } from '@/contexts/workspace-context'
+import { useIsMobile } from '@/hooks/use-mobile'
 import { groupColors } from '@/lib/constants'
+import { Button } from '../../ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '../../ui/dropdown-menu'
-import { useDialog } from '@/contexts/dialog-context'
-import { useIsMobile } from '@/hooks/use-mobile'
+import { Skeleton } from '../../ui/skeleton'
+import { SidebarItemGroup } from './sidebar-item-group'
 import SidebarUser from './sidebar-user'
 
 const data = {

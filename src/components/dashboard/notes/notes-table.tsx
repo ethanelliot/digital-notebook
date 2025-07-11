@@ -1,10 +1,9 @@
 import React from 'react'
-import { DataTable } from '@/components/ui/data-table/data-table'
 import { columns } from '@/components/dashboard/notes/columns'
-
-import { useWorkspaceContext } from '@/contexts/workspace-context'
+import { DataTable } from '@/components/ui/data-table/data-table'
 import { DataTableSkeleton } from '@/components/ui/data-table/data-table-skeleton'
 import { useDialog } from '@/contexts/dialog-context'
+import { useWorkspaceContext } from '@/contexts/workspace-context'
 
 const NotesTable: React.FC = () => {
   const { loading, notes } = useWorkspaceContext()
