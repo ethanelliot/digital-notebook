@@ -73,7 +73,7 @@ export function useNotebookContent(
       }
     };
 
-    fetchNotebookData();
+    void fetchNotebookData();
   }, [notebookId]);
 
   const saveNotebookContent = useCallback(

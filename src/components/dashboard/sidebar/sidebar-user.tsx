@@ -101,7 +101,7 @@ const SidebarUser: React.FC = () => {
               ))}
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => logout()}>
+            <DropdownMenuItem onClick={() => void logout()}>
               <LogOut />
               Log out
             </DropdownMenuItem>

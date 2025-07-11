@@ -21,7 +21,7 @@ const NoteFormDialog: React.FC<NoteFormDialogProps> = ({
   const { state, closeDialog } = useDialog();
   const formRef = useRef<HTMLFormElement>(null);
 
-  const initialData = note || defaultValues;
+  const initialData = note ?? defaultValues;
 
   const isEditForm = !!note;
 
@@ -40,9 +40,9 @@ const NoteFormDialog: React.FC<NoteFormDialogProps> = ({
           initialData={initialData}
           onSubmit={(data) => {
             if (note) {
-              updateNote({ note, newData: data });
+              void updateNote({ note, newData: data });
             } else {
-              addNote(data);
+              void addNote(data);
             }
             closeDialog();
           }}

@@ -46,7 +46,7 @@ export const Editor = ({
       clearTimeout(debounceTimeout.current);
     }
     debounceTimeout.current = setTimeout(() => {
-      saveNotebookContent(editor.getJSON());
+      void saveNotebookContent(editor.getJSON());
     }, 1000);
   });
 

@@ -13,7 +13,7 @@ function EditorPage() {
   }>();
 
   const { notebookContent, error, saveNotebookContent } = useNotebookContent(
-    notebookId || ""
+    notebookId ?? ""
   );
 
   const { notebooks, updateNotebook } = useWorkspaceContext();
@@ -35,13 +35,22 @@ function EditorPage() {
     return <EditorSkeleton />;
   }
 
+  const handleSaveName = async (name: string) => {
+    try {
+      await updateNotebook({ notebook, newData: { name } });
+    } catch (error) {
+      // Required: Handle the error
+      console.error("Failed to update notebook name:", error);
+      // Optional: Show an error message to the user
+      // e.g., displayToast('Error updating name', 'error');
+      // TODO: error here
+    }
+  };
   return (
     <Editor
       notebookName={notebook.name}
       notebookContent={notebookContent}
-      saveNotebookName={(name) => {
-        updateNotebook({ notebook, newData: { name } });
-      }}
+      saveNotebookName={(name) => void handleSaveName(name)}
       saveNotebookContent={saveNotebookContent}
     />
   );

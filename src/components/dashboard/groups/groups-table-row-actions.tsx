@@ -41,7 +41,7 @@ const GroupsTableRowActions: React.FC<GroupsTableRowActionsProps> = ({
 
           <DropdownMenuItem
             onClick={() => {
-              navigator.clipboard.writeText(group.id);
+              void navigator.clipboard.writeText(group.id);
             }}
           >
             Copy Firebase ID
@@ -56,7 +56,7 @@ const GroupsTableRowActions: React.FC<GroupsTableRowActionsProps> = ({
                 message:
                   "This action cannot be undone. This will permanently delete your item from our servers",
                 onConfirm: () => {
-                  deleteGroup({ groupId: group.id });
+                  void deleteGroup({ groupId: group.id });
                 },
               });
             }}

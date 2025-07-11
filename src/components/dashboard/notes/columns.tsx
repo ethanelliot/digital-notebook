@@ -92,7 +92,9 @@ export const columns: ColumnDef<Note>[] = [
     },
     filterFn: (row, id, value) => {
       // value is an array of selected options
-      return value.includes(row.getValue(id));
+      const cellContent = String(row.getValue(id));
+      const filterValue = String(value);
+      return cellContent.includes(filterValue);
     },
     meta: {
       label: "Group",

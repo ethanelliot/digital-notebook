@@ -2,7 +2,7 @@ import type { Timestamp } from "firebase/firestore";
 
 export type GroupColor = "blue"|"yellow"|"purple" |"green"|"red"
 
-export type Group = {
+export interface Group {
   id: string;
   name: string;
   isHidden: boolean;

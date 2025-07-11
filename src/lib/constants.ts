@@ -5,7 +5,7 @@ import type { LucideIcon } from "lucide-react";
 
 export const MAX_VISIBLE_GROUPS = 30; // this is a hard limit set by the firebase in query
 
-export type StatusOption = {
+export interface StatusOption {
   value: statusType;
   label: string;
   icon: LucideIcon;
@@ -29,7 +29,7 @@ export const statuses: StatusOption[] = [
   },
 ];
 
-export type VisibilityOption = {
+export interface VisibilityOption  {
   value: boolean;
   label: string;
   icon: LucideIcon;
@@ -48,7 +48,7 @@ export const visibility: VisibilityOption[] = [
   },
 ];
 
-export type GroupColorOption = {
+export interface GroupColorOption {
   value: string;
   label: string;
   background: string;

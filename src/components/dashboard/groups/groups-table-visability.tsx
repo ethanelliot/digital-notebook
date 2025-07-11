@@ -13,7 +13,7 @@ const GroupsTableVisability: React.FC<GroupsTableVisabilityProps> = ({
 }) => {
   const { updateGroup } = useWorkspaceContext();
   const toggleVisability = useCallback(() => {
-    updateGroup({ group: group, newData: { isHidden: !group.isHidden } });
+    void updateGroup({ group: group, newData: { isHidden: !group.isHidden } });
   }, [group, updateGroup]);
 
   return (

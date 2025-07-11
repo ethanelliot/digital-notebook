@@ -39,7 +39,7 @@ const NotebookActions: React.FC<NotebookActionsProps> = ({ notebook }) => {
 
           <DropdownMenuItem
             onClick={() => {
-              navigator.clipboard.writeText(notebook.id);
+              void navigator.clipboard.writeText(notebook.id);
             }}
           >
             Copy Firebase ID
@@ -54,7 +54,7 @@ const NotebookActions: React.FC<NotebookActionsProps> = ({ notebook }) => {
                 message:
                   "This action cannot be undone. This will permanently delete your item from our servers",
                 onConfirm: () => {
-                  deleteNotebook({ notebookId: notebook.id });
+                  void deleteNotebook({ notebookId: notebook.id });
                 },
               });
             }}

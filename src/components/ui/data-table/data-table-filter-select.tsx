@@ -37,12 +37,12 @@ export function DataTableSelectFilter<TData, TValue>({
   const [open, setOpen] = useState(false);
   const columnFilterValue = column.getFilterValue();
 
-  const options: FilterOption[] = possibleValues
-    ? possibleValues
-    : Array.from(column.getFacetedUniqueValues().keys()).map((key) => ({
-        value: key,
-        label: String(key),
-      }));
+  const options: FilterOption[] =
+    possibleValues ??
+    Array.from(column.getFacetedUniqueValues().keys()).map((key) => ({
+      value: String(key),
+      label: String(key),
+    }));
 
   const selectedValues = useMemo(
     () => new Set(Array.isArray(columnFilterValue) ? columnFilterValue : []),

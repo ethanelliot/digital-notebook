@@ -17,7 +17,7 @@ const LoginForm: React.FC = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async () => {
+  const handleLoginWithEmail = async () => {
     setLoading(true);
     if (!formData.email) {
       setError("Email cannot be empty");
@@ -29,7 +29,7 @@ const LoginForm: React.FC = () => {
     }
     try {
       await login(formData);
-      navigate("/");
+      void navigate("/");
     } catch (error: unknown) {
       console.error("Login error:", error);
 
@@ -50,6 +50,16 @@ const LoginForm: React.FC = () => {
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleLoginWithGoogle = async () => {
+    try {
+      await loginWithGoogle();
+      void navigate("/");
+    } catch (error) {
+      console.error("Google login error", error);
+      setError("Failed to login with Google. Please try again.");
     }
   };
 
@@ -102,7 +112,7 @@ const LoginForm: React.FC = () => {
             disabled={loading}
             onClick={(e) => {
               e.preventDefault();
-              handleSubmit();
+              void handleLoginWithEmail();
             }}
           >
             Login
@@ -110,16 +120,9 @@ const LoginForm: React.FC = () => {
           <Button
             variant="outline"
             className="w-full"
-            onClick={async (e) => {
+            onClick={(e) => {
               e.preventDefault();
-              console.log("dsf");
-              try {
-                await loginWithGoogle();
-                navigate("/"); // or do something after success
-              } catch (error) {
-                console.error("Google login error", error);
-                setError("Failed to login with Google. Please try again.");
-              }
+              void handleLoginWithGoogle();
             }}
           >
             Login with Google

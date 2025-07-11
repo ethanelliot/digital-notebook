@@ -47,7 +47,7 @@ const SettingsPage = () => {
       <div className="flex justify-between mb-4">
         <Tabs
           value={tab || "profile"}
-          onValueChange={(value) => navigate(`/settings/${value}`)}
+          onValueChange={(value) => void navigate(`/settings/${value}`)}
         >
           <TabsList className="mx-">
             {tabs.map((tab) => (

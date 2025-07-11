@@ -52,11 +52,11 @@ export const NoteForm = React.forwardRef<HTMLFormElement, NoteFormProps>(
     const { groups } = useWorkspaceContext();
 
     const [formData, setFormData] = useState({
-      content: initialData?.content || "",
-      dueDate: initialData?.dueDate?.toDate() || undefined,
+      content: initialData?.content ?? "",
+      dueDate: initialData?.dueDate?.toDate() ?? undefined,
       dueTime: formatTimeFromTimestamp(initialData?.dueDate?.toDate()),
-      status: initialData?.status || "Not-started",
-      groupId: initialData?.groupId || "",
+      status: initialData?.status ?? "Not-started",
+      groupId: initialData?.groupId ?? "",
     });
     const [openDate, setOpenDate] = useState(false);
     const [openGroup, setOpenGroup] = useState(false);

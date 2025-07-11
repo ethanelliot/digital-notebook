@@ -31,13 +31,13 @@ const NotebookFormDialog: React.FC<NotebookFormDialogProps> = ({
     >
   ) => {
     if (isEditForm) {
-      updateNotebook({ notebook, newData: data });
+      void updateNotebook({ notebook, newData: data });
       closeDialog();
     } else {
       const newNotebookId = await addNotebook(data);
       if (newNotebookId) {
         closeDialog();
-        navigate(`/notebook/${newNotebookId}`);
+        void navigate(`/notebook/${newNotebookId}`);
       }
     }
   };
@@ -56,7 +56,7 @@ const NotebookFormDialog: React.FC<NotebookFormDialogProps> = ({
         <NotebookForm
           ref={formRef}
           initialData={notebook}
-          onSubmit={handleSubmit}
+          onSubmit={(data) => void handleSubmit(data)}
         />
         <DialogFooter>
           <Button

@@ -62,10 +62,12 @@ export const columns: ColumnDef<Group>[] = [
         },
       ],
     },
-    filterFn: (row, columnId, filterValue) => {
+    filterFn: (row, id, value) => {
       // in the data-table-filter-select component we set the filter to a list even if there is only one element
+      const filterValue = String(value);
+
       if (!filterValue || filterValue.length === 0) return true;
-      return filterValue[0] === row.getValue(columnId);
+      return filterValue.startsWith(row.getValue(id));
     },
     cell: ({ row }) => {
       const group = row.original;

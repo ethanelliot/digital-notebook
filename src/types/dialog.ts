@@ -9,22 +9,22 @@ export default interface DialogTypes {
   notebookForm: NotebookFormDialogProps;
 }
 
-export type ConfirmDialogProps = {
+export interface ConfirmDialogProps {
   title: string;
   message: string;
   onConfirm: () => void;
   onCancel?: () => void;
 };
 
-export type GroupFormDialogProps = {
+export interface GroupFormDialogProps {
   group?: Group;
 };
 
-export type NotebookFormDialogProps = {
+export interface NotebookFormDialogProps {
   notebook?: Notebook;
 };
 
-export type NoteFormDialogProps = {
+export interface NoteFormDialogProps {
   note?: Note; // pass note if edit form
   defaultValues?: Partial<Note>; // default values for explicity setting intial values of feilds
 };

@@ -36,8 +36,8 @@ export const NotebookForm = forwardRef<HTMLFormElement, NotebookFormProps>(
     const { groups } = useWorkspaceContext();
 
     const [formData, setFormData] = useState({
-      name: initialData?.name || "",
-      groupId: initialData?.groupId || "",
+      name: initialData?.name ?? "",
+      groupId: initialData?.groupId ?? "",
     });
 
     const [openGroup, setOpenGroup] = useState(false);

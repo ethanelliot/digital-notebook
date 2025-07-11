@@ -1,6 +1,6 @@
 
 export class NotFoundError extends Error {
-  constructor(message: string = 'Resource not found') {
+  constructor(message = 'Resource not found') {
     super(message);
     this.name = 'NotFoundError';
     Object.setPrototypeOf(this, NotFoundError.prototype);
@@ -8,7 +8,7 @@ export class NotFoundError extends Error {
 }
 
 export class ServerError extends Error {
-  constructor(message: string = 'An unexpected server error occurred') {
+  constructor(message = 'An unexpected server error occurred') {
     super(message);
     this.name = 'ServerError';
     Object.setPrototypeOf(this, ServerError.prototype);
@@ -16,7 +16,7 @@ export class ServerError extends Error {
 }
 
 export class ValidationError extends Error {
-  constructor(message: string = 'Validation failed') {
+  constructor(message = 'Validation failed') {
     super(message);
     this.name = 'ValidationError';
     Object.setPrototypeOf(this, ValidationError.prototype);
@@ -24,7 +24,7 @@ export class ValidationError extends Error {
 }
 
 export class UnauthorizedError extends Error {
-  constructor(message: string = 'Unauthorized access') {
+  constructor(message = 'Unauthorized access') {
     super(message);
     this.name = 'UnauthorizedError';
     Object.setPrototypeOf(this, UnauthorizedError.prototype);
@@ -32,7 +32,7 @@ export class UnauthorizedError extends Error {
 }
 
 export class ForbiddenError extends Error {
-  constructor(message: string = 'Forbidden access') {
+  constructor(message = 'Forbidden access') {
     super(message);
     this.name = 'ForbiddenError';
     Object.setPrototypeOf(this, ForbiddenError.prototype);

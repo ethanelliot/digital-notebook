@@ -46,7 +46,7 @@ export function DataTableToolbar<TData>({
               return (
                 <DataTableSelectFilter
                   column={column}
-                  title={columnMeta?.label || ""}
+                  title={columnMeta?.label ?? ""}
                   possibleValues={columnMeta?.options}
                 />
               );
@@ -55,7 +55,7 @@ export function DataTableToolbar<TData>({
               return (
                 <DataTableSelectFilter
                   column={column}
-                  title={columnMeta?.label || ""}
+                  title={columnMeta?.label ?? ""}
                   possibleValues={columnMeta?.options}
                   multiple={true}
                 />

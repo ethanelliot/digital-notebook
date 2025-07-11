@@ -15,9 +15,9 @@ import {
   type ReactNode,
 } from "react";
 
-type AuthProviderProps = {
+interface AuthProviderProps {
   children: ReactNode;
-};
+}
 
 interface AuthContextType {
   authUser: FirebaseUser | null;

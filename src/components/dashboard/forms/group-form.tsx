@@ -35,9 +35,9 @@ interface GroupFormProps {
 export const GroupForm = forwardRef<HTMLFormElement, GroupFormProps>(
   ({ onSubmit, initialData }, ref) => {
     const [formData, setFormData] = useState({
-      name: initialData?.name || "",
-      isHidden: initialData?.isHidden || false,
-      color: initialData?.color || "",
+      name: initialData?.name ?? "",
+      isHidden: initialData?.isHidden ?? false,
+      color: initialData?.color ?? "",
     });
 
     const [error, setError] = useState("");

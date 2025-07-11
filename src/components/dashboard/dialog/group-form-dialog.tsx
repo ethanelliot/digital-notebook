@@ -34,9 +34,9 @@ const GroupFormDialog: React.FC<GroupFormDialogProps> = ({ group }) => {
           initialData={group}
           onSubmit={(data) => {
             if (isEditForm) {
-              updateGroup({ group, newData: data });
+              void updateGroup({ group, newData: data });
             } else {
-              addGroup(data);
+              void addGroup(data);
             }
             closeDialog();
           }}

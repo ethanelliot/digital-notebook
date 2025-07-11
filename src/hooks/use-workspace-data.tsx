@@ -2,13 +2,14 @@ import { auth, db } from "@/firebase";
 import { MAX_VISIBLE_GROUPS } from "@/lib/constants";
 import { ServerError } from "@/lib/errors";
 import type { Group } from "@/types/group";
-import type { Note } from "@/types/note";
-import type { Notebook } from "@/types/notebook";
+import type { Note, NoteDataFromFirestore } from "@/types/note";
+import type { Notebook, NotebookDataFromFirestore } from "@/types/notebook";
 import {
   addDoc,
   collection,
   deleteDoc,
   doc,
+  DocumentReference,
   getDocs,
   onSnapshot,
   query,
@@ -24,7 +25,7 @@ type AddNoteInput = Omit<
   Note,
   "id" | "createdAt" | "updatedAt" | "groupName" | "groupColor" | "groupRef"
 >;
-type UpdateNoteInput = {
+interface UpdateNoteInput {
   note: Note;
   newData: Partial<
     Omit<
@@ -32,25 +33,25 @@ type UpdateNoteInput = {
       "id" | "createdAt" | "updatedAt" | "groupName" | "groupColor" | "groupRef"
     >
   >;
-};
-type DeleteNoteInput = {
+}
+interface DeleteNoteInput {
   noteId: string;
-};
+}
 
 type AddGroupInput = Omit<Group, "id" | "createdAt" | "updatedAt">;
-type UpdateGroupInput = {
+interface UpdateGroupInput {
   group: Group;
   newData: Partial<Omit<Group, "id" | "createdAt">>;
-};
-type DeleteGroupInput = {
+}
+interface DeleteGroupInput {
   groupId: string;
-};
+}
 
 type AddNotebookInput = Omit<
   Notebook,
   "id" | "createdAt" | "updatedAt" | "groupColor" | "groupName" | "groupRef"
 >;
-type UpdateNotebookInput = {
+interface UpdateNotebookInput {
   notebook: Notebook;
   newData: Partial<
     Omit<
@@ -58,10 +59,10 @@ type UpdateNotebookInput = {
       "id" | "createdAt" | "updatedAt" | "groupColor" | "groupName" | "groupRef"
     >
   >;
-};
-type DeleteNotebookInput = {
+}
+interface DeleteNotebookInput {
   notebookId: string;
-};
+}
 
 export interface UseWorkspaceDataResult {
   groups: Group[];
@@ -139,7 +140,9 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
       return;
     }
 
-    const groupRefs = visibleGroups.map((group) => doc(db, "groups", group.id));
+    const groupRefs: DocumentReference[] = visibleGroups.map((group) =>
+      doc(db, "groups", group.id)
+    );
 
     const notesQuery = query(
       notesRef,
@@ -148,15 +151,14 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
     );
 
     const notesUnsubscribe = onSnapshot(notesQuery, (snapshot) => {
-      const allNotes = snapshot.docs.map((doc) => {
-        const noteData = doc.data();
+      const allNotes: Note[] = snapshot.docs.map((doc) => {
+        const noteData = doc.data() as NoteDataFromFirestore;
 
         const group = visibleGroups.find(
           (group) => group.id === noteData.groupRef.id
         );
 
         return {
-          id: doc.id,
           ...noteData,
           groupColor: group?.color,
           groupName: group?.name,
@@ -173,15 +175,14 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
     );
 
     const notebooksUnsubscribe = onSnapshot(notebookQuery, (snapshot) => {
-      const allNotebooks = snapshot.docs.map((doc) => {
-        const noteData = doc.data();
+      const allNotebooks: Notebook[] = snapshot.docs.map((doc) => {
+        const noteData = doc.data() as NotebookDataFromFirestore;
 
         const group = visibleGroups.find(
           (group) => group.id === noteData.groupRef.id
         );
 
         return {
-          id: doc.id,
           ...noteData,
           groupId: group?.id,
           groupName: group?.name,
@@ -365,7 +366,7 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
 
         batch.delete(groupRef);
 
-        batch.commit();
+        await batch.commit();
       } catch (error) {
         setError(error as ServerError);
       }

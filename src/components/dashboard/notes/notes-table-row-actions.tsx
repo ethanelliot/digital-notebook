@@ -49,7 +49,7 @@ const NotesTableRowActions: React.FC<NotesTableRowActionsProps> = ({
                 <DropdownMenuItem
                   key={status.value}
                   onClick={() =>
-                    updateNote({
+                    void updateNote({
                       note,
                       newData: { status: status.value },
                     })
@@ -63,7 +63,7 @@ const NotesTableRowActions: React.FC<NotesTableRowActionsProps> = ({
           </DropdownMenuSub>
           <DropdownMenuItem
             onClick={() => {
-              navigator.clipboard.writeText(note.id);
+              void navigator.clipboard.writeText(note.id);
             }}
           >
             Copy Firebase ID
@@ -78,7 +78,7 @@ const NotesTableRowActions: React.FC<NotesTableRowActionsProps> = ({
                 message:
                   "This action cannot be undone. This will permanently delete your item from our servers",
                 onConfirm: () => {
-                  deleteNote({ noteId: note.id });
+                  void deleteNote({ noteId: note.id });
                 },
               });
             }}

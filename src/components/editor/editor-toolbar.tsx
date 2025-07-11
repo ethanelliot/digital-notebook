@@ -45,7 +45,7 @@ const EditorToolbar = ({ name, setName }: EditorToolbarProps) => {
   return (
     <div className="w-full relative flex flex-wrap items-center justify-between gap-2 p-2 border-border bg-background border-b py-4 md:py-6">
       <div className="flex items-center gap-2 flex-shrink-0">
-        <Button variant="outline" size="icon" onClick={() => navigate(-1)}>
+        <Button variant="outline" size="icon" onClick={() => void navigate(-1)}>
           <ArrowLeft />
         </Button>
         <Input
