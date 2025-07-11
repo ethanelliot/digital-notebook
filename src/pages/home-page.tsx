@@ -87,7 +87,7 @@ const HomePage: React.FC = () => {
               Browse your recently used notebooks.
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="flex flex-col gap-2 overflow-hidden">
             {notebooks.map((notebook) => {
               return (
                 <div className="flex flex-col items-start gap-2 space-x-4 rounded-md border p-4">
