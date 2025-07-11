@@ -2,18 +2,18 @@ import {
   NodeViewWrapper,
   NodeViewContent,
   type NodeViewProps,
-} from "@tiptap/react";
-import { Checkbox } from "@/components/ui/checkbox";
+} from '@tiptap/react'
+import { Checkbox } from '@/components/ui/checkbox'
 
 interface TaskItemAttrs {
-  checked: boolean;
+  checked: boolean
 }
 
 export default function TaskItemNodeView({
   node,
   updateAttributes,
 }: NodeViewProps) {
-  const { checked } = node.attrs as TaskItemAttrs;
+  const { checked } = node.attrs as TaskItemAttrs
   return (
     <NodeViewWrapper as="li" className="flex items-center gap-2">
       <div className="flex items-center">
@@ -28,5 +28,5 @@ export default function TaskItemNodeView({
         <NodeViewContent as="div" />
       </div>
     </NodeViewWrapper>
-  );
+  )
 }

@@ -1,12 +1,12 @@
-import LoginForm from "@/components/auth/forms/login-form";
+import LoginForm from '@/components/auth/forms/login-form'
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import React from "react";
+} from '@/components/ui/card'
+import React from 'react'
 
 const LoginPage: React.FC = () => {
   return (
@@ -25,7 +25,7 @@ const LoginPage: React.FC = () => {
         </Card>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage

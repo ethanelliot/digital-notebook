@@ -1,5 +1,5 @@
-import React from "react";
-import GroupsTable from "@/components/dashboard/groups/groups-table";
+import React from 'react'
+import GroupsTable from '@/components/dashboard/groups/groups-table'
 
 const GroupsPage: React.FC = () => {
   return (
@@ -7,7 +7,7 @@ const GroupsPage: React.FC = () => {
       <p className="text-3xl font-bold mb-4">Groups</p>
       <GroupsTable />
     </div>
-  );
-};
+  )
+}
 
-export default GroupsPage;
+export default GroupsPage

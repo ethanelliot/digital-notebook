@@ -1,51 +1,51 @@
-import { Editor, EditorSkeleton } from "@/components/editor/editor";
-import { useNotebookContent } from "@/hooks/use-notebook-content";
-import { NotFoundError } from "@/lib/errors";
-import { useParams } from "react-router-dom";
-import NotFoundPage from "./not-found";
-import ErrorPage from "./error-page";
-import { useMemo } from "react";
-import { useWorkspaceContext } from "@/contexts/workspace-context";
+import { Editor, EditorSkeleton } from '@/components/editor/editor'
+import { useNotebookContent } from '@/hooks/use-notebook-content'
+import { NotFoundError } from '@/lib/errors'
+import { useParams } from 'react-router-dom'
+import NotFoundPage from './not-found'
+import ErrorPage from './error-page'
+import { useMemo } from 'react'
+import { useWorkspaceContext } from '@/contexts/workspace-context'
 
 function EditorPage() {
   const { notebookId } = useParams<{
-    notebookId: string;
-  }>();
+    notebookId: string
+  }>()
 
   const { notebookContent, error, saveNotebookContent } = useNotebookContent(
-    notebookId ?? ""
-  );
+    notebookId ?? ''
+  )
 
-  const { notebooks, updateNotebook } = useWorkspaceContext();
+  const { notebooks, updateNotebook } = useWorkspaceContext()
 
   const notebook = useMemo(() => {
-    if (!notebookId) return null;
-    return notebooks.find((n) => n.id === notebookId);
-  }, [notebooks, notebookId]);
+    if (!notebookId) return null
+    return notebooks.find((n) => n.id === notebookId)
+  }, [notebooks, notebookId])
 
   if (error) {
     if (error instanceof NotFoundError) {
-      return <NotFoundPage />;
+      return <NotFoundPage />
     } else {
-      return <ErrorPage />;
+      return <ErrorPage />
     }
   }
 
   if (!notebookContent || !notebook) {
-    return <EditorSkeleton />;
+    return <EditorSkeleton />
   }
 
   const handleSaveName = async (name: string) => {
     try {
-      await updateNotebook({ notebook, newData: { name } });
+      await updateNotebook({ notebook, newData: { name } })
     } catch (error) {
       // Required: Handle the error
-      console.error("Failed to update notebook name:", error);
+      console.error('Failed to update notebook name:', error)
       // Optional: Show an error message to the user
       // e.g., displayToast('Error updating name', 'error');
       // TODO: error here
     }
-  };
+  }
   return (
     <Editor
       notebookName={notebook.name}
@@ -53,7 +53,7 @@ function EditorPage() {
       saveNotebookName={(name) => void handleSaveName(name)}
       saveNotebookContent={saveNotebookContent}
     />
-  );
+  )
 }
 
-export default EditorPage;
+export default EditorPage

@@ -1,11 +1,11 @@
 import Calendar, {
   CalendarSkeleton,
-} from "@/components/dashboard/calendar/calendar";
-import { useWorkspaceContext } from "@/contexts/workspace-context";
-import React from "react";
+} from '@/components/dashboard/calendar/calendar'
+import { useWorkspaceContext } from '@/contexts/workspace-context'
+import React from 'react'
 
 const CalendarPage: React.FC = () => {
-  const { loading } = useWorkspaceContext();
+  const { loading } = useWorkspaceContext()
 
   return (
     <div className="container mx-auto h-full flex flex-col">
@@ -14,7 +14,7 @@ const CalendarPage: React.FC = () => {
         {loading ? <CalendarSkeleton /> : <Calendar />}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CalendarPage;
+export default CalendarPage

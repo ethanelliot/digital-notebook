@@ -7,9 +7,9 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { useDialog } from "@/contexts/dialog-context";
-import type { ConfirmDialogProps } from "@/types/dialog";
+} from '@/components/ui/alert-dialog'
+import { useDialog } from '@/contexts/dialog-context'
+import type { ConfirmDialogProps } from '@/types/dialog'
 
 const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   title,
@@ -17,17 +17,17 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
   onConfirm,
   onCancel,
 }) => {
-  const { state, closeDialog } = useDialog();
+  const { state, closeDialog } = useDialog()
 
   const handleConfirm = () => {
-    onConfirm();
-    closeDialog();
-  };
+    onConfirm()
+    closeDialog()
+  }
 
   const handleCancel = () => {
-    onCancel?.();
-    closeDialog();
-  };
+    onCancel?.()
+    closeDialog()
+  }
 
   return (
     <AlertDialog open={state.isOpen} onOpenChange={closeDialog}>
@@ -44,7 +44,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps> = ({
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  );
-};
+  )
+}
 
-export default ConfirmDialog;
+export default ConfirmDialog

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import NotesTable from "@/components/dashboard/notes/notes-table";
+import React, { useEffect, useState } from 'react'
+import NotesTable from '@/components/dashboard/notes/notes-table'
 import {
   Card,
   CardAction,
@@ -7,25 +7,25 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
-import { useWorkspaceContext } from "@/contexts/workspace-context";
-import type { Note } from "@/types/note";
-import { Badge } from "@/components/ui/badge";
-import { groupColors, statuses } from "@/lib/constants";
-import { getRelativeDate } from "@/lib/format-time";
-import { Link } from "react-router-dom";
-import NotebookActions from "@/components/dashboard/notebook/notebook-actions";
-import { cn } from "@/lib/utils";
-import { useDialog } from "@/contexts/dialog-context";
+} from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Plus } from 'lucide-react'
+import { useWorkspaceContext } from '@/contexts/workspace-context'
+import type { Note } from '@/types/note'
+import { Badge } from '@/components/ui/badge'
+import { groupColors, statuses } from '@/lib/constants'
+import { getRelativeDate } from '@/lib/format-time'
+import { Link } from 'react-router-dom'
+import NotebookActions from '@/components/dashboard/notebook/notebook-actions'
+import { cn } from '@/lib/utils'
+import { useDialog } from '@/contexts/dialog-context'
 
 const HomePage: React.FC = () => {
-  const [upcomingNotes, setUpcomingNotes] = useState<Note[]>([]);
+  const [upcomingNotes, setUpcomingNotes] = useState<Note[]>([])
 
-  const { notebooks, notes } = useWorkspaceContext();
+  const { notebooks, notes } = useWorkspaceContext()
 
-  const { openDialog } = useDialog();
+  const { openDialog } = useDialog()
 
   useEffect(() => {
     setUpcomingNotes(() => {
@@ -33,14 +33,14 @@ const HomePage: React.FC = () => {
       return notes
         .filter(
           (note) =>
-            note.status === "Not-started" || note.status === "In-progress"
+            note.status === 'Not-started' || note.status === 'In-progress'
         )
         .sort(
           (a, b) => a.dueDate.toDate().getTime() - b.dueDate.toDate().getTime()
         )
-        .slice(0, 5);
-    });
-  }, [notes]);
+        .slice(0, 5)
+    })
+  }, [notes])
 
   return (
     <div className="container flex flex-col mx-auto gap-4 ">
@@ -53,7 +53,7 @@ const HomePage: React.FC = () => {
               Track and manage your upcoming notes.
             </CardDescription>
             <CardAction>
-              <Button onClick={() => openDialog("noteForm", {})}>
+              <Button onClick={() => openDialog('noteForm', {})}>
                 <Plus /> New
               </Button>
             </CardAction>
@@ -62,7 +62,7 @@ const HomePage: React.FC = () => {
             {upcomingNotes.map((note) => {
               const status = statuses.find(
                 (status) => status.value === note.status
-              );
+              )
               return (
                 <div
                   key={note.id}
@@ -79,7 +79,7 @@ const HomePage: React.FC = () => {
                     </span>
                   </div>
                 </div>
-              );
+              )
             })}
           </CardContent>
         </Card>
@@ -111,7 +111,7 @@ const HomePage: React.FC = () => {
                     <span className="flex gap-1 items-center">
                       <div
                         className={cn(
-                          "h-4 w-4 rounded-full",
+                          'h-4 w-4 rounded-full',
                           groupColors[notebook.groupColor].background
                         )}
                       ></div>
@@ -120,14 +120,14 @@ const HomePage: React.FC = () => {
                     </span>
                   </div>
                 </div>
-              );
+              )
             })}
           </CardContent>
         </Card>
       </div>
       <NotesTable />
     </div>
-  );
-};
+  )
+}
 
-export default HomePage;
+export default HomePage

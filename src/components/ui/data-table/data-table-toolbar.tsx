@@ -1,19 +1,19 @@
-import { type Table } from "@tanstack/react-table";
-import { DataTableTextFilter } from "./data-table-filter-text";
-import { DataTableSelectFilter } from "./data-table-filter-select";
+import { type Table } from '@tanstack/react-table'
+import { DataTableTextFilter } from './data-table-filter-text'
+import { DataTableSelectFilter } from './data-table-filter-select'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Settings2, Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useMemo } from "react";
+} from '@/components/ui/dropdown-menu'
+import { Settings2, Plus } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { useMemo } from 'react'
 
 interface DataTableToolbarProps<TData> {
-  table: Table<TData>;
-  onAdd?: () => void;
+  table: Table<TData>
+  onAdd?: () => void
 }
 
 export function DataTableToolbar<TData>({
@@ -23,49 +23,49 @@ export function DataTableToolbar<TData>({
   const columns = useMemo(
     () => table.getAllColumns().filter((column) => column.getCanFilter()),
     [table]
-  );
+  )
 
   return (
     <div className="flex justfiy justify-between pb-2 gap-2">
       <div className="w-full flex gap-2 flex-wrap sm:flex-nowrap">
         {columns.map((column) => {
-          const columnMeta = column.columnDef.meta;
+          const columnMeta = column.columnDef.meta
 
           switch (columnMeta?.variant) {
-            case "text":
+            case 'text':
               return (
                 <DataTableTextFilter
                   key={column.id}
                   table={table}
                   column={column.id}
                   placeholder={columnMeta?.placeholder}
-                  className={"sm:w-64 w-full"}
+                  className={'sm:w-64 w-full'}
                 />
-              );
-              break;
-            case "select":
+              )
+              break
+            case 'select':
               return (
                 <DataTableSelectFilter
                   key={column.id}
                   column={column}
-                  title={columnMeta?.label ?? ""}
+                  title={columnMeta?.label ?? ''}
                   possibleValues={columnMeta?.options}
                 />
-              );
+              )
 
-            case "multiSelect":
+            case 'multiSelect':
               return (
                 <DataTableSelectFilter
                   key={column.id}
                   column={column}
-                  title={columnMeta?.label ?? ""}
+                  title={columnMeta?.label ?? ''}
                   possibleValues={columnMeta?.options}
                   multiple={true}
                 />
-              );
+              )
 
             default:
-              break;
+              break
           }
         })}
       </div>
@@ -93,7 +93,7 @@ export function DataTableToolbar<TData>({
                   >
                     {column.id}
                   </DropdownMenuCheckboxItem>
-                );
+                )
               })}
           </DropdownMenuContent>
         </DropdownMenu>
@@ -105,5 +105,5 @@ export function DataTableToolbar<TData>({
         )}
       </div>
     </div>
-  );
+  )
 }

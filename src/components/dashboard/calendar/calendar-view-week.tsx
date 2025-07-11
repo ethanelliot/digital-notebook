@@ -1,18 +1,18 @@
-import React from "react";
-import { daysOfWeek } from "@/lib/constants";
-import { isToday, format } from "date-fns";
-import type { Note } from "@/types/note";
-import { Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import CalendarNotesList from "./calendar-notes-list";
-import { useDialog } from "@/contexts/dialog-context";
-import type { CalendarView } from "./calendar";
+import React from 'react'
+import { daysOfWeek } from '@/lib/constants'
+import { isToday, format } from 'date-fns'
+import type { Note } from '@/types/note'
+import { Plus } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import CalendarNotesList from './calendar-notes-list'
+import { useDialog } from '@/contexts/dialog-context'
+import type { CalendarView } from './calendar'
 
 interface CalendarWeekViewProps {
-  days: Date[];
-  notesByDate: Map<string, Note[]>;
-  onCellAction: (day: Date) => void;
-  onCellClick?: () => void;
+  days: Date[]
+  notesByDate: Map<string, Note[]>
+  onCellAction: (day: Date) => void
+  onCellClick?: () => void
 }
 
 const CalendarWeekView: React.FC<CalendarWeekViewProps> = ({
@@ -21,8 +21,8 @@ const CalendarWeekView: React.FC<CalendarWeekViewProps> = ({
   onCellAction,
   onCellClick,
 }) => {
-  const { openDialog } = useDialog();
-  const view: CalendarView = "week";
+  const { openDialog } = useDialog()
+  const view: CalendarView = 'week'
   return (
     <>
       <div className="grid grid-cols-7 sm:gap-2 mb-2">
@@ -40,11 +40,11 @@ const CalendarWeekView: React.FC<CalendarWeekViewProps> = ({
             <p
               className={`h-6 w-6 flex items-center justify-center text-sm font-bold ${
                 isToday(day)
-                  ? "bg-primary text-primary-foreground rounded-full"
-                  : ""
+                  ? 'bg-primary text-primary-foreground rounded-full'
+                  : ''
               }`}
             >
-              {format(day, "d")}
+              {format(day, 'd')}
             </p>
           </div>
         ))}
@@ -52,7 +52,7 @@ const CalendarWeekView: React.FC<CalendarWeekViewProps> = ({
 
       <div className="flex-1 grid grid-cols-7 divide-x border rounded-md sm:gap-2 sm:border-0">
         {days.map((day) => {
-          const dayNotes = notesByDate.get(format(day, "yyyy-MM-dd")) ?? [];
+          const dayNotes = notesByDate.get(format(day, 'yyyy-MM-dd')) ?? []
           return (
             <div
               key={day.toString()}
@@ -61,8 +61,8 @@ const CalendarWeekView: React.FC<CalendarWeekViewProps> = ({
             >
               <div className="w-full flex justify-end mb-2">
                 <Button
-                  variant={"ghost"}
-                  size={"icon"}
+                  variant={'ghost'}
+                  size={'icon'}
                   className="h-6 w-6 md:flex hidden"
                   onClick={() => onCellAction(day)}
                 >
@@ -71,19 +71,19 @@ const CalendarWeekView: React.FC<CalendarWeekViewProps> = ({
               </div>
               <CalendarNotesList
                 onNoteClick={(note: Note) => {
-                  openDialog("noteForm", {
+                  openDialog('noteForm', {
                     note: note,
-                  });
+                  })
                 }}
                 notes={dayNotes}
                 view={view}
               />
             </div>
-          );
+          )
         })}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default CalendarWeekView;
+export default CalendarWeekView

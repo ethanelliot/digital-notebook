@@ -10,7 +10,7 @@ import {
   getSortedRowModel,
   type ColumnFiltersState,
   getFacetedUniqueValues,
-} from "@tanstack/react-table";
+} from '@tanstack/react-table'
 
 import {
   Table,
@@ -19,15 +19,15 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { DataTablePagination } from "./data-table-pagination";
-import { useState } from "react";
-import { DataTableToolbar } from "./data-table-toolbar";
+} from '@/components/ui/table'
+import { DataTablePagination } from './data-table-pagination'
+import { useState } from 'react'
+import { DataTableToolbar } from './data-table-toolbar'
 
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-  onAdd?: () => void;
+  columns: ColumnDef<TData, TValue>[]
+  data: TData[]
+  onAdd?: () => void
 }
 
 export function DataTable<TData, TValue>({
@@ -35,9 +35,9 @@ export function DataTable<TData, TValue>({
   data,
   onAdd,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
 
   const table = useReactTable({
     onSortingChange: setSorting,
@@ -55,7 +55,7 @@ export function DataTable<TData, TValue>({
       columnFilters,
       columnVisibility,
     },
-  });
+  })
   return (
     <div>
       <DataTableToolbar table={table} onAdd={onAdd} />
@@ -77,7 +77,7 @@ export function DataTable<TData, TValue>({
                             header.getContext()
                           )}
                     </TableHead>
-                  );
+                  )
                 })}
               </TableRow>
             ))}
@@ -87,7 +87,7 @@ export function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
@@ -119,5 +119,5 @@ export function DataTable<TData, TValue>({
         <DataTablePagination table={table} />
       </div>
     </div>
-  );
+  )
 }

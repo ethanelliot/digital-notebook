@@ -1,8 +1,8 @@
-import React from "react";
-import { SidebarProvider, SidebarTrigger } from "../ui/sidebar";
-import DashboardSidebar from "./sidebar/dashboard-sidebar";
-import { Outlet } from "react-router-dom";
-import { ModeToggle } from "../mode-toggle";
+import React from 'react'
+import { SidebarProvider, SidebarTrigger } from '../ui/sidebar'
+import DashboardSidebar from './sidebar/dashboard-sidebar'
+import { Outlet } from 'react-router-dom'
+import { ModeToggle } from '../mode-toggle'
 
 const DashboardLayout: React.FC = () => {
   return (
@@ -19,7 +19,7 @@ const DashboardLayout: React.FC = () => {
         </div>
       </main>
     </SidebarProvider>
-  );
-};
+  )
+}
 
-export default DashboardLayout;
+export default DashboardLayout

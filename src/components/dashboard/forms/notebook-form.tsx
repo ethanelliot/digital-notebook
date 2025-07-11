@@ -1,15 +1,15 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from '@/components/ui/popover'
 
-import { useWorkspaceContext } from "@/contexts/workspace-context";
-import { cn } from "@/lib/utils";
-import type { Notebook } from "@/types/notebook";
+import { useWorkspaceContext } from '@/contexts/workspace-context'
+import { cn } from '@/lib/utils'
+import type { Notebook } from '@/types/notebook'
 import {
   Command,
   CommandInput,
@@ -17,50 +17,50 @@ import {
   CommandEmpty,
   CommandGroup,
   CommandItem,
-} from "@/components/ui/command";
-import { AlertCircleIcon, Check, ChevronsUpDown } from "lucide-react";
-import { forwardRef, useState } from "react";
+} from '@/components/ui/command'
+import { AlertCircleIcon, Check, ChevronsUpDown } from 'lucide-react'
+import { forwardRef, useState } from 'react'
 
 interface NotebookFormProps {
   onSubmit: (
     data: Omit<
       Notebook,
-      "id" | "createdAt" | "updatedAt" | "groupColor" | "groupName" | "groupRef"
+      'id' | 'createdAt' | 'updatedAt' | 'groupColor' | 'groupName' | 'groupRef'
     >
-  ) => void;
-  initialData?: Notebook;
+  ) => void
+  initialData?: Notebook
 }
 
 export const NotebookForm = forwardRef<HTMLFormElement, NotebookFormProps>(
   ({ onSubmit, initialData }, ref) => {
-    const { groups } = useWorkspaceContext();
+    const { groups } = useWorkspaceContext()
 
     const [formData, setFormData] = useState({
-      name: initialData?.name ?? "",
-      groupId: initialData?.groupId ?? "",
-    });
+      name: initialData?.name ?? '',
+      groupId: initialData?.groupId ?? '',
+    })
 
-    const [openGroup, setOpenGroup] = useState(false);
-    const [error, setError] = useState("");
+    const [openGroup, setOpenGroup] = useState(false)
+    const [error, setError] = useState('')
     const handleSubmit = () => {
       if (!formData.name) {
-        setError("Name cannot be empty");
+        setError('Name cannot be empty')
       } else {
-        setError("");
+        setError('')
         onSubmit({
           name: formData.name,
           groupId: formData.groupId,
-        });
+        })
       }
-    };
+    }
 
     return (
       <form
         ref={ref}
         className="flex flex-col gap-4"
         onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit();
+          e.preventDefault()
+          handleSubmit()
         }}
       >
         {error && (
@@ -95,13 +95,13 @@ export const NotebookForm = forwardRef<HTMLFormElement, NotebookFormProps>(
               >
                 {groups.find((group) => group.id === formData.groupId)?.name
                   ? groups.find((group) => group.id === formData.groupId)?.name
-                  : "Select Group..."}
+                  : 'Select Group...'}
                 <ChevronsUpDown className="opacity-50" />
               </Button>
             </PopoverTrigger>
             <PopoverContent
               className="p-0  w-[var(--radix-popover-trigger-width)]"
-              align={"start"}
+              align={'start'}
             >
               <Command>
                 <CommandInput placeholder="Search Group..." className="h-9" />
@@ -118,17 +118,17 @@ export const NotebookForm = forwardRef<HTMLFormElement, NotebookFormProps>(
                             setFormData((prev) => ({
                               ...prev,
                               groupId: group.id,
-                            }));
-                            setOpenGroup(false);
+                            }))
+                            setOpenGroup(false)
                           }}
                         >
                           {group.name}
                           <Check
                             className={cn(
-                              "ml-auto",
+                              'ml-auto',
                               formData.groupId === group.id
-                                ? "opacity-100"
-                                : "opacity-0"
+                                ? 'opacity-100'
+                                : 'opacity-0'
                             )}
                           />
                         </CommandItem>
@@ -140,6 +140,6 @@ export const NotebookForm = forwardRef<HTMLFormElement, NotebookFormProps>(
           </Popover>
         </div>
       </form>
-    );
+    )
   }
-);
+)

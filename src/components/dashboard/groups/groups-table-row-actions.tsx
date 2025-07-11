@@ -1,27 +1,27 @@
-import React from "react";
+import React from 'react'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import type { Group } from "@/types/group";
-import { useWorkspaceContext } from "@/contexts/workspace-context";
-import { useDialog } from "@/contexts/dialog-context";
+} from '@/components/ui/dropdown-menu'
+import { MoreHorizontal } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import type { Group } from '@/types/group'
+import { useWorkspaceContext } from '@/contexts/workspace-context'
+import { useDialog } from '@/contexts/dialog-context'
 
 interface GroupsTableRowActionsProps {
-  group: Group;
+  group: Group
 }
 
 const GroupsTableRowActions: React.FC<GroupsTableRowActionsProps> = ({
   group,
 }) => {
-  const { deleteGroup } = useWorkspaceContext();
+  const { deleteGroup } = useWorkspaceContext()
 
-  const { openDialog, openConfirm } = useDialog();
+  const { openDialog, openConfirm } = useDialog()
 
   return (
     <>
@@ -34,14 +34,14 @@ const GroupsTableRowActions: React.FC<GroupsTableRowActionsProps> = ({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem
-            onClick={() => openDialog("groupForm", { group: group })}
+            onClick={() => openDialog('groupForm', { group: group })}
           >
             Edit
           </DropdownMenuItem>
 
           <DropdownMenuItem
             onClick={() => {
-              void navigator.clipboard.writeText(group.id);
+              void navigator.clipboard.writeText(group.id)
             }}
           >
             Copy Firebase ID
@@ -52,13 +52,13 @@ const GroupsTableRowActions: React.FC<GroupsTableRowActionsProps> = ({
             className="text-red-600"
             onClick={() => {
               openConfirm({
-                title: "Are you absolutely sure?",
+                title: 'Are you absolutely sure?',
                 message:
-                  "This action cannot be undone. This will permanently delete your item from our servers",
+                  'This action cannot be undone. This will permanently delete your item from our servers',
                 onConfirm: () => {
-                  void deleteGroup({ groupId: group.id });
+                  void deleteGroup({ groupId: group.id })
                 },
-              });
+              })
             }}
           >
             Delete
@@ -66,7 +66,7 @@ const GroupsTableRowActions: React.FC<GroupsTableRowActionsProps> = ({
         </DropdownMenuContent>
       </DropdownMenu>
     </>
-  );
-};
+  )
+}
 
-export default GroupsTableRowActions;
+export default GroupsTableRowActions

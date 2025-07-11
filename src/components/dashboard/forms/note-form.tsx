@@ -1,27 +1,27 @@
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import type { Note, statusType } from "@/types/note";
+} from '@/components/ui/popover'
+import type { Note, statusType } from '@/types/note'
 import {
   AlertCircleIcon,
   Check,
   ChevronDownIcon,
   ChevronsUpDown,
-} from "lucide-react";
-import { useState } from "react";
+} from 'lucide-react'
+import { useState } from 'react'
 import {
   Command,
   CommandEmpty,
@@ -29,78 +29,78 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command";
-import { cn } from "@/lib/utils";
-import { formatTimeFromTimestamp } from "@/lib/format-time";
-import { Timestamp } from "firebase/firestore";
-import React from "react";
-import { groupColors, statuses } from "@/lib/constants";
-import { useWorkspaceContext } from "@/contexts/workspace-context";
+} from '@/components/ui/command'
+import { cn } from '@/lib/utils'
+import { formatTimeFromTimestamp } from '@/lib/format-time'
+import { Timestamp } from 'firebase/firestore'
+import React from 'react'
+import { groupColors, statuses } from '@/lib/constants'
+import { useWorkspaceContext } from '@/contexts/workspace-context'
 
 interface NoteFormProps {
   onSubmit: (
     data: Omit<
       Note,
-      "id" | "createdAt" | "updatedAt" | "groupName" | "groupRef" | "groupColor"
+      'id' | 'createdAt' | 'updatedAt' | 'groupName' | 'groupRef' | 'groupColor'
     >
-  ) => void;
-  initialData?: Partial<Omit<Note, "id">> | null;
+  ) => void
+  initialData?: Partial<Omit<Note, 'id'>> | null
 }
 
 export const NoteForm = React.forwardRef<HTMLFormElement, NoteFormProps>(
   ({ onSubmit, initialData }, ref) => {
-    const { groups } = useWorkspaceContext();
+    const { groups } = useWorkspaceContext()
 
     const [formData, setFormData] = useState({
-      content: initialData?.content ?? "",
+      content: initialData?.content ?? '',
       dueDate: initialData?.dueDate?.toDate() ?? undefined,
       dueTime: formatTimeFromTimestamp(initialData?.dueDate?.toDate()),
-      status: initialData?.status ?? "Not-started",
-      groupId: initialData?.groupId ?? "",
-    });
-    const [openDate, setOpenDate] = useState(false);
-    const [openGroup, setOpenGroup] = useState(false);
-    const [error, setError] = useState("");
+      status: initialData?.status ?? 'Not-started',
+      groupId: initialData?.groupId ?? '',
+    })
+    const [openDate, setOpenDate] = useState(false)
+    const [openGroup, setOpenGroup] = useState(false)
+    const [error, setError] = useState('')
 
     const handleSubmit = () => {
       if (!formData.content) {
-        setError("Content cannot be empty");
+        setError('Content cannot be empty')
       } else if (!formData.dueDate) {
-        setError("A note must have a due date");
+        setError('A note must have a due date')
       } else if (!formData.groupId) {
-        setError("A note must have a group.");
+        setError('A note must have a group.')
       } else {
-        setError("");
+        setError('')
 
-        const date = formData.dueDate;
+        const date = formData.dueDate
 
         // Add hours and mins to date
         if (formData.dueTime) {
-          console.log(formData.dueTime);
-          const [hours, minutes] = formData.dueTime.split(":").map(Number);
-          date.setHours(hours);
-          date.setMinutes(minutes);
+          console.log(formData.dueTime)
+          const [hours, minutes] = formData.dueTime.split(':').map(Number)
+          date.setHours(hours)
+          date.setMinutes(minutes)
         }
 
-        const timestamp = Timestamp.fromDate(date);
+        const timestamp = Timestamp.fromDate(date)
 
         onSubmit({
           content: formData.content,
           dueDate: timestamp,
           status: formData.status,
           groupId: formData.groupId,
-        });
+        })
         // The DialogClose will be triggered by the wrapping DialogClose component
       }
-    };
+    }
 
     return (
       <form
         ref={ref}
         className="flex flex-col gap-4"
         onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit();
+          e.preventDefault()
+          handleSubmit()
         }}
       >
         {error && (
@@ -135,7 +135,7 @@ export const NoteForm = React.forwardRef<HTMLFormElement, NoteFormProps>(
                 >
                   {formData.dueDate
                     ? formData.dueDate.toLocaleDateString()
-                    : "Select date"}
+                    : 'Select date'}
                   <ChevronDownIcon />
                 </Button>
               </PopoverTrigger>
@@ -148,8 +148,8 @@ export const NoteForm = React.forwardRef<HTMLFormElement, NoteFormProps>(
                   selected={formData.dueDate}
                   captionLayout="dropdown"
                   onSelect={(date) => {
-                    setFormData((prev) => ({ ...prev, dueDate: date }));
-                    setOpenDate(false);
+                    setFormData((prev) => ({ ...prev, dueDate: date }))
+                    setOpenDate(false)
                   }}
                 />
               </PopoverContent>
@@ -213,23 +213,23 @@ export const NoteForm = React.forwardRef<HTMLFormElement, NoteFormProps>(
                   {(() => {
                     const selectedGroup = groups.find(
                       (group) => group.id === formData.groupId
-                    );
+                    )
 
                     return selectedGroup?.name ? (
                       <span className="flex gap-1 items-center">
                         <div
                           className={cn(
-                            "h-4 w-4 rounded-full",
+                            'h-4 w-4 rounded-full',
                             selectedGroup.color
                               ? groupColors[selectedGroup.color].background
-                              : ""
+                              : ''
                           )}
                         ></div>
                         {selectedGroup.name}
                       </span>
                     ) : (
-                      "Select Group..."
-                    );
+                      'Select Group...'
+                    )
                   })()}
                   <ChevronsUpDown className="opacity-50" />
                 </Button>
@@ -250,14 +250,14 @@ export const NoteForm = React.forwardRef<HTMLFormElement, NoteFormProps>(
                               setFormData((prev) => ({
                                 ...prev,
                                 groupId: group.id,
-                              }));
-                              setOpenGroup(false);
+                              }))
+                              setOpenGroup(false)
                             }}
                           >
                             <span className="flex gap-1">
                               <div
                                 className={cn(
-                                  "h-4 w-4 rounded-full",
+                                  'h-4 w-4 rounded-full',
                                   groupColors[group.color].background
                                 )}
                               ></div>
@@ -266,10 +266,10 @@ export const NoteForm = React.forwardRef<HTMLFormElement, NoteFormProps>(
                             </span>
                             <Check
                               className={cn(
-                                "ml-auto",
+                                'ml-auto',
                                 formData.groupId === group.id
-                                  ? "opacity-100"
-                                  : "opacity-0"
+                                  ? 'opacity-100'
+                                  : 'opacity-0'
                               )}
                             />
                           </CommandItem>
@@ -282,6 +282,6 @@ export const NoteForm = React.forwardRef<HTMLFormElement, NoteFormProps>(
           </div>
         </div>
       </form>
-    );
+    )
   }
-);
+)

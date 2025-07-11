@@ -1,5 +1,5 @@
-import React from "react";
-import NotesTable from "@/components/dashboard/notes/notes-table";
+import React from 'react'
+import NotesTable from '@/components/dashboard/notes/notes-table'
 
 const NotesPage: React.FC = () => {
   return (
@@ -7,7 +7,7 @@ const NotesPage: React.FC = () => {
       <p className="text-3xl font-bold mb-4">Notes</p>
       <NotesTable />
     </div>
-  );
-};
+  )
+}
 
-export default NotesPage;
+export default NotesPage

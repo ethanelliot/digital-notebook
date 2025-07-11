@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
 import {
   Command,
   CommandEmpty,
@@ -6,63 +6,63 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from '@/components/ui/command'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from '@/components/ui/popover'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { groupColors, visibility } from "@/lib/constants";
-import { cn } from "@/lib/utils";
-import type { Group, GroupColor } from "@/types/group";
-import { AlertCircleIcon, Check, ChevronsUpDown } from "lucide-react";
-import { forwardRef, useState } from "react";
+} from '@/components/ui/select'
+import { groupColors, visibility } from '@/lib/constants'
+import { cn } from '@/lib/utils'
+import type { Group, GroupColor } from '@/types/group'
+import { AlertCircleIcon, Check, ChevronsUpDown } from 'lucide-react'
+import { forwardRef, useState } from 'react'
 
 interface GroupFormProps {
-  onSubmit: (data: Omit<Group, "id" | "createdAt" | "updatedAt">) => void;
-  initialData?: Group;
+  onSubmit: (data: Omit<Group, 'id' | 'createdAt' | 'updatedAt'>) => void
+  initialData?: Group
 }
 
 export const GroupForm = forwardRef<HTMLFormElement, GroupFormProps>(
   ({ onSubmit, initialData }, ref) => {
     const [formData, setFormData] = useState({
-      name: initialData?.name ?? "",
+      name: initialData?.name ?? '',
       isHidden: initialData?.isHidden ?? false,
-      color: initialData?.color ?? "",
-    });
+      color: initialData?.color ?? '',
+    })
 
-    const [error, setError] = useState("");
+    const [error, setError] = useState('')
     const handleSubmit = () => {
       if (!formData.name) {
-        setError("Name cannot be empty");
+        setError('Name cannot be empty')
       } else if (!formData.color) {
-        setError("Color cannot be empty");
+        setError('Color cannot be empty')
       } else {
-        setError("");
+        setError('')
         onSubmit({
           name: formData.name,
           isHidden: formData.isHidden,
           color: formData.color as GroupColor,
-        });
+        })
       }
-    };
+    }
 
     return (
       <form
         ref={ref}
         className="flex flex-col gap-4"
         onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit();
+          e.preventDefault()
+          handleSubmit()
         }}
       >
         {error && (
@@ -90,7 +90,7 @@ export const GroupForm = forwardRef<HTMLFormElement, GroupFormProps>(
           <Select
             value={String(formData.isHidden)}
             onValueChange={(value: string) =>
-              setFormData((prev) => ({ ...prev, isHidden: value === "true" }))
+              setFormData((prev) => ({ ...prev, isHidden: value === 'true' }))
             }
           >
             <SelectTrigger className="w-full">
@@ -124,21 +124,21 @@ export const GroupForm = forwardRef<HTMLFormElement, GroupFormProps>(
                   <span className="flex gap-1  items-center">
                     <div
                       className={cn(
-                        "h-4 w-4 rounded-full",
+                        'h-4 w-4 rounded-full',
                         groupColors[formData.color as GroupColor].background
                       )}
                     ></div>
                     {groupColors[formData.color as GroupColor].label}
                   </span>
                 ) : (
-                  "Select Color..."
+                  'Select Color...'
                 )}
                 <ChevronsUpDown className="opacity-50" />
               </Button>
             </PopoverTrigger>
             <PopoverContent
               className="p-0  w-[var(--radix-popover-trigger-width)]"
-              align={"start"}
+              align={'start'}
             >
               <Command>
                 <CommandInput placeholder="Search Color..." className="h-9" />
@@ -153,13 +153,13 @@ export const GroupForm = forwardRef<HTMLFormElement, GroupFormProps>(
                           setFormData((prev) => ({
                             ...prev,
                             color: color.value,
-                          }));
+                          }))
                         }}
                       >
                         <span className="flex gap-1 items-center">
                           <div
                             className={cn(
-                              "h-4 w-4 rounded-full",
+                              'h-4 w-4 rounded-full',
                               color.background
                             )}
                           ></div>
@@ -167,10 +167,10 @@ export const GroupForm = forwardRef<HTMLFormElement, GroupFormProps>(
                         </span>
                         <Check
                           className={cn(
-                            "ml-auto",
+                            'ml-auto',
                             formData.color === color.value
-                              ? "opacity-100"
-                              : "opacity-0"
+                              ? 'opacity-100'
+                              : 'opacity-0'
                           )}
                         />
                       </CommandItem>
@@ -182,6 +182,6 @@ export const GroupForm = forwardRef<HTMLFormElement, GroupFormProps>(
           </Popover>
         </div>
       </form>
-    );
+    )
   }
-);
+)

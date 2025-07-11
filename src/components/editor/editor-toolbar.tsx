@@ -1,7 +1,7 @@
-import { useCurrentEditor } from "@tiptap/react";
-import { Button } from "@/components/ui/button";
-import { ModeToggle } from "@/components/mode-toggle";
-import { useNavigate } from "react-router-dom";
+import { useCurrentEditor } from '@tiptap/react'
+import { Button } from '@/components/ui/button'
+import { ModeToggle } from '@/components/mode-toggle'
+import { useNavigate } from 'react-router-dom'
 import {
   Bold,
   Italic,
@@ -19,27 +19,27 @@ import {
   ArrowLeft,
   SquareCode,
   ListCheck,
-} from "lucide-react"; // Example icons
-import { Toggle } from "@/components/ui/toggle";
+} from 'lucide-react' // Example icons
+import { Toggle } from '@/components/ui/toggle'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Input } from "../ui/input";
+} from '../ui/dropdown-menu'
+import { Input } from '../ui/input'
 
 interface EditorToolbarProps {
-  name: string;
-  setName: (name: string) => void;
+  name: string
+  setName: (name: string) => void
 }
 
 const EditorToolbar = ({ name, setName }: EditorToolbarProps) => {
-  const { editor } = useCurrentEditor();
-  const navigate = useNavigate();
+  const { editor } = useCurrentEditor()
+  const navigate = useNavigate()
 
   if (!editor) {
-    return null;
+    return null
   }
 
   return (
@@ -78,11 +78,11 @@ const EditorToolbar = ({ name, setName }: EditorToolbarProps) => {
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="w-12 h-9 rounded-md px-3">
                 <span className="flex items-center">
-                  {editor.isActive("heading", { level: 1 }) ? (
+                  {editor.isActive('heading', { level: 1 }) ? (
                     <Heading1 />
-                  ) : editor.isActive("heading", { level: 2 }) ? (
+                  ) : editor.isActive('heading', { level: 2 }) ? (
                     <Heading2 />
-                  ) : editor.isActive("heading", { level: 3 }) ? (
+                  ) : editor.isActive('heading', { level: 3 }) ? (
                     <Heading3 />
                   ) : (
                     <Heading />
@@ -94,7 +94,7 @@ const EditorToolbar = ({ name, setName }: EditorToolbarProps) => {
             <DropdownMenuContent align="start">
               <DropdownMenuItem
                 onSelect={() => {
-                  editor.chain().focus().toggleHeading({ level: 1 }).run();
+                  editor.chain().focus().toggleHeading({ level: 1 }).run()
                 }}
               >
                 <Heading1 /> Heading 1
@@ -120,11 +120,11 @@ const EditorToolbar = ({ name, setName }: EditorToolbarProps) => {
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="w-12 h-9 rounded-md px-3">
                 <span className="flex items-center">
-                  {editor.isActive("bulletList") ? (
+                  {editor.isActive('bulletList') ? (
                     <List />
-                  ) : editor.isActive("orderedList") ? (
+                  ) : editor.isActive('orderedList') ? (
                     <ListOrdered />
-                  ) : editor.isActive("taskList") ? (
+                  ) : editor.isActive('taskList') ? (
                     <ListCheck />
                   ) : (
                     <List />
@@ -136,7 +136,7 @@ const EditorToolbar = ({ name, setName }: EditorToolbarProps) => {
             <DropdownMenuContent align="start">
               <DropdownMenuItem
                 onSelect={() => {
-                  editor.chain().focus().toggleBulletList().run();
+                  editor.chain().focus().toggleBulletList().run()
                 }}
               >
                 <List /> Bullet List
@@ -158,7 +158,7 @@ const EditorToolbar = ({ name, setName }: EditorToolbarProps) => {
             variant="outline"
             onClick={() => editor.chain().focus().setCodeBlock().run()}
             disabled={!editor.can().chain().focus().setCodeBlock().run()}
-            className={editor.isActive("codeBlock") ? "is-active" : ""}
+            className={editor.isActive('codeBlock') ? 'is-active' : ''}
           >
             <SquareCode />
           </Button>
@@ -168,7 +168,7 @@ const EditorToolbar = ({ name, setName }: EditorToolbarProps) => {
             variant="outline"
             onClick={() => editor.chain().focus().toggleBold().run()}
             disabled={!editor.can().chain().focus().toggleBold().run()}
-            className={editor.isActive("bold") ? "is-active" : ""}
+            className={editor.isActive('bold') ? 'is-active' : ''}
           >
             <Bold />
           </Toggle>
@@ -176,7 +176,7 @@ const EditorToolbar = ({ name, setName }: EditorToolbarProps) => {
             variant="outline"
             onClick={() => editor.chain().focus().toggleItalic().run()}
             disabled={!editor.can().chain().focus().toggleItalic().run()}
-            className={editor.isActive("bold") ? "is-active" : ""}
+            className={editor.isActive('bold') ? 'is-active' : ''}
           >
             <Italic />
           </Toggle>
@@ -184,7 +184,7 @@ const EditorToolbar = ({ name, setName }: EditorToolbarProps) => {
             variant="outline"
             onClick={() => editor.chain().focus().toggleStrike().run()}
             disabled={!editor.can().chain().focus().toggleStrike().run()}
-            className={editor.isActive("bold") ? "is-active" : ""}
+            className={editor.isActive('bold') ? 'is-active' : ''}
           >
             <Strikethrough />
           </Toggle>
@@ -192,7 +192,7 @@ const EditorToolbar = ({ name, setName }: EditorToolbarProps) => {
             variant="outline"
             onClick={() => editor.chain().focus().toggleCode().run()}
             disabled={!editor.can().chain().focus().toggleCode().run()}
-            className={editor.isActive("bold") ? "is-active" : ""}
+            className={editor.isActive('bold') ? 'is-active' : ''}
           >
             <Code />
           </Toggle>
@@ -202,7 +202,7 @@ const EditorToolbar = ({ name, setName }: EditorToolbarProps) => {
         <ModeToggle />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default EditorToolbar;
+export default EditorToolbar

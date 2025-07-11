@@ -1,4 +1,4 @@
-import { auth } from "@/firebase";
+import { auth } from '@/firebase'
 import {
   GoogleAuthProvider,
   signInWithEmailAndPassword,
@@ -6,60 +6,60 @@ import {
   signOut,
   type User as FirebaseUser,
   type UserCredential,
-} from "firebase/auth";
-import { createContext, use, useEffect, useState, type ReactNode } from "react";
+} from 'firebase/auth'
+import { createContext, use, useEffect, useState, type ReactNode } from 'react'
 
 interface AuthProviderProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 interface AuthContextType {
-  authUser: FirebaseUser | null;
-  loading: boolean;
+  authUser: FirebaseUser | null
+  loading: boolean
   login: ({
     email,
     password,
   }: {
-    email: string;
-    password: string;
-  }) => Promise<UserCredential>;
-  loginWithGoogle: () => Promise<UserCredential>;
-  logout: () => Promise<void>;
+    email: string
+    password: string
+  }) => Promise<UserCredential>
+  loginWithGoogle: () => Promise<UserCredential>
+  logout: () => Promise<void>
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [authUser, setAuthUser] = useState<FirebaseUser | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [authUser, setAuthUser] = useState<FirebaseUser | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      setAuthUser(user);
-      setLoading(false);
-    });
+      setAuthUser(user)
+      setLoading(false)
+    })
 
-    return unsubscribe; // Cleanup subscription on unmount
-  }, []);
+    return unsubscribe // Cleanup subscription on unmount
+  }, [])
 
   const login = async ({
     email,
     password,
   }: {
-    email: string;
-    password: string;
+    email: string
+    password: string
   }) => {
-    return signInWithEmailAndPassword(auth, email, password);
-  };
+    return signInWithEmailAndPassword(auth, email, password)
+  }
 
   const logout = async () => {
-    await signOut(auth);
-  };
+    await signOut(auth)
+  }
 
   const loginWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    return await signInWithPopup(auth, provider);
-  };
+    const provider = new GoogleAuthProvider()
+    return await signInWithPopup(auth, provider)
+  }
 
   const value: AuthContextType = {
     authUser,
@@ -67,21 +67,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
     login,
     loginWithGoogle,
     logout,
-  };
+  }
 
   return (
     <AuthContext.Provider value={value}>
       {!loading && children}
     </AuthContext.Provider>
-  );
+  )
 }
 
 export function useAuth() {
-  const context = use(AuthContext);
+  const context = use(AuthContext)
 
   if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error('useAuth must be used within an AuthProvider')
   }
 
-  return context;
+  return context
 }

@@ -1,5 +1,5 @@
 // src/pages/NotFoundPage.jsx
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
 
 function NotFoundPage() {
   return (
@@ -11,7 +11,7 @@ function NotFoundPage() {
       <p>Sorry, Page not found</p>
       <Button onClick={() => window.history.back()}>Go Back</Button>
     </div>
-  );
+  )
 }
 
-export default NotFoundPage;
+export default NotFoundPage

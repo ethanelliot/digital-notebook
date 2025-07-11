@@ -1,26 +1,22 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import {
-  createBrowserRouter,
-  Navigate,
-  RouterProvider,
-} from "react-router-dom";
-import "./index.css";
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
+import './index.css'
 
-import NotFoundPage from "./pages/not-found.js";
-import EditorPage from "./pages/editor-page.js";
-import HomePage from "./pages/home-page.js";
-import GroupsPage from "./pages/groups-page.js";
-import NotesPage from "./pages/notes-page.js";
-import { ThemeProvider } from "./components/theme-provider.js";
-import DashboardLayout from "./components/dashboard/dashboard-layout.js";
-import { WorkspaceProvider } from "./contexts/workspace-context.js";
-import CalendarPage from "./pages/calender-page.js";
-import { DialogProvider } from "./contexts/dialog-context.js";
-import { AuthProvider } from "./contexts/auth-context.js";
-import ProtectedRoute from "./components/auth/protected-route.js";
-import LoginPage from "./pages/login-page.js";
-import SettingsPage from "./pages/settings-page.js";
+import NotFoundPage from './pages/not-found.js'
+import EditorPage from './pages/editor-page.js'
+import HomePage from './pages/home-page.js'
+import GroupsPage from './pages/groups-page.js'
+import NotesPage from './pages/notes-page.js'
+import { ThemeProvider } from './components/theme-provider.js'
+import DashboardLayout from './components/dashboard/dashboard-layout.js'
+import { WorkspaceProvider } from './contexts/workspace-context.js'
+import CalendarPage from './pages/calender-page.js'
+import { DialogProvider } from './contexts/dialog-context.js'
+import { AuthProvider } from './contexts/auth-context.js'
+import ProtectedRoute from './components/auth/protected-route.js'
+import LoginPage from './pages/login-page.js'
+import SettingsPage from './pages/settings-page.js'
 
 const router = createBrowserRouter([
   // protected
@@ -34,54 +30,54 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "/",
+        path: '/',
         element: <DashboardLayout />,
         children: [
           {
-            path: "",
+            path: '',
             element: <HomePage />,
           },
           {
-            path: "notes",
+            path: 'notes',
             element: <NotesPage />,
           },
           {
-            path: "calendar",
+            path: 'calendar',
             element: <CalendarPage />,
           },
           {
-            path: "groups",
+            path: 'groups',
             element: <GroupsPage />,
           },
           {
-            path: "settings",
+            path: 'settings',
             element: <Navigate to="/settings/profile" replace />,
           },
           {
-            path: "settings/:tab",
+            path: 'settings/:tab',
             element: <SettingsPage />,
           },
         ],
       },
       {
-        path: "/notebook/:notebookId", // Root path
+        path: '/notebook/:notebookId', // Root path
         element: <EditorPage />,
       },
     ],
   },
   {
-    path: "/login",
+    path: '/login',
     element: <LoginPage />,
   },
   {
-    path: "*",
+    path: '*',
     element: <NotFoundPage />,
   },
-]);
+])
 
-const rootElement = document.getElementById("root");
+const rootElement = document.getElementById('root')
 if (!rootElement) {
-  throw new Error('Root element with id "root" not found');
+  throw new Error('Root element with id "root" not found')
 }
 ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
@@ -91,4 +87,4 @@ ReactDOM.createRoot(rootElement).render(
       </ThemeProvider>
     </AuthProvider>
   </React.StrictMode>
-);
+)

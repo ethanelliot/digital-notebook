@@ -8,7 +8,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from '@/components/ui/sidebar'
 import {
   Book,
   BookA,
@@ -19,55 +19,55 @@ import {
   Plus,
   StickyNote,
   type LucideIcon,
-} from "lucide-react";
-import { SidebarItemGroup } from "./sidebar-item-group";
-import { useWorkspaceContext } from "@/contexts/workspace-context";
-import { useEffect, useState } from "react";
-import { Skeleton } from "../../ui/skeleton";
-import { Link } from "react-router-dom";
-import { Button } from "../../ui/button";
-import { groupColors } from "@/lib/constants";
+} from 'lucide-react'
+import { SidebarItemGroup } from './sidebar-item-group'
+import { useWorkspaceContext } from '@/contexts/workspace-context'
+import { useEffect, useState } from 'react'
+import { Skeleton } from '../../ui/skeleton'
+import { Link } from 'react-router-dom'
+import { Button } from '../../ui/button'
+import { groupColors } from '@/lib/constants'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "../../ui/dropdown-menu";
-import { useDialog } from "@/contexts/dialog-context";
-import { useIsMobile } from "@/hooks/use-mobile";
-import SidebarUser from "./sidebar-user";
+} from '../../ui/dropdown-menu'
+import { useDialog } from '@/contexts/dialog-context'
+import { useIsMobile } from '@/hooks/use-mobile'
+import SidebarUser from './sidebar-user'
 
 const data = {
   navHead: {
-    version: ["1.0.0"],
+    version: ['1.0.0'],
   },
 
   navMain: [
     {
-      title: "Home",
-      url: "/",
+      title: 'Home',
+      url: '/',
       icon: Home,
     },
     {
-      title: "Calendar",
-      url: "/calendar",
+      title: 'Calendar',
+      url: '/calendar',
       icon: Calendar,
     },
     {
-      title: "Notes",
-      url: "/notes",
+      title: 'Notes',
+      url: '/notes',
       icon: StickyNote,
     },
   ],
-};
+}
 
 export function DashboardSidebar() {
-  const { loading, groups } = useWorkspaceContext();
-  const { openDialog } = useDialog();
-  const isMobile = useIsMobile();
+  const { loading, groups } = useWorkspaceContext()
+  const { openDialog } = useDialog()
+  const isMobile = useIsMobile()
   const [groupsData, setGroupsData] = useState<
     { title: string; url: string; icon?: LucideIcon; color: string }[]
-  >([]);
+  >([])
 
   useEffect(() => {
     setGroupsData(
@@ -75,11 +75,11 @@ export function DashboardSidebar() {
         .filter((group) => !group.isHidden)
         .map((group) => ({
           title: group.name,
-          url: "/" + group.id,
+          url: '/' + group.id,
           color: groupColors[group.color].background,
         }))
-    );
-  }, [groups]);
+    )
+  }, [groups])
 
   return (
     <Sidebar>
@@ -113,24 +113,24 @@ export function DashboardSidebar() {
               <DropdownMenuContent
                 className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
                 align="start"
-                side={isMobile ? "bottom" : "right"}
+                side={isMobile ? 'bottom' : 'right'}
                 sideOffset={4}
               >
-                <DropdownMenuItem onClick={() => openDialog("noteForm", {})}>
+                <DropdownMenuItem onClick={() => openDialog('noteForm', {})}>
                   <div className="flex size-6 items-center justify-center rounded-md border">
                     <StickyNote className="size-3.5 shrink-0" />
                   </div>
                   New Note
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={() => openDialog("notebookForm", {})}
+                  onClick={() => openDialog('notebookForm', {})}
                 >
                   <div className="flex size-6 items-center justify-center rounded-md border">
                     <Book className="size-3.5 shrink-0" />
                   </div>
                   New Notebook
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => openDialog("groupForm", {})}>
+                <DropdownMenuItem onClick={() => openDialog('groupForm', {})}>
                   <div className="flex size-6 items-center justify-center rounded-md border">
                     <Layers className="size-3.5 shrink-0" />
                   </div>
@@ -165,7 +165,7 @@ export function DashboardSidebar() {
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
-  );
+  )
 }
 
-export default DashboardSidebar;
+export default DashboardSidebar

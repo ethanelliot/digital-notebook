@@ -4,14 +4,14 @@ import {
   ReactNodeViewRenderer,
   useEditor,
   type JSONContent,
-} from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import EditorToolbar from "./editor-toolbar";
-import TaskList from "@tiptap/extension-task-list";
-import TaskItem from "@tiptap/extension-task-item";
-import TaskItemNodeView from "./task-item-node-view";
-import { useEffect, useRef, useState } from "react";
-import { Skeleton } from "../ui/skeleton";
+} from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import EditorToolbar from './editor-toolbar'
+import TaskList from '@tiptap/extension-task-list'
+import TaskItem from '@tiptap/extension-task-item'
+import TaskItemNodeView from './task-item-node-view'
+import { useEffect, useRef, useState } from 'react'
+import { Skeleton } from '../ui/skeleton'
 
 const extensions = [
   StarterKit,
@@ -19,16 +19,16 @@ const extensions = [
   TaskItem.extend({
     nested: false,
     addNodeView() {
-      return ReactNodeViewRenderer(TaskItemNodeView);
+      return ReactNodeViewRenderer(TaskItemNodeView)
     },
   }),
-];
+]
 
 interface EditorProps {
-  notebookName: string;
-  notebookContent: JSONContent;
-  saveNotebookName: (name: string) => void;
-  saveNotebookContent: (content: JSONContent) => Promise<void>;
+  notebookName: string
+  notebookContent: JSONContent
+  saveNotebookName: (name: string) => void
+  saveNotebookContent: (content: JSONContent) => Promise<void>
 }
 
 export const Editor = ({
@@ -37,31 +37,31 @@ export const Editor = ({
   saveNotebookName,
   saveNotebookContent,
 }: EditorProps) => {
-  const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
-  const editor = useEditor({ extensions, content: notebookContent });
-  const [name, setName] = useState(notebookName || "");
+  const debounceTimeout = useRef<NodeJS.Timeout | null>(null)
+  const editor = useEditor({ extensions, content: notebookContent })
+  const [name, setName] = useState(notebookName || '')
 
-  editor?.on("update", ({ editor }) => {
+  editor?.on('update', ({ editor }) => {
     if (debounceTimeout.current) {
-      clearTimeout(debounceTimeout.current);
+      clearTimeout(debounceTimeout.current)
     }
     debounceTimeout.current = setTimeout(() => {
-      void saveNotebookContent(editor.getJSON());
-    }, 1000);
-  });
+      void saveNotebookContent(editor.getJSON())
+    }, 1000)
+  })
 
   useEffect(() => {
     if (name) {
-      console.log("update");
+      console.log('update')
       if (debounceTimeout.current) {
-        clearTimeout(debounceTimeout.current);
+        clearTimeout(debounceTimeout.current)
       }
       debounceTimeout.current = setTimeout(() => {
-        saveNotebookName(name);
-      }, 1000);
+        saveNotebookName(name)
+      }, 1000)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name]);
+  }, [name])
 
   return (
     <div className="flex flex-col h-screen">
@@ -75,8 +75,8 @@ export const Editor = ({
         </div>
       </EditorContext.Provider>
     </div>
-  );
-};
+  )
+}
 
 export function EditorSkeleton() {
   return (
@@ -102,5 +102,5 @@ export function EditorSkeleton() {
         </div>
       </div>
     </div>
-  );
+  )
 }

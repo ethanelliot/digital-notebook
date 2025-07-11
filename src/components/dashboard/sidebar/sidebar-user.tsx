@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,36 +7,36 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu'
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
-import { useAuth } from "@/contexts/auth-context";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { LogOut, MoreVertical, Settings, UserCircle } from "lucide-react";
-import React from "react";
-import { Link } from "react-router-dom";
+} from '@/components/ui/sidebar'
+import { useAuth } from '@/contexts/auth-context'
+import { useIsMobile } from '@/hooks/use-mobile'
+import { LogOut, MoreVertical, Settings, UserCircle } from 'lucide-react'
+import React from 'react'
+import { Link } from 'react-router-dom'
 
 const data = {
   actions: [
     {
-      title: "Account",
-      url: "/settings",
+      title: 'Account',
+      url: '/settings',
       icon: UserCircle,
     },
     {
-      title: "Settings",
-      url: "/settings",
+      title: 'Settings',
+      url: '/settings',
       icon: Settings,
     },
   ],
-};
+}
 
 const SidebarUser: React.FC = () => {
-  const isMobile = useIsMobile();
-  const { authUser, logout } = useAuth();
+  const isMobile = useIsMobile()
+  const { authUser, logout } = useAuth()
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -66,7 +66,7 @@ const SidebarUser: React.FC = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            side={isMobile ? "bottom" : "right"}
+            side={isMobile ? 'bottom' : 'right'}
             align="end"
             sideOffset={4}
           >
@@ -109,7 +109,7 @@ const SidebarUser: React.FC = () => {
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  );
-};
+  )
+}
 
-export default SidebarUser;
+export default SidebarUser

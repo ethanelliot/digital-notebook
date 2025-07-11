@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,25 +8,25 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
-import { useWorkspaceContext } from "@/contexts/workspace-context";
-import { Button } from "@/components/ui/button";
-import type { Note } from "@/types/note";
-import { statuses } from "@/lib/constants";
-import { useDialog } from "@/contexts/dialog-context";
+} from '@/components/ui/dropdown-menu'
+import { MoreHorizontal } from 'lucide-react'
+import { useWorkspaceContext } from '@/contexts/workspace-context'
+import { Button } from '@/components/ui/button'
+import type { Note } from '@/types/note'
+import { statuses } from '@/lib/constants'
+import { useDialog } from '@/contexts/dialog-context'
 
 interface NotesTableRowActionsProps {
-  note: Note;
+  note: Note
 }
 
 const NotesTableRowActions: React.FC<NotesTableRowActionsProps> = ({
   note,
 }) => {
-  const { openConfirm } = useDialog();
+  const { openConfirm } = useDialog()
 
-  const { updateNote, deleteNote } = useWorkspaceContext();
-  const { openDialog } = useDialog();
+  const { updateNote, deleteNote } = useWorkspaceContext()
+  const { openDialog } = useDialog()
 
   return (
     <>
@@ -38,7 +38,7 @@ const NotesTableRowActions: React.FC<NotesTableRowActionsProps> = ({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => openDialog("noteForm", { note })}>
+          <DropdownMenuItem onClick={() => openDialog('noteForm', { note })}>
             Edit
           </DropdownMenuItem>
 
@@ -63,7 +63,7 @@ const NotesTableRowActions: React.FC<NotesTableRowActionsProps> = ({
           </DropdownMenuSub>
           <DropdownMenuItem
             onClick={() => {
-              void navigator.clipboard.writeText(note.id);
+              void navigator.clipboard.writeText(note.id)
             }}
           >
             Copy Firebase ID
@@ -74,13 +74,13 @@ const NotesTableRowActions: React.FC<NotesTableRowActionsProps> = ({
             className="text-red-600"
             onClick={() => {
               openConfirm({
-                title: "Are you absolutely sure?",
+                title: 'Are you absolutely sure?',
                 message:
-                  "This action cannot be undone. This will permanently delete your item from our servers",
+                  'This action cannot be undone. This will permanently delete your item from our servers',
                 onConfirm: () => {
-                  void deleteNote({ noteId: note.id });
+                  void deleteNote({ noteId: note.id })
                 },
-              });
+              })
             }}
           >
             Delete
@@ -88,7 +88,7 @@ const NotesTableRowActions: React.FC<NotesTableRowActionsProps> = ({
         </DropdownMenuContent>
       </DropdownMenu>
     </>
-  );
-};
+  )
+}
 
-export default NotesTableRowActions;
+export default NotesTableRowActions

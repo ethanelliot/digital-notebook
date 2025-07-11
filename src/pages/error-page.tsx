@@ -1,5 +1,5 @@
 // src/pages/NotFoundPage.jsx
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button'
 
 function ErrorPage() {
   return (
@@ -11,7 +11,7 @@ function ErrorPage() {
       <p>Sorry, An unexpected error occoured!</p>
       <Button onClick={() => window.history.back()}>Go Back</Button>
     </div>
-  );
+  )
 }
 
-export default ErrorPage;
+export default ErrorPage

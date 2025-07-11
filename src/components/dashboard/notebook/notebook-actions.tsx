@@ -1,25 +1,25 @@
-import React from "react";
+import React from 'react'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useWorkspaceContext } from "@/contexts/workspace-context";
-import type { Notebook } from "@/types/notebook";
-import { useDialog } from "@/contexts/dialog-context";
+} from '@/components/ui/dropdown-menu'
+import { MoreHorizontal } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { useWorkspaceContext } from '@/contexts/workspace-context'
+import type { Notebook } from '@/types/notebook'
+import { useDialog } from '@/contexts/dialog-context'
 
 interface NotebookActionsProps {
-  notebook: Notebook;
+  notebook: Notebook
 }
 
 const NotebookActions: React.FC<NotebookActionsProps> = ({ notebook }) => {
-  const { deleteNotebook } = useWorkspaceContext();
+  const { deleteNotebook } = useWorkspaceContext()
 
-  const { openDialog, openConfirm } = useDialog();
+  const { openDialog, openConfirm } = useDialog()
 
   return (
     <>
@@ -32,14 +32,14 @@ const NotebookActions: React.FC<NotebookActionsProps> = ({ notebook }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem
-            onClick={() => openDialog("notebookForm", { notebook })}
+            onClick={() => openDialog('notebookForm', { notebook })}
           >
             Edit
           </DropdownMenuItem>
 
           <DropdownMenuItem
             onClick={() => {
-              void navigator.clipboard.writeText(notebook.id);
+              void navigator.clipboard.writeText(notebook.id)
             }}
           >
             Copy Firebase ID
@@ -50,13 +50,13 @@ const NotebookActions: React.FC<NotebookActionsProps> = ({ notebook }) => {
             className="text-red-600"
             onClick={() => {
               openConfirm({
-                title: "Are you absolutely sure?",
+                title: 'Are you absolutely sure?',
                 message:
-                  "This action cannot be undone. This will permanently delete your item from our servers",
+                  'This action cannot be undone. This will permanently delete your item from our servers',
                 onConfirm: () => {
-                  void deleteNotebook({ notebookId: notebook.id });
+                  void deleteNotebook({ notebookId: notebook.id })
                 },
-              });
+              })
             }}
           >
             Delete
@@ -64,7 +64,7 @@ const NotebookActions: React.FC<NotebookActionsProps> = ({ notebook }) => {
         </DropdownMenuContent>
       </DropdownMenu>
     </>
-  );
-};
+  )
+}
 
-export default NotebookActions;
+export default NotebookActions

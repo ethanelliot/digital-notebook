@@ -1,11 +1,11 @@
-import { Input } from "@/components/ui/input";
-import { type Table } from "@tanstack/react-table";
+import { Input } from '@/components/ui/input'
+import { type Table } from '@tanstack/react-table'
 
 interface DataTableTextFilterProps<TData> {
-  table: Table<TData>;
-  column: string;
-  className?: string;
-  placeholder?: string;
+  table: Table<TData>
+  column: string
+  className?: string
+  placeholder?: string
 }
 
 export function DataTableTextFilter<TData>({
@@ -18,10 +18,10 @@ export function DataTableTextFilter<TData>({
     <Input
       placeholder={placeholder}
       className={className}
-      value={(table.getColumn(column)?.getFilterValue() as string) ?? ""}
+      value={(table.getColumn(column)?.getFilterValue() as string) ?? ''}
       onChange={(event) =>
         table.getColumn(column)?.setFilterValue(event.target.value)
       }
     ></Input>
-  );
+  )
 }

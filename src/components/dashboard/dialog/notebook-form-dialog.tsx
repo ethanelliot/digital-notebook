@@ -5,51 +5,51 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useRef } from "react";
-import { useWorkspaceContext } from "@/contexts/workspace-context";
-import { Button } from "@/components/ui/button";
-import { NotebookForm } from "../forms/notebook-form";
-import type { NotebookFormDialogProps } from "@/types/dialog";
-import { useDialog } from "@/contexts/dialog-context";
-import { useNavigate } from "react-router-dom";
-import type { Notebook } from "@/types/notebook";
+} from '@/components/ui/dialog'
+import { useRef } from 'react'
+import { useWorkspaceContext } from '@/contexts/workspace-context'
+import { Button } from '@/components/ui/button'
+import { NotebookForm } from '../forms/notebook-form'
+import type { NotebookFormDialogProps } from '@/types/dialog'
+import { useDialog } from '@/contexts/dialog-context'
+import { useNavigate } from 'react-router-dom'
+import type { Notebook } from '@/types/notebook'
 
 const NotebookFormDialog: React.FC<NotebookFormDialogProps> = ({
   notebook,
 }) => {
-  const { addNotebook, updateNotebook } = useWorkspaceContext();
-  const navigate = useNavigate();
-  const { state, closeDialog } = useDialog();
+  const { addNotebook, updateNotebook } = useWorkspaceContext()
+  const navigate = useNavigate()
+  const { state, closeDialog } = useDialog()
 
-  const formRef = useRef<HTMLFormElement>(null);
+  const formRef = useRef<HTMLFormElement>(null)
 
   const handleSubmit = async (
     data: Omit<
       Notebook,
-      "id" | "createdAt" | "updatedAt" | "groupColor" | "groupName" | "groupRef"
+      'id' | 'createdAt' | 'updatedAt' | 'groupColor' | 'groupName' | 'groupRef'
     >
   ) => {
     if (isEditForm) {
-      void updateNotebook({ notebook, newData: data });
-      closeDialog();
+      void updateNotebook({ notebook, newData: data })
+      closeDialog()
     } else {
-      const newNotebookId = await addNotebook(data);
+      const newNotebookId = await addNotebook(data)
       if (newNotebookId) {
-        closeDialog();
-        void navigate(`/notebook/${newNotebookId}`);
+        closeDialog()
+        void navigate(`/notebook/${newNotebookId}`)
       }
     }
-  };
+  }
 
-  const isEditForm = !!notebook;
+  const isEditForm = !!notebook
   return (
     <Dialog open={state.isOpen} onOpenChange={closeDialog}>
       <DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
         <DialogHeader>
-          <DialogTitle>{isEditForm ? "Edit" : "Create"} notebook</DialogTitle>
+          <DialogTitle>{isEditForm ? 'Edit' : 'Create'} notebook</DialogTitle>
           <DialogDescription>
-            {isEditForm ? "Edit a" : "Create a new"} notebook here. Click save
+            {isEditForm ? 'Edit a' : 'Create a new'} notebook here. Click save
             when you're done.
           </DialogDescription>
         </DialogHeader>
@@ -62,8 +62,8 @@ const NotebookFormDialog: React.FC<NotebookFormDialogProps> = ({
           <Button
             variant="outline"
             onClick={(e) => {
-              e.stopPropagation(); //this line prevents other popup elements from closing
-              closeDialog();
+              e.stopPropagation() //this line prevents other popup elements from closing
+              closeDialog()
             }}
           >
             Cancel
@@ -71,16 +71,16 @@ const NotebookFormDialog: React.FC<NotebookFormDialogProps> = ({
           <Button
             type="submit"
             onClick={(e) => {
-              e.stopPropagation(); //this line prevents other popup elements from closing
-              formRef.current?.requestSubmit();
+              e.stopPropagation() //this line prevents other popup elements from closing
+              formRef.current?.requestSubmit()
             }}
           >
-            {isEditForm ? "Save Changes" : "Create Notebook"}
+            {isEditForm ? 'Save Changes' : 'Create Notebook'}
           </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  );
-};
+  )
+}
 
-export default NotebookFormDialog;
+export default NotebookFormDialog

@@ -1,7 +1,7 @@
 @font-face {
-  font-family: "DM Sans";
-  src: url("./assets/fonts/DMSans-VariableFont_opsz,wght.ttf")
-    format("truetype");
+  font-family: 'DM Sans';
+  src: url('./assets/fonts/DMSans-VariableFont_opsz,wght.ttf')
+    format('truetype');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -9,22 +9,22 @@
 }
 
 @font-face {
-  font-family: "DM Sans";
-  src: url("./assets/fonts/DMSans-Italic-VariableFont_opsz,wght.ttf")
-    format("truetype");
+  font-family: 'DM Sans';
+  src: url('./assets/fonts/DMSans-Italic-VariableFont_opsz,wght.ttf')
+    format('truetype');
   font-weight: 100 900;
   font-style: italic;
   font-display: swap;
   font-optical-sizing: auto;
 }
 
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "DM Sans", sans-serif;
+  --font-sans: 'DM Sans', sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -184,7 +184,7 @@
   @apply list-decimal;
 }
 
-.tiptap ul[data-type="taskList"] {
+.tiptap ul[data-type='taskList'] {
   @apply list-none ml-0 p-0;
 }
 

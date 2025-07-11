@@ -1,35 +1,35 @@
-import { Badge } from "@/components/ui/badge";
-import { groupColors, statuses } from "@/lib/constants";
-import { cn } from "@/lib/utils";
-import type { Note } from "@/types/note";
-import type { CalendarView } from "./calendar";
+import { Badge } from '@/components/ui/badge'
+import { groupColors, statuses } from '@/lib/constants'
+import { cn } from '@/lib/utils'
+import type { Note } from '@/types/note'
+import type { CalendarView } from './calendar'
 interface CalendarNotesListProps {
-  notes: Note[];
-  onNoteClick?: (note: Note) => void;
-  view?: CalendarView;
+  notes: Note[]
+  onNoteClick?: (note: Note) => void
+  view?: CalendarView
 }
 
 const CalendarNotesList = ({
   notes,
   onNoteClick,
-  view = "month",
+  view = 'month',
 }: CalendarNotesListProps) => {
   return (
     <>
       {notes.map((note) => {
-        const status = statuses.find((status) => status.value === note.status);
+        const status = statuses.find((status) => status.value === note.status)
         return (
           <div
             className={cn(
-              "p-1 sm:h-auto rounded-sm text-[12px] mb-1 cursor-pointer",
-              view === "month" ? "h-2 " : "", // Todo: Find a way to make this not so hard coded inside component
+              'p-1 sm:h-auto rounded-sm text-[12px] mb-1 cursor-pointer',
+              view === 'month' ? 'h-2 ' : '', // Todo: Find a way to make this not so hard coded inside component
               groupColors[note.groupColor].background,
               groupColors[note.groupColor].text
             )}
             key={note.id}
             onClick={() => onNoteClick?.(note)}
           >
-            <div className={view === "month" ? "hidden sm:block" : ""}>
+            <div className={view === 'month' ? 'hidden sm:block' : ''}>
               <p className="font-semibold truncate hover:overflow-visible hover:whitespace-normal">
                 {note.content}
               </p>
@@ -37,7 +37,7 @@ const CalendarNotesList = ({
               <Badge
                 variant="outline"
                 className={cn(
-                  "text-[8px] px-1 hidden sm:flex",
+                  'text-[8px] px-1 hidden sm:flex',
                   groupColors[note.groupColor].text,
                   groupColors[note.groupColor].border
                 )}
@@ -47,10 +47,10 @@ const CalendarNotesList = ({
               </Badge>
             </div>
           </div>
-        );
+        )
       })}
     </>
-  );
-};
+  )
+}
 
-export default CalendarNotesList;
+export default CalendarNotesList

@@ -1,67 +1,67 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useAuth } from "@/contexts/auth-context";
-import { FirebaseError } from "firebase/app";
-import { AlertCircleIcon } from "lucide-react";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { useAuth } from '@/contexts/auth-context'
+import { FirebaseError } from 'firebase/app'
+import { AlertCircleIcon } from 'lucide-react'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const LoginForm: React.FC = () => {
-  const { login, loginWithGoogle } = useAuth();
-  const navigate = useNavigate();
+  const { login, loginWithGoogle } = useAuth()
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+    email: '',
+    password: '',
+  })
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleLoginWithEmail = async () => {
-    setLoading(true);
+    setLoading(true)
     if (!formData.email) {
-      setError("Email cannot be empty");
-      return;
+      setError('Email cannot be empty')
+      return
     }
     if (!formData.password) {
-      setError("Password cannot be empty");
-      return;
+      setError('Password cannot be empty')
+      return
     }
     try {
-      await login(formData);
-      void navigate("/");
+      await login(formData)
+      void navigate('/')
     } catch (error: unknown) {
-      console.error("Login error:", error);
+      console.error('Login error:', error)
 
       if (error instanceof FirebaseError) {
-        if (error.code === "auth/user-not-found") {
-          setError("No user found with this email.");
-        } else if (error.code === "auth/wrong-password") {
-          setError("Incorrect password.");
-        } else if (error.code === "auth/invalid-email") {
-          setError("Please enter a valid email address.");
-        } else if (error.code === "auth/too-many-requests") {
-          setError("Too many login attempts. Please try again later.");
+        if (error.code === 'auth/user-not-found') {
+          setError('No user found with this email.')
+        } else if (error.code === 'auth/wrong-password') {
+          setError('Incorrect password.')
+        } else if (error.code === 'auth/invalid-email') {
+          setError('Please enter a valid email address.')
+        } else if (error.code === 'auth/too-many-requests') {
+          setError('Too many login attempts. Please try again later.')
         } else {
-          setError("Failed to log in. Please check your credentials.");
+          setError('Failed to log in. Please check your credentials.')
         }
       } else {
-        setError("Failed to log in. Something went wrong");
+        setError('Failed to log in. Something went wrong')
       }
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   const handleLoginWithGoogle = async () => {
     try {
-      await loginWithGoogle();
-      void navigate("/");
+      await loginWithGoogle()
+      void navigate('/')
     } catch (error) {
-      console.error("Google login error", error);
-      setError("Failed to login with Google. Please try again.");
+      console.error('Google login error', error)
+      setError('Failed to login with Google. Please try again.')
     }
-  };
+  }
 
   return (
     <form>
@@ -111,8 +111,8 @@ const LoginForm: React.FC = () => {
             className="w-full"
             disabled={loading}
             onClick={(e) => {
-              e.preventDefault();
-              void handleLoginWithEmail();
+              e.preventDefault()
+              void handleLoginWithEmail()
             }}
           >
             Login
@@ -121,8 +121,8 @@ const LoginForm: React.FC = () => {
             variant="outline"
             className="w-full"
             onClick={(e) => {
-              e.preventDefault();
-              void handleLoginWithGoogle();
+              e.preventDefault()
+              void handleLoginWithGoogle()
             }}
           >
             Login with Google
@@ -130,7 +130,7 @@ const LoginForm: React.FC = () => {
         </div>
       </div>
     </form>
-  );
-};
+  )
+}
 
-export default LoginForm;
+export default LoginForm
