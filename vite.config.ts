@@ -11,7 +11,6 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico'],
       manifest: {
         start_url: '/',
         scope: '/',
@@ -21,8 +20,8 @@ export default defineConfig({
         description: 'A notetaking and task traking application',
         icons: [
           {
-            src: '/favicon.ico',
-            sizes: '192x192',
+            src: '/favicon-png.png',
+            sizes: '512x512',
             type: 'image/png',
           },
         ],

@@ -1,0 +1,53 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Premium purple gradient background -->
+    <linearGradient id="premiumGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:rgb(189,103,239);stop-opacity:1" />
+      <stop offset="100%" style="stop-color:rgb(59,20,150);stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Central icon gradients -->
+    <linearGradient id="bookGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f8fafc;stop-opacity:0.95" />
+    </linearGradient>
+    
+    <linearGradient id="pageGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#e2e8f0;stop-opacity:0.8" />
+    </linearGradient>
+    
+    <!-- Premium shadow -->
+    <filter id="premiumShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.2"/>
+      <feDropShadow dx="0" dy="12" stdDeviation="24" flood-color="#000000" flood-opacity="0.1"/>
+    </filter>
+    
+    <!-- Inner glow -->
+    <filter id="innerGlow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge> 
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Premium app icon background -->
+  <rect width="120" height="120" rx="26" ry="26" fill="url(#premiumGradient)" filter="url(#premiumShadow)"/>
+  
+  <!-- Subtle inner border -->
+  <rect x="2" y="2" width="116" height="116" rx="24" ry="24" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
+  
+  <!-- Central masterpiece composition -->
+  <g transform="translate(60, 60)">
+    <!-- Book icon from Lucide - perfectly centered -->
+    <g transform="scale(2.5) translate(-12, -12)" stroke="rgba(255,255,255,0.9)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+      <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/>
+    </g>
+  </g>
+
+  
+  <!-- Final premium touch - subtle outer glow -->
+  <rect width="120" height="120" rx="26" ry="26" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+</svg>
