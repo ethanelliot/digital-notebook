@@ -29,7 +29,7 @@ const LoginForm: React.FC = () => {
     }
     try {
       await login(formData)
-      void navigate('/')
+      void navigate('/', { replace: true })
     } catch (error: unknown) {
       console.error('Login error:', error)
 
