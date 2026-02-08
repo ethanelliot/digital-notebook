@@ -16,7 +16,7 @@ export default defineConfig({
         scope: '/',
         display: 'standalone',
         name: 'Digital Notebook',
-        short_name: 'DigitalNotebook',
+        short_name: 'Notebook',
         description: 'A notetaking and task traking application',
         icons: [
           {
