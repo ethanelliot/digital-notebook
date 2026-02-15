@@ -152,7 +152,7 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
 
     const notesUnsubscribe = onSnapshot(notesQuery, (snapshot) => {
       const allNotes: Note[] = snapshot.docs.map((doc) => {
-        const noteData = doc.data() as NoteDataFromFirestore
+        const noteData = { id: doc.id, ...doc.data() } as NoteDataFromFirestore
 
         const group = visibleGroups.find(
           (group) => group.id === noteData.groupRef.id
@@ -176,14 +176,17 @@ export function useWorkspaceData(): UseWorkspaceDataResult {
 
     const notebooksUnsubscribe = onSnapshot(notebookQuery, (snapshot) => {
       const allNotebooks: Notebook[] = snapshot.docs.map((doc) => {
-        const noteData = doc.data() as NotebookDataFromFirestore
+        const notebookData = {
+          id: doc.id,
+          ...doc.data(),
+        } as NotebookDataFromFirestore
 
         const group = visibleGroups.find(
-          (group) => group.id === noteData.groupRef.id
+          (group) => group.id === notebookData.groupRef.id
         )
 
         return {
-          ...noteData,
+          ...notebookData,
           groupId: group?.id,
           groupName: group?.name,
           groupColor: group?.color,
