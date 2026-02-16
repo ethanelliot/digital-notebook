@@ -1,0 +1,16 @@
+{
+  "types": [
+    { "type": "Feat", "section": "✨ Features" },
+    { "type": "feat", "section": "✨ Features" },
+    { "type": "Fix", "section": "🐛 Bug Fixes" },
+    { "type": "fix", "section": "🐛 Bug Fixes" },
+    { "type": "Refactor", "section": "♻️ Code Refactoring" },
+    { "type": "Clean", "section": "🧹 Chores" },
+    { "type": "CI", "section": "🔧 CI/CD" },
+    { "type": "Style", "section": "💄 Styling" },
+    { "type": "Clear", "section": "🧹 Chores" }
+  ],
+  "skip": {
+    "changelog": false
+  }
+}
