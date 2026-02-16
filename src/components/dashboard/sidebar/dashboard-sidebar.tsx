@@ -39,9 +39,8 @@ import SidebarUser from './sidebar-user'
 
 const data = {
   navHead: {
-    version: ['1.0.0'],
+    version: `${__APP_VERSION__}${import.meta.env.DEV ? '-dev' : ''}`,
   },
-
   navMain: [
     {
       title: 'Home',
@@ -93,7 +92,7 @@ export function DashboardSidebar() {
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
                   <span className="font-medium">Notes</span>
-                  <span className="">{data.navHead.version}</span>
+                  <span className="text-gray-500">{data.navHead.version}</span>
                 </div>
               </span>
             </SidebarMenuButton>
