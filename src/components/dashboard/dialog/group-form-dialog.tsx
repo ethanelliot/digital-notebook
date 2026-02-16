@@ -58,7 +58,7 @@ const GroupFormDialog: React.FC<GroupFormDialogProps> = ({ group }) => {
               formRef.current?.requestSubmit()
             }}
           >
-            {isEditForm ? 'Save Changes' : 'Create Note'}
+            {isEditForm ? 'Save Changes' : 'Create Group'}
           </Button>
         </DialogFooter>
       </DialogContent>
