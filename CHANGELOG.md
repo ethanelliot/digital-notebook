@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.3](https://github.com/ethanelliot/digital-notebook/compare/v0.0.2...v0.0.3) (2026-02-16)
+
+
+### 🐛 Bug Fixes
+
+* Release process should only run on tags ([a45105d](https://github.com/ethanelliot/digital-notebook/commit/a45105d38fafab5bfc5301b5097ff8ab1ec849fb))
+
 ### [0.0.2](https://github.com/ethanelliot/digital-notebook/compare/v0.0.1...v0.0.2) (2026-02-16)
 
 
