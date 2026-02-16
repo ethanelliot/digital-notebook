@@ -166,33 +166,33 @@ const EditorToolbar = ({ name, setName }: EditorToolbarProps) => {
         <div className="flex items-center gap-1">
           <Toggle
             variant="outline"
+            pressed={editor.isActive('bold')}
             onClick={() => editor.chain().focus().toggleBold().run()}
             disabled={!editor.can().chain().focus().toggleBold().run()}
-            className={editor.isActive('bold') ? 'is-active' : ''}
           >
             <Bold />
           </Toggle>
           <Toggle
             variant="outline"
+            pressed={editor.isActive('italic')}
             onClick={() => editor.chain().focus().toggleItalic().run()}
             disabled={!editor.can().chain().focus().toggleItalic().run()}
-            className={editor.isActive('bold') ? 'is-active' : ''}
           >
             <Italic />
           </Toggle>
           <Toggle
             variant="outline"
+            pressed={editor.isActive('strike')}
             onClick={() => editor.chain().focus().toggleStrike().run()}
             disabled={!editor.can().chain().focus().toggleStrike().run()}
-            className={editor.isActive('bold') ? 'is-active' : ''}
           >
             <Strikethrough />
           </Toggle>
           <Toggle
             variant="outline"
+            pressed={editor.isActive('code')}
             onClick={() => editor.chain().focus().toggleCode().run()}
             disabled={!editor.can().chain().focus().toggleCode().run()}
-            className={editor.isActive('bold') ? 'is-active' : ''}
           >
             <Code />
           </Toggle>

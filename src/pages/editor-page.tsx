@@ -39,11 +39,7 @@ function EditorPage() {
     try {
       await updateNotebook({ notebook, newData: { name } })
     } catch (error) {
-      // Required: Handle the error
       console.error('Failed to update notebook name:', error)
-      // Optional: Show an error message to the user
-      // e.g., displayToast('Error updating name', 'error');
-      // TODO: error here
     }
   }
   return (
