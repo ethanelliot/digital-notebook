@@ -64,7 +64,7 @@ export const Editor = ({
   }, [name])
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col min-h-screen">
       <EditorContext.Provider value={{ editor }}>
         <div className="sticky top-0 z-50 bg-white">
           <EditorToolbar name={name} setName={setName} />
@@ -80,7 +80,7 @@ export const Editor = ({
 
 export function EditorSkeleton() {
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col min-h-screen">
       <div className="sticky top-0 z-50 bg-white">
         <div className="w-full relative flex flex-wrap items-center justify-between gap-2 p-2 border-border bg-background border-b py-4 md:py-6">
           <div className="flex items-center gap-2 flex-shrink-0">
