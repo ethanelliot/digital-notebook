@@ -33,6 +33,9 @@ dist-ssr
 .env.test
 .env.production
 
+# Firebase service account key 
+service-account.json
+
 # Firebase CLI generated files
 .firebase/ 
 firebase-debug.log

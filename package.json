@@ -14,7 +14,9 @@
     "release": "standard-version",
     "release:minor": "standard-version --release-as minor",
     "release:major": "standard-version --release-as major",
-    "release:push": "git push --follow-tags origin main"
+    "release:push": "git push --follow-tags origin main",
+    "sync:moodle": "python scripts/moodle_to_firestore.py",
+    "sync:moodle:install": "pip install -r scripts/requirements.txt"
   },
   "dependencies": {
     "-": "^0.0.1",
